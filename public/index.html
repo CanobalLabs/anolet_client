@@ -16,7 +16,7 @@
             -khtml-user-select: none;
             -webkit-user-select: none;
             -o-user-select: none;
-            transition: top .5s ease, left .5s ease;
+            transition: top .5s ease-out, left .5s ease-out;
             background: none;
             position: absolute;
             top: 0;
@@ -47,6 +47,9 @@
         var wsurl = "";
         if (window.location.host == "oldiegoodie.herokuapp.com") { wsurl = "wss://oldiegoodie.herokuapp.com" } else { wsurl = "ws://192.168.0.36" }
         var ws = new WebSocket(wsurl);
+        ws.onclose = function (e) {
+            document.body.innerHTML = "<a>Connection to server has been lost. Please refresh the page.</a>";
+        };
         ws.onmessage = function (event) {
             var msg = JSON.parse(event.data);
             if (msg.type == "init") {
@@ -63,7 +66,7 @@
                         plr.style.top = player.y + "px";
                         plr.style.left = player.x + "px";
                     } else {
-                        plr.style.top = player.y - 150+ "px";
+                        plr.style.top = player.y - 150 + "px";
                         plr.style.left = player.x - 150 + "px";
                     }
                     document.body.appendChild(plr);
