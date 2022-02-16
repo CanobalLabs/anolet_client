@@ -60,7 +60,7 @@
                     plr.id = "player-" + player.id;
                     plr.innerHTML = `
                     <img width="300" height="300"
-            src="./LeoBadeaux.png">
+            src="${player.avatar}">
             `;
                     if (player.y == 0 && player.x == 0) {
                         plr.style.top = player.y + "px";
@@ -81,7 +81,7 @@
                 nplr.id = "player-" + msg.plrid;
                 nplr.innerHTML = `
                 <img width="300" height="300"
-        src="./LeoBadeaux.png">
+        src="./${player.avatar}.png">
         `;
                 if (msg.plrid == plrid) {
                     nplr.classList.add("me")
