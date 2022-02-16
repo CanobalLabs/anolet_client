@@ -1,0 +1,104 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+</head>
+
+<body style="overflow: hidden">
+    <style>
+        .player {
+            user-select: none;
+            -moz-user-select: none;
+            -khtml-user-select: none;
+            -webkit-user-select: none;
+            -o-user-select: none;
+            transition: top .5s ease, left .5s ease;
+            background: none;
+            position: absolute;
+            top: 0;
+            left: 0
+        }
+        .me {
+            z-index: 1;
+        }
+    </style>
+    <script>
+        var ismoving = false;
+        function printMousePos(event) {
+            if (!ismoving) {
+                document.getElementById("player-" + plrid).style.top = event.clientY - 150 + "px";
+                document.getElementById("player-" + plrid).style.left = event.clientX - 150 + "px";
+                ws.send(JSON.stringify({
+                    type: "pos",
+                    x: event.clientX,
+                    y: event.clientY
+                }));
+            }
+            // ismoving = true;
+        }
+
+        document.addEventListener("click", printMousePos);
+        var plrid = "";
+        var ws = new WebSocket(`ws://${window.location.host}:8080`);
+        ws.onmessage = function (event) {
+            var msg = JSON.parse(event.data);
+            console.table(msg)
+            if (msg.type == "init") {
+                plrid = msg.myid;
+                msg.players.forEach(player => {
+                    var plr = document.createElement("div");
+                    plr.className = "player";
+                    plr.id = "player-" + player.id;
+                    plr.innerHTML = `
+                    <img width="300" height="300"
+            src="https://media.discordapp.net/attachments/795821508588863492/942957272437501982/AvatarPreview.png?width=663&height=663">
+            `;
+                    document.body.appendChild(plr);
+                    plr.style.top = plr.y;
+                    plr.style.left = plr.x;
+                });
+            } else if (msg.type == "posupdate") {
+                document.getElementById("player-" + msg.id).style.top = msg.y - 150 + "px";
+                document.getElementById("player-" + msg.id).style.left = msg.x - 150 + "px";
+            } else if (msg.type == "newplr") {
+                
+                var nplr = document.createElement("div");
+                nplr.className = "player";
+                nplr.id = "player-" + msg.plrid;
+                nplr.innerHTML = `
+                <img width="300" height="300"
+        src="https://media.discordapp.net/attachments/795821508588863492/942957272437501982/AvatarPreview.png?width=663&height=663">
+        `;
+        if (msg.plrid == plrid) {
+            nplr.classList.add("me")
+        }
+        document.body.appendChild(nplr);
+        console.log("ran append")
+            } else if (msg.type == "exit") {
+                document.getElementById("player-" + msg.plrid).remove();
+            }
+        }
+
+        window.onbeforeunload = function(evt) {
+
+// Cancel the event (if necessary)
+evt.preventDefault();
+ws.close();
+// Google Chrome requires returnValue to be set
+//evt.returnValue = '';
+
+return null;
+};
+    </script>
+    <!-- <div class="player" id="player">
+        <img width="300" height="300"
+            src="https://media.discordapp.net/attachments/795821508588863492/942957272437501982/AvatarPreview.png?width=663&height=663">
+    </div> -->
+
+</body>
+
+</html>
