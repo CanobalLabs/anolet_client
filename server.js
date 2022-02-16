@@ -3,8 +3,13 @@ const app = express();
 const http = require("http")
 const Websocket = require('ws');
 
-
 const wss = new Websocket.Server({ noServer: true });
+var avatars = ["./LeoBadeaux.png", "./Avatar2.png", "./Avatar3.png"];
+
+Array.prototype.random = function () {
+  return this[Math.floor((Math.random()*this.length))];
+}
+
 
 wss.getUUID = function () {
     function s4() {
@@ -27,7 +32,8 @@ var players = [];
 
 wss.on('connection', (ws, req) => {
     if (!req.headers['user-agent']) return ws.close();
-    ws.id = wss.getUUID()
+    ws.id = wss.getUUID();
+    var randav = avatars.random();
     console.log('One client connected');
     ws.send(JSON.stringify({
         type: 'init',
@@ -36,11 +42,13 @@ wss.on('connection', (ws, req) => {
     }));
     players.push({
         id: ws.id,
+        avatar: randav,
         x: 0,
         y: 0,
     });
     wss.broadcast(JSON.stringify({
         type: 'newplr',
+        avatar: randav,
         plrid: ws.id
     }));
     ws.on("close", reason => {
