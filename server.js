@@ -64,9 +64,9 @@ wss.on('connection', (ws, req) => {
     });
 });
 
-
+var port = process.env.PORT || 80;
 app.use(express.static('public'));
 
-app.listen(80, () => {
-    console.log(`Example app listening on port 80`);
+app.listen(port, () => {
+    console.log(`Example app listening on port ${process.env.port}!`);
 });
