@@ -44,7 +44,7 @@
         document.addEventListener("click", printMousePos);
         var plrid = "";
         var wsurl = "";
-        if (window.location.host == "oldiegoodie.herokuapp.com") { wsurl = "wss://oldiegoodie.herokuapp.com:8080" } else { wsurl = "ws://192.168.0.36:8080" }
+        if (window.location.host == "oldiegoodie.herokuapp.com") { wsurl = "wss://oldiegoodie.herokuapp.com" } else { wsurl = "ws://192.168.0.36" }
         var ws = new WebSocket(wsurl);
         ws.onmessage = function (event) {
             var msg = JSON.parse(event.data);

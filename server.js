@@ -1,7 +1,10 @@
 const express = require("express");
 const app = express();
+const http = require("http")
 const Websocket = require('ws');
-const wss = new Websocket.Server({ port: 8080 });
+
+
+const wss = new Websocket.Server({ noServer: true });
 
 wss.getUUID = function () {
     function s4() {
@@ -24,7 +27,7 @@ var players = [];
 
 wss.on('connection', (ws, req) => {
     console.log(req.headers);
-    if (!req.headers['user-agent']) return ws.close();
+  //  if (!req.headers['user-agent']) return ws.close();
     ws.id = wss.getUUID()
     console.log('One client connected');
     ws.send(JSON.stringify({
@@ -64,9 +67,14 @@ wss.on('connection', (ws, req) => {
     });
 });
 
-var port = process.env.PORT || 80;
+
 app.use(express.static('public'));
 
-app.listen(port, () => {
-    console.log(`Example app listening on port ${process.env.port}!`);
+
+var port = process.env.PORT || 80;
+const server = app.listen(port);
+server.on('upgrade', (request, socket, head) => {
+  wss.handleUpgrade(request, socket, head, socket => {
+    wss.emit('connection', socket, request);
+  });
 });
