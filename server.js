@@ -26,8 +26,7 @@ wss.broadcast = function broadcast(data) {
 var players = [];
 
 wss.on('connection', (ws, req) => {
-    console.log(req.headers);
-  //  if (!req.headers['user-agent']) return ws.close();
+    if (!req.headers['user-agent']) return ws.close();
     ws.id = wss.getUUID()
     console.log('One client connected');
     ws.send(JSON.stringify({

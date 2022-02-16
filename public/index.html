@@ -22,6 +22,7 @@
             top: 0;
             left: 0
         }
+
         .me {
             z-index: 1;
         }
@@ -48,7 +49,6 @@
         var ws = new WebSocket(wsurl);
         ws.onmessage = function (event) {
             var msg = JSON.parse(event.data);
-            console.table(msg)
             if (msg.type == "init") {
                 plrid = msg.myid;
                 msg.players.forEach(player => {
@@ -59,15 +59,20 @@
                     <img width="300" height="300"
             src="https://media.discordapp.net/attachments/795821508588863492/942957272437501982/AvatarPreview.png?width=663&height=663">
             `;
+                    if (player.y == 0 && player.x == 0) {
+                        plr.style.top = player.y + "px";
+                        plr.style.left = player.x + "px";
+                    } else {
+                        plr.style.top = player.y - 150+ "px";
+                        plr.style.left = player.x - 150 + "px";
+                    }
                     document.body.appendChild(plr);
-                    plr.style.top = plr.y;
-                    plr.style.left = plr.x;
                 });
             } else if (msg.type == "posupdate") {
                 document.getElementById("player-" + msg.id).style.top = msg.y - 150 + "px";
                 document.getElementById("player-" + msg.id).style.left = msg.x - 150 + "px";
             } else if (msg.type == "newplr") {
-                
+
                 var nplr = document.createElement("div");
                 nplr.className = "player";
                 nplr.id = "player-" + msg.plrid;
@@ -75,26 +80,26 @@
                 <img width="300" height="300"
         src="https://media.discordapp.net/attachments/795821508588863492/942957272437501982/AvatarPreview.png?width=663&height=663">
         `;
-        if (msg.plrid == plrid) {
-            nplr.classList.add("me")
-        }
-        document.body.appendChild(nplr);
-        console.log("ran append")
+                if (msg.plrid == plrid) {
+                    nplr.classList.add("me")
+                }
+                document.body.appendChild(nplr);
+                console.log("ran append")
             } else if (msg.type == "exit") {
                 document.getElementById("player-" + msg.plrid).remove();
             }
         }
 
-        window.onbeforeunload = function(evt) {
+        window.onbeforeunload = function (evt) {
 
-// Cancel the event (if necessary)
-evt.preventDefault();
-ws.close();
-// Google Chrome requires returnValue to be set
-//evt.returnValue = '';
+            // Cancel the event (if necessary)
+            evt.preventDefault();
+            ws.close();
+            // Google Chrome requires returnValue to be set
+            //evt.returnValue = '';
 
-return null;
-};
+            return null;
+        };
     </script>
     <!-- <div class="player" id="player">
         <img width="300" height="300"
