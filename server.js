@@ -4,10 +4,10 @@ const http = require("http")
 const Websocket = require('ws');
 
 const wss = new Websocket.Server({ noServer: true });
-var avatars = ["./LeoBadeaux.png", "./Avatar2.png", "./Avatar3.png", "./Avatar4.png", "./Avatar5.png", "./Avatar6.png", "./Avatar7.png", "./Avatar8.png", "./Avatar9.png", "./Avatar10.png", "./Avatar11.png", "./Avatar12.png"];
+var avatars = ["/Avatar1.png", "/Avatar2.png", "/Avatar3.png", "/Avatar4.png", "/Avatar5.png", "/Avatar6.png", "/Avatar7.png", "/Avatar8.png", "/Avatar9.png", "/Avatar10.png", "/Avatar11.png", "/Avatar12.png"];
 
 Array.prototype.random = function () {
-  return this[Math.floor((Math.random()*this.length))];
+    return this[Math.floor((Math.random() * this.length))];
 }
 
 
@@ -42,13 +42,13 @@ wss.on('connection', (ws, req) => {
     }));
     players.push({
         id: ws.id,
-        avatar: randav,
+        avatar: "./avatars" + randav,
         x: 0,
         y: 0,
     });
     wss.broadcast(JSON.stringify({
         type: 'newplr',
-        avatar: randav,
+        avatar: "./avatars" + randav,
         plrid: ws.id
     }));
     ws.on("close", reason => {
@@ -70,6 +70,13 @@ wss.on('connection', (ws, req) => {
                 x: msg.x,
                 y: msg.y
             }));
+        } else if (msg.type == "setavatar") {
+            players.find(p => p.id == ws.id).avatar = msg.avatar;
+            wss.broadcast(JSON.stringify({
+                type: "avatar",
+                plrid: ws.id,
+                avatar: "/avatars" + avatars[msg.avatar - 1]
+            }));
         }
     });
 });
@@ -81,7 +88,7 @@ app.use(express.static('public'));
 var port = process.env.PORT || 80;
 const server = app.listen(port);
 server.on('upgrade', (request, socket, head) => {
-  wss.handleUpgrade(request, socket, head, socket => {
-    wss.emit('connection', socket, request);
-  });
+    wss.handleUpgrade(request, socket, head, socket => {
+        wss.emit('connection', socket, request);
+    });
 });

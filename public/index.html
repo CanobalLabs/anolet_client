@@ -5,110 +5,51 @@
     <meta charset="UTF-8">
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Document</title>
+    <title>Unnamed Game</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Roboto:wght@300&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="game.css">
+    <script src="./game.js" defer></script>
 </head>
 
-<body style="overflow: hidden">
-    <style>
-        .player {
-            user-select: none;
-            -moz-user-select: none;
-            -khtml-user-select: none;
-            -webkit-user-select: none;
-            -o-user-select: none;
-            transition: top .5s ease-out, left .5s ease-out;
-            animation-fill-mode: forwards;
-            background: none;
-            position: absolute;
-            top: 0;
-            left: 0
-        }
-
-        .me {
-            z-index: 1;
-        }
-    </style>
-    <script>
-        var ismoving = false;
-        function printMousePos(event) {
-            if (!ismoving) {
-                document.getElementById("player-" + plrid).style.top = event.clientY - 150 + "px";
-                document.getElementById("player-" + plrid).style.left = event.clientX - 150 + "px";
-                ws.send(JSON.stringify({
-                    type: "pos",
-                    x: event.clientX,
-                    y: event.clientY
-                }));
-            }
-            // ismoving = true;
-        }
-
-        document.addEventListener("click", printMousePos);
-        var plrid = "";
-        var wsurl = "";
-        if (window.location.host == "oldiegoodie.herokuapp.com") { wsurl = "wss://oldiegoodie.herokuapp.com" } else { wsurl = "ws://192.168.0.36" }
-        var ws = new WebSocket(wsurl);
-        ws.onclose = function (e) {
-            document.body.innerHTML = "<a>Connection to server has been lost. Please refresh the page.</a>";
-        };
-        ws.onmessage = function (event) {
-            var msg = JSON.parse(event.data);
-            if (msg.type == "init") {
-                plrid = msg.myid;
-                msg.players.forEach(player => {
-                    var plr = document.createElement("div");
-                    plr.className = "player";
-                    plr.id = "player-" + player.id;
-                    plr.innerHTML = `
-                    <img width="300" height="300"
-            src="${player.avatar}">
-            `;
-                    if (player.y == 0 && player.x == 0) {
-                        plr.style.top = player.y + "px";
-                        plr.style.left = player.x + "px";
-                    } else {
-                        plr.style.top = player.y - 150 + "px";
-                        plr.style.left = player.x - 150 + "px";
-                    }
-                    document.body.appendChild(plr);
-                });
-            } else if (msg.type == "posupdate") {
-                document.getElementById("player-" + msg.id).style.top = msg.y - 150 + "px";
-                document.getElementById("player-" + msg.id).style.left = msg.x - 150 + "px";
-            } else if (msg.type == "newplr") {
-
-                var nplr = document.createElement("div");
-                nplr.className = "player";
-                nplr.id = "player-" + msg.plrid;
-                nplr.innerHTML = `
-                <img width="300" height="300"
-        src="./${msg.avatar}">
-        `;
-                if (msg.plrid == plrid) {
-                    nplr.classList.add("me")
-                }
-                document.body.appendChild(nplr);
-                console.log("ran append")
-            } else if (msg.type == "exit") {
-                document.getElementById("player-" + msg.plrid).remove();
-            }
-        }
-
-        window.onbeforeunload = function (evt) {
-
-            // Cancel the event (if necessary)
-            evt.preventDefault();
-            ws.close();
-            // Google Chrome requires returnValue to be set
-            //evt.returnValue = '';
-
-            return null;
-        };
-    </script>
-    <!-- <div class="player" id="player">
-        <img width="300" height="300"
-            src="./LeoBadeau.png">
-    </div> -->
+<body style="overflow: hidden; margin: 0;">
+    <div class="avatar-select">
+        <div class="avatar-choose">
+            <img src="./avatars/Avatar1.png" class="choose-image" onclick="avatar(1)">
+            <img src="./avatars/Avatar2.png" class="choose-image" onclick="avatar(2)">
+            <img src="./avatars/Avatar3.png" class="choose-image" onclick="avatar(3)">
+            <img src="./avatars/Avatar4.png" class="choose-image" onclick="avatar(4)">
+            <img src="./avatars/Avatar5.png" class="choose-image" onclick="avatar(5)">
+            <img src="./avatars/Avatar6.png" class="choose-image" onclick="avatar(6)">
+            <img src="./avatars/Avatar7.png" class="choose-image" onclick="avatar(7)">
+            <img src="./avatars/Avatar8.png" class="choose-image" onclick="avatar(8)">
+            <img src="./avatars/Avatar9.png" class="choose-image" onclick="avatar(9)">
+            <img src="./avatars/Avatar10.png" class="choose-image" onclick="avatar(10)">
+            <img src="./avatars/Avatar11.png" class="choose-image" onclick="avatar(11)">
+            <img src="./avatars/Avatar12.png" class="choose-image" onclick="avatar(12)">
+        </div>
+    </div>
+    <div id="game">
+        <div class="notices">
+            Unnamed Game by Léo Badeaux
+            <br>
+            Character design based off of Social Meeps by Alex Binello
+            <br>
+            Game Test #2
+            <br>
+            This game test is being conducted from 8:30 to 9:00 PM ET
+            <br>
+            Writing messages is encouraged!
+            <br>
+            <br>
+            Bugs to look out for:
+            <br>
+            - Position/styling issues
+            <br>
+            - Issues with WASD movement
+        </div>
+    </div>
 
 </body>
 
