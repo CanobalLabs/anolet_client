@@ -71,7 +71,7 @@ wss.on('connection', (ws, req) => {
                 y: msg.y
             }));
         } else if (msg.type == "setavatar") {
-            players.find(p => p.id == ws.id).avatar = msg.avatar;
+            players.find(p => p.id == ws.id).avatar = "/avatars" + avatars[msg.avatar - 1];
             wss.broadcast(JSON.stringify({
                 type: "avatar",
                 plrid: ws.id,

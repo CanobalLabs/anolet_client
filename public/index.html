@@ -14,40 +14,47 @@
 </head>
 
 <body style="overflow: hidden; margin: 0;">
-    <div class="avatar-select">
-        <div class="avatar-choose">
-            <img src="./avatars/Avatar1.png" class="choose-image" onclick="avatar(1)">
-            <img src="./avatars/Avatar2.png" class="choose-image" onclick="avatar(2)">
-            <img src="./avatars/Avatar3.png" class="choose-image" onclick="avatar(3)">
-            <img src="./avatars/Avatar4.png" class="choose-image" onclick="avatar(4)">
-            <img src="./avatars/Avatar5.png" class="choose-image" onclick="avatar(5)">
-            <img src="./avatars/Avatar6.png" class="choose-image" onclick="avatar(6)">
-            <img src="./avatars/Avatar7.png" class="choose-image" onclick="avatar(7)">
-            <img src="./avatars/Avatar8.png" class="choose-image" onclick="avatar(8)">
-            <img src="./avatars/Avatar9.png" class="choose-image" onclick="avatar(9)">
-            <img src="./avatars/Avatar10.png" class="choose-image" onclick="avatar(10)">
-            <img src="./avatars/Avatar11.png" class="choose-image" onclick="avatar(11)">
-            <img src="./avatars/Avatar12.png" class="choose-image" onclick="avatar(12)">
-        </div>
+    <div class="error" id="error">
+        <div class="title">Connection Lost</div>
+        <div class="description">The connection to the game server has been lost. This may mean the play test window has ended.</div>
+        <div class="button" onclick="window.location.reload()">Reload</div>
     </div>
-    <div id="game">
-        <div class="notices">
-            Unnamed Game by Léo Badeaux
-            <br>
-            Character design based off of Social Meeps by Alex Binello
-            <br>
-            Game Test #2
-            <br>
-            This game test is being conducted from 8:30 to 9:00 PM ET
-            <br>
-            Writing messages is encouraged!
-            <br>
-            <br>
-            Bugs to look out for:
-            <br>
-            - Position/styling issues
-            <br>
-            - Issues with WASD movement
+    <div class="interactive-wrapper" id="interactive-wrapper">
+        <div class="avatar-select">
+            <div class="avatar-choose">
+                <img src="./avatars/Avatar1.png" class="choose-image" onclick="avatar(1)">
+                <img src="./avatars/Avatar2.png" class="choose-image" onclick="avatar(2)">
+                <img src="./avatars/Avatar3.png" class="choose-image" onclick="avatar(3)">
+                <img src="./avatars/Avatar4.png" class="choose-image" onclick="avatar(4)">
+                <img src="./avatars/Avatar5.png" class="choose-image" onclick="avatar(5)">
+                <img src="./avatars/Avatar6.png" class="choose-image" onclick="avatar(6)">
+                <img src="./avatars/Avatar7.png" class="choose-image" onclick="avatar(7)">
+                <img src="./avatars/Avatar8.png" class="choose-image" onclick="avatar(8)">
+                <img src="./avatars/Avatar9.png" class="choose-image" onclick="avatar(9)">
+                <img src="./avatars/Avatar10.png" class="choose-image" onclick="avatar(10)">
+                <img src="./avatars/Avatar11.png" class="choose-image" onclick="avatar(11)">
+                <img src="./avatars/Avatar12.png" class="choose-image" onclick="avatar(12)">
+            </div>
+        </div>
+        <div id="game">
+            <div class="notices">
+                Unnamed Game by Léo Badeaux
+                <br>
+                Character design based off of Social Meeps by Alex Binello
+                <br>
+                Game Test #2
+                <br>
+                This game test is being conducted from 8:30 to 9:00 PM ET
+                <br>
+                Writing messages is encouraged!
+                <br>
+                <br>
+                Bugs to look out for:
+                <br>
+                - Position/styling issues
+                <br>
+                - Issues with WASD movement
+            </div>
         </div>
     </div>
 
