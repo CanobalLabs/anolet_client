@@ -11,6 +11,8 @@
   height: inherit;
   transform: scale(1.8);
   cursor: pointer;
+  transition: opacity 0.5s ease;
+  opacity: 0.5;
 }
 
 .avatar-select {
@@ -25,4 +27,8 @@
   justify-items: stretch;
   align-content: space-between;
   align-self: center;
+}
+
+.selected {
+  opacity: 1;
 }

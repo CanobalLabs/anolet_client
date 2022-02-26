@@ -14,6 +14,9 @@
 </head>
 
 <body style="overflow: hidden; margin: 0;">
+    <noscript>
+        This page requires javascript to run properly. Please enable javascript or use an up-to-date browser.
+    </noscript>
     <div class="error" id="error">
         <div class="title" id="tit">Connection Lost</div>
         <div class="description" id="desc">The connection to the game server has been lost. This may mean the play test
@@ -37,11 +40,11 @@
                 <img src="./avatars/Avatar12.png" class="choose-image" onclick="avatar(12)">
             </div>
         </div>
-       <!-- <div class="count" id="players">/ Players</div> -->
+        <!-- <div class="count" id="players">/ Players</div> -->
         <div id="game">
 
             <div class="info">
-                <img class="logo" src="./pixie.png">
+                <img class="logo" id="logo" src="./pixie.png">
                 <div class="info_content">
                     Anolet by Léo Badeaux
                     <br>
@@ -60,13 +63,18 @@
                 Writing messages is encouraged!
                 <br>
                 <br>
-                Bugs to look out for:
+                Known Bugs to look out for:
                 <br>
-                - Position/styling issues
+                - Styling issues
+                <br>
+                - Avatar selector bugs, namely hitbox issues
+                <br>
+                - User position not the same across clients
+                <br>
+                <br>
+                Possible Bugs:
                 <br>
                 - Chat XSS Issues (probably rare)
-                <br>
-                - Avatar selector bugs, namely hitbox issues.
             </div>
         </div>
     </div>

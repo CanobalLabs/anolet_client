@@ -3,7 +3,7 @@ module.exports = function(msg) {
         var plr = document.createElement("div");
         plr.className = "player";
         plr.id = "player-" + player.id;
-        plr.innerHTML = `<img width="200" height="200" src="${player.avatar}">`;
+        plr.innerHTML = `<img width="200" height="200" src="${player.avatar}" class="playerimage">`;
         if (player.y == 0 && player.x == 0) {
             plr.style.top = player.y + "px";
             plr.style.left = player.x + "px";

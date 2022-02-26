@@ -49,6 +49,7 @@ wss.on('connection', (ws, req) => {
     wss.broadcast(JSON.stringify({
         type: 'newplr',
         avatar: "./avatars" + randav,
+        avatar_id: randav.replace(/[^0-9]/g,''),
         plrid: ws.id
     }));
     ws.on("close", reason => {

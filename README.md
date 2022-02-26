@@ -11,5 +11,6 @@ In addition, it will also start webpack in watch mode, meaning it will automatic
 
 ## Running in production
 **IMPORTANT** In order to not leak source maps in production, run `npm run build` before you start.
+Note that you don't need to run build in production as Heroku will automatically build before it starts the server, the above notice is for simulated production or when you're running a public non-production production environment on your own server.
 
 After you have built webpack in the production environment, you can start the server with `npm start`.
