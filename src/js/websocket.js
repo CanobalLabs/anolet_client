@@ -5,7 +5,7 @@ var players = 0;
 
 function updateCount(amount) {
     players = players + amount;
-    document.getElementById("players").innerHTML = players + " players";
+   // document.getElementById("players").innerHTML = players + " players";
 }
 
 export function start () {
