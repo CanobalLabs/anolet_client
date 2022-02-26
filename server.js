@@ -62,6 +62,7 @@ wss.on('connection', (ws, req) => {
     ws.on("message", msg => {
         var msg = JSON.parse(msg);
         if (msg.type == "pos") {
+            if (typeof msg.x != "number" || typeof msg.y != "number") return; // Prevents invalid data (and possibly RCE) from being sent
             players.find(p => p.id == ws.id).x = msg.x;
             players.find(p => p.id == ws.id).y = msg.y;
             wss.broadcast(JSON.stringify({
@@ -71,6 +72,7 @@ wss.on('connection', (ws, req) => {
                 y: msg.y
             }));
         } else if (msg.type == "setavatar") {
+            if (msg.avatar > avatars.length - 1) return;
             players.find(p => p.id == ws.id).avatar = "/avatars" + avatars[msg.avatar - 1];
             wss.broadcast(JSON.stringify({
                 type: "avatar",
@@ -88,7 +90,9 @@ app.use(express.static('public'));
 var port = process.env.PORT || 80;
 const server = app.listen(port);
 server.on('upgrade', (request, socket, head) => {
-    wss.handleUpgrade(request, socket, head, socket => {
-        wss.emit('connection', socket, request);
-    });
+    if (request.url == "/ws") {
+        wss.handleUpgrade(request, socket, head, socket => {
+            wss.emit('connection', socket, request);
+        });
+    }
 });

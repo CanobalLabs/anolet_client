@@ -9,14 +9,14 @@
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
     <link href="https://fonts.googleapis.com/css2?family=Roboto:wght@300&display=swap" rel="stylesheet">
-    <link rel="stylesheet" href="game.css">
-    <script src="./game.js" defer></script>
+    <script src="./code/bundle.js" defer></script>
 </head>
 
 <body style="overflow: hidden; margin: 0;">
     <div class="error" id="error">
-        <div class="title">Connection Lost</div>
-        <div class="description">The connection to the game server has been lost. This may mean the play test window has ended.</div>
+        <div class="title" id="tit">Connection Lost</div>
+        <div class="description" id="desc">The connection to the game server has been lost. This may mean the play test
+            window has ended.</div>
         <div class="button" onclick="window.location.reload()">Reload</div>
     </div>
     <div class="interactive-wrapper" id="interactive-wrapper">
@@ -36,13 +36,23 @@
                 <img src="./avatars/Avatar12.png" class="choose-image" onclick="avatar(12)">
             </div>
         </div>
+        <div class="count" id="players">5 Players</div>
         <div id="game">
+
+            <div class="info">
+                <img class="logo" src="./pixie.png">
+                <div class="info_content">
+                    Anolet by Léo Badeaux
+                    <br>
+                    Character design by Alex Binello
+                    <br>
+                    Logo design inspired by Coates
+                </div>
+            </div>
+
+
             <div class="notices">
-                Unnamed Game by Léo Badeaux
-                <br>
-                Character design based off of Social Meeps by Alex Binello
-                <br>
-                Game Test #2
+                Anolet Game Test #2
                 <br>
                 This game test is being conducted from 8:30 to 9:00 PM ET
                 <br>
@@ -53,7 +63,9 @@
                 <br>
                 - Position/styling issues
                 <br>
-                - Issues with WASD movement
+                - Chat XSS Issues (probably rare)
+                <br>
+                - Avatar selector bugs, namely hitbox issues.
             </div>
         </div>
     </div>

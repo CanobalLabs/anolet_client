@@ -1,0 +1,31 @@
+.player {
+  user-select: none;
+  -moz-user-select: none;
+  -khtml-user-select: none;
+  -webkit-user-select: none;
+  -o-user-select: none;
+  transition: top 0.5s ease-out, left 0.5s ease-out;
+  animation-fill-mode: forwards;
+  background: none;
+  position: absolute;
+  top: 0;
+  left: 0;
+}
+
+.me {
+  z-index: 1;
+}
+
+#game {
+  justify-self: center;
+  height: 600px;
+  position: absolute;
+  top: calc(100px + 5%);
+  background: #161616;
+  border-radius: 10px;
+  width: 1500px;
+  margin-left: calc(50vw - 750px);
+  overflow: hidden;
+  color: white;
+  transition: filter 0.5s linear;
+}

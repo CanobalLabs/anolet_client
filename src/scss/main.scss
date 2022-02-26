@@ -1,0 +1,25 @@
+@use "info.scss";
+@use "chooser.scss";
+@use "error.scss";
+@use "game.scss";
+
+body {
+  user-select: none;
+  cursor: default;
+  background: #101010;
+  font-family: "Roboto", sans-serif;
+}
+
+.logo {
+  width: 50px;
+  position: relative;
+  left: 10%;
+}
+
+.notices {
+  position: absolute;
+  bottom: 10px;
+  margin-left: 10px;
+  z-index: 5;
+  font-family: "Roboto", sans-serif;
+}
