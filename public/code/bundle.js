@@ -1,1 +1,279 @@
-(()=>{var e={299:(e,t,n)=>{"use strict";n.d(t,{Z:()=>s});var r=n(81),o=n.n(r),i=n(645),a=n.n(i)()(o());a.push([e.id,'.info_content{display:inline-block;text-align:center;position:relative;top:5px;left:50%;transform:translate(-50%, -15%)}.info{background:#101010;position:absolute;width:450px;padding-left:0px;border-radius:10px;padding-top:20px;padding-bottom:20px;bottom:10px;right:10px;z-index:50}.avatar-choose{background:#161616;height:100px;border-radius:10px;margin-top:1%;overflow:hidden}.choose-image{width:inherit;height:inherit;transform:scale(1.8);cursor:pointer}.avatar-select{display:grid;grid-template-columns:auto auto auto auto auto;grid-row:1;height:100px;width:100%;position:absolute;justify-content:center;align-items:center;justify-items:stretch;align-content:space-between;align-self:center}.title{color:#fff;font-family:"Roboto",sans-serif;text-align:center;font-size:1.5em;margin-top:5%}.error{position:absolute;top:50%;left:50%;width:30%;height:25%;background:#090909;border-radius:15px;cursor:default;z-index:50;transform:translate(-50%, -50%);display:none}.button{font-family:"Roboto",sans-serif;font-size:1.25em;color:#fff;background:#121212;width:80%;cursor:pointer;margin-left:auto;margin-right:auto;padding-top:1%;border-radius:10px;padding-bottom:1%;margin-top:3%;text-align:center}.description{color:#fff;font-family:"Roboto",sans-serif;padding-left:10%;padding-right:10%;text-align:center;margin-top:5%}.player{user-select:none;-moz-user-select:none;-khtml-user-select:none;-webkit-user-select:none;-o-user-select:none;transition:top .5s ease-out,left .5s ease-out;animation-fill-mode:forwards;background:none;position:absolute;top:0;left:0}.me{z-index:1}#game{justify-self:center;height:600px;position:absolute;top:calc(100px + 5%);background:#161616;border-radius:10px;width:1500px;margin-left:calc(50vw - 750px);overflow:hidden;color:#fff;transition:filter .5s linear}body{user-select:none;cursor:default;background:#101010;font-family:"Roboto",sans-serif}.logo{width:50px;position:relative;left:10%}.notices{position:absolute;bottom:10px;margin-left:10px;z-index:5;font-family:"Roboto",sans-serif}',""]);const s=a},645:e=>{"use strict";e.exports=function(e){var t=[];return t.toString=function(){return this.map((function(t){var n="",r=void 0!==t[5];return t[4]&&(n+="@supports (".concat(t[4],") {")),t[2]&&(n+="@media ".concat(t[2]," {")),r&&(n+="@layer".concat(t[5].length>0?" ".concat(t[5]):""," {")),n+=e(t),r&&(n+="}"),t[2]&&(n+="}"),t[4]&&(n+="}"),n})).join("")},t.i=function(e,n,r,o,i){"string"==typeof e&&(e=[[null,e,void 0]]);var a={};if(r)for(var s=0;s<this.length;s++){var l=this[s][0];null!=l&&(a[l]=!0)}for(var c=0;c<e.length;c++){var d=[].concat(e[c]);r&&a[d[0]]||(void 0!==i&&(void 0===d[5]||(d[1]="@layer".concat(d[5].length>0?" ".concat(d[5]):""," {").concat(d[1],"}")),d[5]=i),n&&(d[2]?(d[1]="@media ".concat(d[2]," {").concat(d[1],"}"),d[2]=n):d[2]=n),o&&(d[4]?(d[1]="@supports (".concat(d[4],") {").concat(d[1],"}"),d[4]=o):d[4]="".concat(o)),t.push(d))}},t}},81:e=>{"use strict";e.exports=function(e){return e[1]}},379:e=>{"use strict";var t=[];function n(e){for(var n=-1,r=0;r<t.length;r++)if(t[r].identifier===e){n=r;break}return n}function r(e,r){for(var i={},a=[],s=0;s<e.length;s++){var l=e[s],c=r.base?l[0]+r.base:l[0],d=i[c]||0,p="".concat(c," ").concat(d);i[c]=d+1;var u=n(p),f={css:l[1],media:l[2],sourceMap:l[3],supports:l[4],layer:l[5]};if(-1!==u)t[u].references++,t[u].updater(f);else{var m=o(f,r);r.byIndex=s,t.splice(s,0,{identifier:p,updater:m,references:1})}a.push(p)}return a}function o(e,t){var n=t.domAPI(t);return n.update(e),function(t){if(t){if(t.css===e.css&&t.media===e.media&&t.sourceMap===e.sourceMap&&t.supports===e.supports&&t.layer===e.layer)return;n.update(e=t)}else n.remove()}}e.exports=function(e,o){var i=r(e=e||[],o=o||{});return function(e){e=e||[];for(var a=0;a<i.length;a++){var s=n(i[a]);t[s].references--}for(var l=r(e,o),c=0;c<i.length;c++){var d=n(i[c]);0===t[d].references&&(t[d].updater(),t.splice(d,1))}i=l}}},569:e=>{"use strict";var t={};e.exports=function(e,n){var r=function(e){if(void 0===t[e]){var n=document.querySelector(e);if(window.HTMLIFrameElement&&n instanceof window.HTMLIFrameElement)try{n=n.contentDocument.head}catch(e){n=null}t[e]=n}return t[e]}(e);if(!r)throw new Error("Couldn't find a style target. This probably means that the value for the 'insert' parameter is invalid.");r.appendChild(n)}},216:e=>{"use strict";e.exports=function(e){var t=document.createElement("style");return e.setAttributes(t,e.attributes),e.insert(t,e.options),t}},565:(e,t,n)=>{"use strict";e.exports=function(e){var t=n.nc;t&&e.setAttribute("nonce",t)}},795:e=>{"use strict";e.exports=function(e){var t=e.insertStyleElement(e);return{update:function(n){!function(e,t,n){var r="";n.supports&&(r+="@supports (".concat(n.supports,") {")),n.media&&(r+="@media ".concat(n.media," {"));var o=void 0!==n.layer;o&&(r+="@layer".concat(n.layer.length>0?" ".concat(n.layer):""," {")),r+=n.css,o&&(r+="}"),n.media&&(r+="}"),n.supports&&(r+="}");var i=n.sourceMap;i&&"undefined"!=typeof btoa&&(r+="\n/*# sourceMappingURL=data:application/json;base64,".concat(btoa(unescape(encodeURIComponent(JSON.stringify(i))))," */")),t.styleTagTransform(r,e,t.options)}(t,e,n)},remove:function(){!function(e){if(null===e.parentNode)return!1;e.parentNode.removeChild(e)}(t)}}}},589:e=>{"use strict";e.exports=function(e,t){if(t.styleSheet)t.styleSheet.cssText=e;else{for(;t.firstChild;)t.removeChild(t.firstChild);t.appendChild(document.createTextNode(e))}}},113:e=>{e.exports=function(e){document.getElementById("player-"+e.plrid).firstElementChild.src=e.avatar}},182:e=>{e.exports=function(e){document.getElementById("player-"+e.plrid).remove()}},23:e=>{e.exports=function(e){e.players.forEach((e=>{var t=document.createElement("div");t.className="player",t.id="player-"+e.id,t.innerHTML=`<img width="200" height="200" src="${e.avatar}">`,0==e.y&&0==e.x?(t.style.top=e.y+"px",t.style.left=e.x+"px"):(t.style.top=e.y-230+"px",t.style.left=e.x-110+"px"),document.getElementById("game").appendChild(t)}))}},855:e=>{e.exports=function(e,t){var n=document.createElement("div");n.className="player",n.id="player-"+e.plrid,n.innerHTML=`<img width="200" height="200" src="${e.avatar}">`,e.plrid==t&&n.classList.add("me"),document.getElementById("game").appendChild(n)}},211:e=>{e.exports=function(e){document.getElementById("player-"+e.id).style.top=e.y-230+"px",document.getElementById("player-"+e.id).style.left=e.x-110+"px"}},767:(e,t,n)=>{var r={"./avatar":113,"./avatar.js":113,"./exit":182,"./exit.js":182,"./init":23,"./init.js":23,"./newplr":855,"./newplr.js":855,"./posupdate":211,"./posupdate.js":211};function o(e){var t=i(e);return n(t)}function i(e){if(!n.o(r,e)){var t=new Error("Cannot find module '"+e+"'");throw t.code="MODULE_NOT_FOUND",t}return r[e]}o.keys=function(){return Object.keys(r)},o.resolve=i,e.exports=o,o.id=767}},t={};function n(r){var o=t[r];if(void 0!==o)return o.exports;var i=t[r]={id:r,exports:{}};return e[r](i,i.exports,n),i.exports}n.n=e=>{var t=e&&e.__esModule?()=>e.default:()=>e;return n.d(t,{a:t}),t},n.d=(e,t)=>{for(var r in t)n.o(t,r)&&!n.o(e,r)&&Object.defineProperty(e,r,{enumerable:!0,get:t[r]})},n.o=(e,t)=>Object.prototype.hasOwnProperty.call(e,t),(()=>{"use strict";var e=n(379),t=n.n(e),r=n(795),o=n.n(r),i=n(569),a=n.n(i),s=n(565),l=n.n(s),c=n(216),d=n.n(c),p=n(589),u=n.n(p),f=n(299),m={};m.styleTagTransform=u(),m.setAttributes=l(),m.insert=a().bind(null,"head"),m.domAPI=o(),m.insertStyleElement=d(),t()(f.Z,m),f.Z&&f.Z.locals&&f.Z.locals;var y="",g=0;function v(e){g+=e,document.getElementById("players").innerHTML=g+" players"}new Promise(((e,t)=>{y="oldiegoodie.herokuapp.com"==window.location.host?"wss://oldiegoodie.herokuapp.com/ws":"ws://192.168.0.36/ws";var r=new WebSocket(y);r.onclose=function(e){document.getElementById("interactive-wrapper").style.filter="blur(5px)",document.getElementById("error").style.display="block"},r.onmessage=function(t){var o=JSON.parse(t.data);if(n(767)("./"+o.type)(o,i),"init"==o.type){var i=o.myid;v(o.players.length),e({ws:r,plrid:i})}else"newplr"==o.type?v(1):"exit"==o.type&&v(-1)},r.onerror=function(e){document.getElementById("tit").innerHTML="Unable to connect to server",document.getElementById("desc").innerHTML="The client was unable to initiate a connection to the Websocket server.",document.getElementById("interactive-wrapper").style.filter="blur(5px)",document.getElementById("error").style.display="block"},window.onbeforeunload=function(e){return e.preventDefault(),r.close(),null}})).then((e=>{var t=e;window.avatar=function(e){document.getElementById("player-"+t.plrid).firstElementChild.src="./avatars/Avatar"+e+".png",t.ws.send(JSON.stringify({type:"setavatar",avatar:e}))},document.getElementById("game").addEventListener("click",(function(e){document.getElementById("player-"+t.plrid).style.top=e.clientY-230+"px",document.getElementById("player-"+t.plrid).style.left=e.clientX-110+"px",t.ws.send(JSON.stringify({type:"pos",x:e.clientX,y:e.clientY})),console.log(e.clientX,e.clientY)})),console.log(t)}))})()})();
+/*
+ * ATTENTION: The "eval" devtool has been used (maybe by default in mode: "development").
+ * This devtool is neither made for production nor for readable output files.
+ * It uses "eval()" calls to create a separate source file in the browser devtools.
+ * If you are trying to read the output file, select a different devtool (https://webpack.js.org/configuration/devtool/)
+ * or disable the default devtool with "devtool: false".
+ * If you are looking for production-ready output files, see mode: "production" (https://webpack.js.org/configuration/mode/).
+ */
+/******/ (() => { // webpackBootstrap
+/******/ 	var __webpack_modules__ = ({
+
+/***/ "./node_modules/css-loader/dist/cjs.js??ruleSet[1].rules[0].use[1]!./node_modules/sass-loader/dist/cjs.js??ruleSet[1].rules[0].use[2]!./src/scss/main.scss":
+/*!*****************************************************************************************************************************************************************!*\
+  !*** ./node_modules/css-loader/dist/cjs.js??ruleSet[1].rules[0].use[1]!./node_modules/sass-loader/dist/cjs.js??ruleSet[1].rules[0].use[2]!./src/scss/main.scss ***!
+  \*****************************************************************************************************************************************************************/
+/***/ ((module, __webpack_exports__, __webpack_require__) => {
+
+"use strict";
+eval("__webpack_require__.r(__webpack_exports__);\n/* harmony export */ __webpack_require__.d(__webpack_exports__, {\n/* harmony export */   \"default\": () => (__WEBPACK_DEFAULT_EXPORT__)\n/* harmony export */ });\n/* harmony import */ var _node_modules_css_loader_dist_runtime_sourceMaps_js__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! ../../node_modules/css-loader/dist/runtime/sourceMaps.js */ \"./node_modules/css-loader/dist/runtime/sourceMaps.js\");\n/* harmony import */ var _node_modules_css_loader_dist_runtime_sourceMaps_js__WEBPACK_IMPORTED_MODULE_0___default = /*#__PURE__*/__webpack_require__.n(_node_modules_css_loader_dist_runtime_sourceMaps_js__WEBPACK_IMPORTED_MODULE_0__);\n/* harmony import */ var _node_modules_css_loader_dist_runtime_api_js__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! ../../node_modules/css-loader/dist/runtime/api.js */ \"./node_modules/css-loader/dist/runtime/api.js\");\n/* harmony import */ var _node_modules_css_loader_dist_runtime_api_js__WEBPACK_IMPORTED_MODULE_1___default = /*#__PURE__*/__webpack_require__.n(_node_modules_css_loader_dist_runtime_api_js__WEBPACK_IMPORTED_MODULE_1__);\n// Imports\n\n\nvar ___CSS_LOADER_EXPORT___ = _node_modules_css_loader_dist_runtime_api_js__WEBPACK_IMPORTED_MODULE_1___default()((_node_modules_css_loader_dist_runtime_sourceMaps_js__WEBPACK_IMPORTED_MODULE_0___default()));\n// Module\n___CSS_LOADER_EXPORT___.push([module.id, \".info_content {\\n  display: inline-block;\\n  text-align: center;\\n  position: relative;\\n  top: 5px;\\n  left: 50%;\\n  transform: translate(-50%, -15%);\\n}\\n\\n.info {\\n  background: #101010;\\n  position: absolute;\\n  width: 450px;\\n  padding-left: 0px;\\n  border-radius: 10px;\\n  padding-top: 20px;\\n  padding-bottom: 20px;\\n  bottom: 10px;\\n  right: 10px;\\n  z-index: 50;\\n}\\n\\n.avatar-choose {\\n  background: #161616;\\n  height: 100px;\\n  border-radius: 10px;\\n  margin-top: 1%;\\n  overflow: hidden;\\n}\\n\\n.choose-image {\\n  width: inherit;\\n  height: inherit;\\n  transform: scale(1.8);\\n  cursor: pointer;\\n}\\n\\n.avatar-select {\\n  display: grid;\\n  grid-template-columns: auto auto auto auto auto;\\n  grid-row: 1;\\n  height: 100px;\\n  width: 100%;\\n  position: absolute;\\n  justify-content: center;\\n  align-items: center;\\n  justify-items: stretch;\\n  align-content: space-between;\\n  align-self: center;\\n}\\n\\n.title {\\n  color: white;\\n  font-family: \\\"Roboto\\\", sans-serif;\\n  text-align: center;\\n  font-size: 1.5em;\\n  margin-top: 5%;\\n}\\n\\n.error {\\n  position: absolute;\\n  top: 50%;\\n  left: 50%;\\n  width: 30%;\\n  height: 25%;\\n  background: #090909;\\n  border-radius: 15px;\\n  cursor: default;\\n  z-index: 50;\\n  transform: translate(-50%, -50%);\\n  display: none;\\n}\\n\\n.button {\\n  font-family: \\\"Roboto\\\", sans-serif;\\n  font-size: 1.25em;\\n  color: white;\\n  background: #121212;\\n  width: 80%;\\n  cursor: pointer;\\n  margin-left: auto;\\n  margin-right: auto;\\n  padding-top: 1%;\\n  border-radius: 10px;\\n  padding-bottom: 1%;\\n  margin-top: 3%;\\n  text-align: center;\\n}\\n\\n.description {\\n  color: white;\\n  font-family: \\\"Roboto\\\", sans-serif;\\n  padding-left: 10%;\\n  padding-right: 10%;\\n  text-align: center;\\n  margin-top: 5%;\\n}\\n\\n.player {\\n  user-select: none;\\n  -moz-user-select: none;\\n  -khtml-user-select: none;\\n  -webkit-user-select: none;\\n  -o-user-select: none;\\n  transition: top 0.5s ease-out, left 0.5s ease-out;\\n  animation-fill-mode: forwards;\\n  background: none;\\n  position: absolute;\\n  top: 0;\\n  left: 0;\\n}\\n\\n.me {\\n  z-index: 1;\\n}\\n\\n#game {\\n  justify-self: center;\\n  height: 600px;\\n  position: absolute;\\n  top: calc(100px + 5%);\\n  background: #161616;\\n  border-radius: 10px;\\n  width: 1500px;\\n  margin-left: calc(50vw - 750px);\\n  overflow: hidden;\\n  color: white;\\n  transition: filter 0.5s linear;\\n}\\n\\nbody {\\n  user-select: none;\\n  cursor: default;\\n  background: #101010;\\n  font-family: \\\"Roboto\\\", sans-serif;\\n}\\n\\n.logo {\\n  width: 50px;\\n  position: relative;\\n  left: 10%;\\n}\\n\\n.notices {\\n  position: absolute;\\n  bottom: 10px;\\n  margin-left: 10px;\\n  z-index: 5;\\n  font-family: \\\"Roboto\\\", sans-serif;\\n}\", \"\",{\"version\":3,\"sources\":[\"webpack://./src/scss/info.scss\",\"webpack://./src/scss/main.scss\",\"webpack://./src/scss/chooser.scss\",\"webpack://./src/scss/error.scss\",\"webpack://./src/scss/game.scss\"],\"names\":[],\"mappings\":\"AAAA;EACE,qBAAA;EACA,kBAAA;EACA,kBAAA;EACA,QAAA;EACA,SAAA;EACA,gCAAA;ACCF;;ADEA;EACE,mBAAA;EACA,kBAAA;EACA,YAAA;EACA,iBAAA;EACA,mBAAA;EACA,iBAAA;EACA,oBAAA;EACA,YAAA;EACA,WAAA;EACA,WAAA;ACCF;;ACpBA;EACE,mBAAA;EACA,aAAA;EACA,mBAAA;EACA,cAAA;EACA,gBAAA;ADuBF;;ACpBA;EACE,cAAA;EACA,eAAA;EACA,qBAAA;EACA,eAAA;ADuBF;;ACpBA;EACE,aAAA;EACA,+CAAA;EACA,WAAA;EACA,aAAA;EACA,WAAA;EACA,kBAAA;EACA,uBAAA;EACA,mBAAA;EACA,sBAAA;EACA,4BAAA;EACA,kBAAA;ADuBF;;AEjDA;EACE,YAAA;EACA,iCAAA;EACA,kBAAA;EACA,gBAAA;EACA,cAAA;AFoDF;;AEjDA;EACE,kBAAA;EACA,QAAA;EACA,SAAA;EACA,UAAA;EACA,WAAA;EACA,mBAAA;EACA,mBAAA;EACA,eAAA;EACA,WAAA;EACA,gCAAA;EACA,aAAA;AFoDF;;AEjDA;EACE,iCAAA;EACA,iBAAA;EACA,YAAA;EACA,mBAAA;EACA,UAAA;EACA,eAAA;EACA,iBAAA;EACA,kBAAA;EACA,eAAA;EACA,mBAAA;EACA,kBAAA;EACA,cAAA;EACA,kBAAA;AFoDF;;AEjDA;EACE,YAAA;EACA,iCAAA;EACA,iBAAA;EACA,kBAAA;EACA,kBAAA;EACA,cAAA;AFoDF;;AGhGA;EACE,iBAAA;EACA,sBAAA;EACA,wBAAA;EACA,yBAAA;EACA,oBAAA;EACA,iDAAA;EACA,6BAAA;EACA,gBAAA;EACA,kBAAA;EACA,MAAA;EACA,OAAA;AHmGF;;AGhGA;EACE,UAAA;AHmGF;;AGhGA;EACE,oBAAA;EACA,aAAA;EACA,kBAAA;EACA,qBAAA;EACA,mBAAA;EACA,mBAAA;EACA,aAAA;EACA,+BAAA;EACA,gBAAA;EACA,YAAA;EACA,8BAAA;AHmGF;;AA3HA;EACE,iBAAA;EACA,eAAA;EACA,mBAAA;EACA,iCAAA;AA8HF;;AA3HA;EACE,WAAA;EACA,kBAAA;EACA,SAAA;AA8HF;;AA3HA;EACE,kBAAA;EACA,YAAA;EACA,iBAAA;EACA,UAAA;EACA,iCAAA;AA8HF\",\"sourcesContent\":[\".info_content {\\r\\n  display: inline-block;\\r\\n  text-align: center;\\r\\n  position: relative;\\r\\n  top: 5px;\\r\\n  left: 50%;\\r\\n  transform: translate(-50%, -15%);\\r\\n}\\r\\n\\r\\n.info {\\r\\n  background: #101010;\\r\\n  position: absolute;\\r\\n  width: 450px;\\r\\n  padding-left: 0px;\\r\\n  border-radius: 10px;\\r\\n  padding-top: 20px;\\r\\n  padding-bottom: 20px;\\r\\n  bottom: 10px;\\r\\n  right: 10px;\\r\\n  z-index: 50;\\r\\n}\\r\\n\",\"@use \\\"info.scss\\\";\\r\\n@use \\\"chooser.scss\\\";\\r\\n@use \\\"error.scss\\\";\\r\\n@use \\\"game.scss\\\";\\r\\n\\r\\nbody {\\r\\n  user-select: none;\\r\\n  cursor: default;\\r\\n  background: #101010;\\r\\n  font-family: \\\"Roboto\\\", sans-serif;\\r\\n}\\r\\n\\r\\n.logo {\\r\\n  width: 50px;\\r\\n  position: relative;\\r\\n  left: 10%;\\r\\n}\\r\\n\\r\\n.notices {\\r\\n  position: absolute;\\r\\n  bottom: 10px;\\r\\n  margin-left: 10px;\\r\\n  z-index: 5;\\r\\n  font-family: \\\"Roboto\\\", sans-serif;\\r\\n}\\r\\n\",\".avatar-choose {\\r\\n  background: #161616;\\r\\n  height: 100px;\\r\\n  border-radius: 10px;\\r\\n  margin-top: 1%;\\r\\n  overflow: hidden;\\r\\n}\\r\\n\\r\\n.choose-image {\\r\\n  width: inherit;\\r\\n  height: inherit;\\r\\n  transform: scale(1.8);\\r\\n  cursor: pointer;\\r\\n}\\r\\n\\r\\n.avatar-select {\\r\\n  display: grid;\\r\\n  grid-template-columns: auto auto auto auto auto;\\r\\n  grid-row: 1;\\r\\n  height: 100px;\\r\\n  width: 100%;\\r\\n  position: absolute;\\r\\n  justify-content: center;\\r\\n  align-items: center;\\r\\n  justify-items: stretch;\\r\\n  align-content: space-between;\\r\\n  align-self: center;\\r\\n}\\r\\n\",\".title {\\r\\n  color: white;\\r\\n  font-family: \\\"Roboto\\\", sans-serif;\\r\\n  text-align: center;\\r\\n  font-size: 1.5em;\\r\\n  margin-top: 5%;\\r\\n}\\r\\n\\r\\n.error {\\r\\n  position: absolute;\\r\\n  top: 50%;\\r\\n  left: 50%;\\r\\n  width: 30%;\\r\\n  height: 25%;\\r\\n  background: #090909;\\r\\n  border-radius: 15px;\\r\\n  cursor: default;\\r\\n  z-index: 50;\\r\\n  transform: translate(-50%, -50%);\\r\\n  display: none;\\r\\n}\\r\\n\\r\\n.button {\\r\\n  font-family: \\\"Roboto\\\", sans-serif;\\r\\n  font-size: 1.25em;\\r\\n  color: white;\\r\\n  background: #121212;\\r\\n  width: 80%;\\r\\n  cursor: pointer;\\r\\n  margin-left: auto;\\r\\n  margin-right: auto;\\r\\n  padding-top: 1%;\\r\\n  border-radius: 10px;\\r\\n  padding-bottom: 1%;\\r\\n  margin-top: 3%;\\r\\n  text-align: center;\\r\\n}\\r\\n\\r\\n.description {\\r\\n  color: white;\\r\\n  font-family: \\\"Roboto\\\", sans-serif;\\r\\n  padding-left: 10%;\\r\\n  padding-right: 10%;\\r\\n  text-align: center;\\r\\n  margin-top: 5%;\\r\\n}\\r\\n\",\".player {\\r\\n  user-select: none;\\r\\n  -moz-user-select: none;\\r\\n  -khtml-user-select: none;\\r\\n  -webkit-user-select: none;\\r\\n  -o-user-select: none;\\r\\n  transition: top 0.5s ease-out, left 0.5s ease-out;\\r\\n  animation-fill-mode: forwards;\\r\\n  background: none;\\r\\n  position: absolute;\\r\\n  top: 0;\\r\\n  left: 0;\\r\\n}\\r\\n\\r\\n.me {\\r\\n  z-index: 1;\\r\\n}\\r\\n\\r\\n#game {\\r\\n  justify-self: center;\\r\\n  height: 600px;\\r\\n  position: absolute;\\r\\n  top: calc(100px + 5%);\\r\\n  background: #161616;\\r\\n  border-radius: 10px;\\r\\n  width: 1500px;\\r\\n  margin-left: calc(50vw - 750px);\\r\\n  overflow: hidden;\\r\\n  color: white;\\r\\n  transition: filter 0.5s linear;\\r\\n}\\r\\n\"],\"sourceRoot\":\"\"}]);\n// Exports\n/* harmony default export */ const __WEBPACK_DEFAULT_EXPORT__ = (___CSS_LOADER_EXPORT___);\n\n\n//# sourceURL=webpack://anolet/./src/scss/main.scss?./node_modules/css-loader/dist/cjs.js??ruleSet%5B1%5D.rules%5B0%5D.use%5B1%5D!./node_modules/sass-loader/dist/cjs.js??ruleSet%5B1%5D.rules%5B0%5D.use%5B2%5D");
+
+/***/ }),
+
+/***/ "./node_modules/css-loader/dist/runtime/api.js":
+/*!*****************************************************!*\
+  !*** ./node_modules/css-loader/dist/runtime/api.js ***!
+  \*****************************************************/
+/***/ ((module) => {
+
+"use strict";
+eval("\n\n/*\n  MIT License http://www.opensource.org/licenses/mit-license.php\n  Author Tobias Koppers @sokra\n*/\nmodule.exports = function (cssWithMappingToString) {\n  var list = []; // return the list of modules as css string\n\n  list.toString = function toString() {\n    return this.map(function (item) {\n      var content = \"\";\n      var needLayer = typeof item[5] !== \"undefined\";\n\n      if (item[4]) {\n        content += \"@supports (\".concat(item[4], \") {\");\n      }\n\n      if (item[2]) {\n        content += \"@media \".concat(item[2], \" {\");\n      }\n\n      if (needLayer) {\n        content += \"@layer\".concat(item[5].length > 0 ? \" \".concat(item[5]) : \"\", \" {\");\n      }\n\n      content += cssWithMappingToString(item);\n\n      if (needLayer) {\n        content += \"}\";\n      }\n\n      if (item[2]) {\n        content += \"}\";\n      }\n\n      if (item[4]) {\n        content += \"}\";\n      }\n\n      return content;\n    }).join(\"\");\n  }; // import a list of modules into the list\n\n\n  list.i = function i(modules, media, dedupe, supports, layer) {\n    if (typeof modules === \"string\") {\n      modules = [[null, modules, undefined]];\n    }\n\n    var alreadyImportedModules = {};\n\n    if (dedupe) {\n      for (var k = 0; k < this.length; k++) {\n        var id = this[k][0];\n\n        if (id != null) {\n          alreadyImportedModules[id] = true;\n        }\n      }\n    }\n\n    for (var _k = 0; _k < modules.length; _k++) {\n      var item = [].concat(modules[_k]);\n\n      if (dedupe && alreadyImportedModules[item[0]]) {\n        continue;\n      }\n\n      if (typeof layer !== \"undefined\") {\n        if (typeof item[5] === \"undefined\") {\n          item[5] = layer;\n        } else {\n          item[1] = \"@layer\".concat(item[5].length > 0 ? \" \".concat(item[5]) : \"\", \" {\").concat(item[1], \"}\");\n          item[5] = layer;\n        }\n      }\n\n      if (media) {\n        if (!item[2]) {\n          item[2] = media;\n        } else {\n          item[1] = \"@media \".concat(item[2], \" {\").concat(item[1], \"}\");\n          item[2] = media;\n        }\n      }\n\n      if (supports) {\n        if (!item[4]) {\n          item[4] = \"\".concat(supports);\n        } else {\n          item[1] = \"@supports (\".concat(item[4], \") {\").concat(item[1], \"}\");\n          item[4] = supports;\n        }\n      }\n\n      list.push(item);\n    }\n  };\n\n  return list;\n};\n\n//# sourceURL=webpack://anolet/./node_modules/css-loader/dist/runtime/api.js?");
+
+/***/ }),
+
+/***/ "./node_modules/css-loader/dist/runtime/sourceMaps.js":
+/*!************************************************************!*\
+  !*** ./node_modules/css-loader/dist/runtime/sourceMaps.js ***!
+  \************************************************************/
+/***/ ((module) => {
+
+"use strict";
+eval("\n\nmodule.exports = function (item) {\n  var content = item[1];\n  var cssMapping = item[3];\n\n  if (!cssMapping) {\n    return content;\n  }\n\n  if (typeof btoa === \"function\") {\n    var base64 = btoa(unescape(encodeURIComponent(JSON.stringify(cssMapping))));\n    var data = \"sourceMappingURL=data:application/json;charset=utf-8;base64,\".concat(base64);\n    var sourceMapping = \"/*# \".concat(data, \" */\");\n    var sourceURLs = cssMapping.sources.map(function (source) {\n      return \"/*# sourceURL=\".concat(cssMapping.sourceRoot || \"\").concat(source, \" */\");\n    });\n    return [content].concat(sourceURLs).concat([sourceMapping]).join(\"\\n\");\n  }\n\n  return [content].join(\"\\n\");\n};\n\n//# sourceURL=webpack://anolet/./node_modules/css-loader/dist/runtime/sourceMaps.js?");
+
+/***/ }),
+
+/***/ "./src/scss/main.scss":
+/*!****************************!*\
+  !*** ./src/scss/main.scss ***!
+  \****************************/
+/***/ ((__unused_webpack_module, __webpack_exports__, __webpack_require__) => {
+
+"use strict";
+eval("__webpack_require__.r(__webpack_exports__);\n/* harmony export */ __webpack_require__.d(__webpack_exports__, {\n/* harmony export */   \"default\": () => (__WEBPACK_DEFAULT_EXPORT__)\n/* harmony export */ });\n/* harmony import */ var _node_modules_style_loader_dist_runtime_injectStylesIntoStyleTag_js__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! !../../node_modules/style-loader/dist/runtime/injectStylesIntoStyleTag.js */ \"./node_modules/style-loader/dist/runtime/injectStylesIntoStyleTag.js\");\n/* harmony import */ var _node_modules_style_loader_dist_runtime_injectStylesIntoStyleTag_js__WEBPACK_IMPORTED_MODULE_0___default = /*#__PURE__*/__webpack_require__.n(_node_modules_style_loader_dist_runtime_injectStylesIntoStyleTag_js__WEBPACK_IMPORTED_MODULE_0__);\n/* harmony import */ var _node_modules_style_loader_dist_runtime_styleDomAPI_js__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! !../../node_modules/style-loader/dist/runtime/styleDomAPI.js */ \"./node_modules/style-loader/dist/runtime/styleDomAPI.js\");\n/* harmony import */ var _node_modules_style_loader_dist_runtime_styleDomAPI_js__WEBPACK_IMPORTED_MODULE_1___default = /*#__PURE__*/__webpack_require__.n(_node_modules_style_loader_dist_runtime_styleDomAPI_js__WEBPACK_IMPORTED_MODULE_1__);\n/* harmony import */ var _node_modules_style_loader_dist_runtime_insertBySelector_js__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! !../../node_modules/style-loader/dist/runtime/insertBySelector.js */ \"./node_modules/style-loader/dist/runtime/insertBySelector.js\");\n/* harmony import */ var _node_modules_style_loader_dist_runtime_insertBySelector_js__WEBPACK_IMPORTED_MODULE_2___default = /*#__PURE__*/__webpack_require__.n(_node_modules_style_loader_dist_runtime_insertBySelector_js__WEBPACK_IMPORTED_MODULE_2__);\n/* harmony import */ var _node_modules_style_loader_dist_runtime_setAttributesWithoutAttributes_js__WEBPACK_IMPORTED_MODULE_3__ = __webpack_require__(/*! !../../node_modules/style-loader/dist/runtime/setAttributesWithoutAttributes.js */ \"./node_modules/style-loader/dist/runtime/setAttributesWithoutAttributes.js\");\n/* harmony import */ var _node_modules_style_loader_dist_runtime_setAttributesWithoutAttributes_js__WEBPACK_IMPORTED_MODULE_3___default = /*#__PURE__*/__webpack_require__.n(_node_modules_style_loader_dist_runtime_setAttributesWithoutAttributes_js__WEBPACK_IMPORTED_MODULE_3__);\n/* harmony import */ var _node_modules_style_loader_dist_runtime_insertStyleElement_js__WEBPACK_IMPORTED_MODULE_4__ = __webpack_require__(/*! !../../node_modules/style-loader/dist/runtime/insertStyleElement.js */ \"./node_modules/style-loader/dist/runtime/insertStyleElement.js\");\n/* harmony import */ var _node_modules_style_loader_dist_runtime_insertStyleElement_js__WEBPACK_IMPORTED_MODULE_4___default = /*#__PURE__*/__webpack_require__.n(_node_modules_style_loader_dist_runtime_insertStyleElement_js__WEBPACK_IMPORTED_MODULE_4__);\n/* harmony import */ var _node_modules_style_loader_dist_runtime_styleTagTransform_js__WEBPACK_IMPORTED_MODULE_5__ = __webpack_require__(/*! !../../node_modules/style-loader/dist/runtime/styleTagTransform.js */ \"./node_modules/style-loader/dist/runtime/styleTagTransform.js\");\n/* harmony import */ var _node_modules_style_loader_dist_runtime_styleTagTransform_js__WEBPACK_IMPORTED_MODULE_5___default = /*#__PURE__*/__webpack_require__.n(_node_modules_style_loader_dist_runtime_styleTagTransform_js__WEBPACK_IMPORTED_MODULE_5__);\n/* harmony import */ var _node_modules_css_loader_dist_cjs_js_ruleSet_1_rules_0_use_1_node_modules_sass_loader_dist_cjs_js_ruleSet_1_rules_0_use_2_main_scss__WEBPACK_IMPORTED_MODULE_6__ = __webpack_require__(/*! !!../../node_modules/css-loader/dist/cjs.js??ruleSet[1].rules[0].use[1]!../../node_modules/sass-loader/dist/cjs.js??ruleSet[1].rules[0].use[2]!./main.scss */ \"./node_modules/css-loader/dist/cjs.js??ruleSet[1].rules[0].use[1]!./node_modules/sass-loader/dist/cjs.js??ruleSet[1].rules[0].use[2]!./src/scss/main.scss\");\n\n      \n      \n      \n      \n      \n      \n      \n      \n      \n\nvar options = {};\n\noptions.styleTagTransform = (_node_modules_style_loader_dist_runtime_styleTagTransform_js__WEBPACK_IMPORTED_MODULE_5___default());\noptions.setAttributes = (_node_modules_style_loader_dist_runtime_setAttributesWithoutAttributes_js__WEBPACK_IMPORTED_MODULE_3___default());\n\n      options.insert = _node_modules_style_loader_dist_runtime_insertBySelector_js__WEBPACK_IMPORTED_MODULE_2___default().bind(null, \"head\");\n    \noptions.domAPI = (_node_modules_style_loader_dist_runtime_styleDomAPI_js__WEBPACK_IMPORTED_MODULE_1___default());\noptions.insertStyleElement = (_node_modules_style_loader_dist_runtime_insertStyleElement_js__WEBPACK_IMPORTED_MODULE_4___default());\n\nvar update = _node_modules_style_loader_dist_runtime_injectStylesIntoStyleTag_js__WEBPACK_IMPORTED_MODULE_0___default()(_node_modules_css_loader_dist_cjs_js_ruleSet_1_rules_0_use_1_node_modules_sass_loader_dist_cjs_js_ruleSet_1_rules_0_use_2_main_scss__WEBPACK_IMPORTED_MODULE_6__[\"default\"], options);\n\n\n\n\n       /* harmony default export */ const __WEBPACK_DEFAULT_EXPORT__ = (_node_modules_css_loader_dist_cjs_js_ruleSet_1_rules_0_use_1_node_modules_sass_loader_dist_cjs_js_ruleSet_1_rules_0_use_2_main_scss__WEBPACK_IMPORTED_MODULE_6__[\"default\"] && _node_modules_css_loader_dist_cjs_js_ruleSet_1_rules_0_use_1_node_modules_sass_loader_dist_cjs_js_ruleSet_1_rules_0_use_2_main_scss__WEBPACK_IMPORTED_MODULE_6__[\"default\"].locals ? _node_modules_css_loader_dist_cjs_js_ruleSet_1_rules_0_use_1_node_modules_sass_loader_dist_cjs_js_ruleSet_1_rules_0_use_2_main_scss__WEBPACK_IMPORTED_MODULE_6__[\"default\"].locals : undefined);\n\n\n//# sourceURL=webpack://anolet/./src/scss/main.scss?");
+
+/***/ }),
+
+/***/ "./node_modules/style-loader/dist/runtime/injectStylesIntoStyleTag.js":
+/*!****************************************************************************!*\
+  !*** ./node_modules/style-loader/dist/runtime/injectStylesIntoStyleTag.js ***!
+  \****************************************************************************/
+/***/ ((module) => {
+
+"use strict";
+eval("\n\nvar stylesInDOM = [];\n\nfunction getIndexByIdentifier(identifier) {\n  var result = -1;\n\n  for (var i = 0; i < stylesInDOM.length; i++) {\n    if (stylesInDOM[i].identifier === identifier) {\n      result = i;\n      break;\n    }\n  }\n\n  return result;\n}\n\nfunction modulesToDom(list, options) {\n  var idCountMap = {};\n  var identifiers = [];\n\n  for (var i = 0; i < list.length; i++) {\n    var item = list[i];\n    var id = options.base ? item[0] + options.base : item[0];\n    var count = idCountMap[id] || 0;\n    var identifier = \"\".concat(id, \" \").concat(count);\n    idCountMap[id] = count + 1;\n    var indexByIdentifier = getIndexByIdentifier(identifier);\n    var obj = {\n      css: item[1],\n      media: item[2],\n      sourceMap: item[3],\n      supports: item[4],\n      layer: item[5]\n    };\n\n    if (indexByIdentifier !== -1) {\n      stylesInDOM[indexByIdentifier].references++;\n      stylesInDOM[indexByIdentifier].updater(obj);\n    } else {\n      var updater = addElementStyle(obj, options);\n      options.byIndex = i;\n      stylesInDOM.splice(i, 0, {\n        identifier: identifier,\n        updater: updater,\n        references: 1\n      });\n    }\n\n    identifiers.push(identifier);\n  }\n\n  return identifiers;\n}\n\nfunction addElementStyle(obj, options) {\n  var api = options.domAPI(options);\n  api.update(obj);\n\n  var updater = function updater(newObj) {\n    if (newObj) {\n      if (newObj.css === obj.css && newObj.media === obj.media && newObj.sourceMap === obj.sourceMap && newObj.supports === obj.supports && newObj.layer === obj.layer) {\n        return;\n      }\n\n      api.update(obj = newObj);\n    } else {\n      api.remove();\n    }\n  };\n\n  return updater;\n}\n\nmodule.exports = function (list, options) {\n  options = options || {};\n  list = list || [];\n  var lastIdentifiers = modulesToDom(list, options);\n  return function update(newList) {\n    newList = newList || [];\n\n    for (var i = 0; i < lastIdentifiers.length; i++) {\n      var identifier = lastIdentifiers[i];\n      var index = getIndexByIdentifier(identifier);\n      stylesInDOM[index].references--;\n    }\n\n    var newLastIdentifiers = modulesToDom(newList, options);\n\n    for (var _i = 0; _i < lastIdentifiers.length; _i++) {\n      var _identifier = lastIdentifiers[_i];\n\n      var _index = getIndexByIdentifier(_identifier);\n\n      if (stylesInDOM[_index].references === 0) {\n        stylesInDOM[_index].updater();\n\n        stylesInDOM.splice(_index, 1);\n      }\n    }\n\n    lastIdentifiers = newLastIdentifiers;\n  };\n};\n\n//# sourceURL=webpack://anolet/./node_modules/style-loader/dist/runtime/injectStylesIntoStyleTag.js?");
+
+/***/ }),
+
+/***/ "./node_modules/style-loader/dist/runtime/insertBySelector.js":
+/*!********************************************************************!*\
+  !*** ./node_modules/style-loader/dist/runtime/insertBySelector.js ***!
+  \********************************************************************/
+/***/ ((module) => {
+
+"use strict";
+eval("\n\nvar memo = {};\n/* istanbul ignore next  */\n\nfunction getTarget(target) {\n  if (typeof memo[target] === \"undefined\") {\n    var styleTarget = document.querySelector(target); // Special case to return head of iframe instead of iframe itself\n\n    if (window.HTMLIFrameElement && styleTarget instanceof window.HTMLIFrameElement) {\n      try {\n        // This will throw an exception if access to iframe is blocked\n        // due to cross-origin restrictions\n        styleTarget = styleTarget.contentDocument.head;\n      } catch (e) {\n        // istanbul ignore next\n        styleTarget = null;\n      }\n    }\n\n    memo[target] = styleTarget;\n  }\n\n  return memo[target];\n}\n/* istanbul ignore next  */\n\n\nfunction insertBySelector(insert, style) {\n  var target = getTarget(insert);\n\n  if (!target) {\n    throw new Error(\"Couldn't find a style target. This probably means that the value for the 'insert' parameter is invalid.\");\n  }\n\n  target.appendChild(style);\n}\n\nmodule.exports = insertBySelector;\n\n//# sourceURL=webpack://anolet/./node_modules/style-loader/dist/runtime/insertBySelector.js?");
+
+/***/ }),
+
+/***/ "./node_modules/style-loader/dist/runtime/insertStyleElement.js":
+/*!**********************************************************************!*\
+  !*** ./node_modules/style-loader/dist/runtime/insertStyleElement.js ***!
+  \**********************************************************************/
+/***/ ((module) => {
+
+"use strict";
+eval("\n\n/* istanbul ignore next  */\nfunction insertStyleElement(options) {\n  var element = document.createElement(\"style\");\n  options.setAttributes(element, options.attributes);\n  options.insert(element, options.options);\n  return element;\n}\n\nmodule.exports = insertStyleElement;\n\n//# sourceURL=webpack://anolet/./node_modules/style-loader/dist/runtime/insertStyleElement.js?");
+
+/***/ }),
+
+/***/ "./node_modules/style-loader/dist/runtime/setAttributesWithoutAttributes.js":
+/*!**********************************************************************************!*\
+  !*** ./node_modules/style-loader/dist/runtime/setAttributesWithoutAttributes.js ***!
+  \**********************************************************************************/
+/***/ ((module, __unused_webpack_exports, __webpack_require__) => {
+
+"use strict";
+eval("\n\n/* istanbul ignore next  */\nfunction setAttributesWithoutAttributes(styleElement) {\n  var nonce =  true ? __webpack_require__.nc : 0;\n\n  if (nonce) {\n    styleElement.setAttribute(\"nonce\", nonce);\n  }\n}\n\nmodule.exports = setAttributesWithoutAttributes;\n\n//# sourceURL=webpack://anolet/./node_modules/style-loader/dist/runtime/setAttributesWithoutAttributes.js?");
+
+/***/ }),
+
+/***/ "./node_modules/style-loader/dist/runtime/styleDomAPI.js":
+/*!***************************************************************!*\
+  !*** ./node_modules/style-loader/dist/runtime/styleDomAPI.js ***!
+  \***************************************************************/
+/***/ ((module) => {
+
+"use strict";
+eval("\n\n/* istanbul ignore next  */\nfunction apply(styleElement, options, obj) {\n  var css = \"\";\n\n  if (obj.supports) {\n    css += \"@supports (\".concat(obj.supports, \") {\");\n  }\n\n  if (obj.media) {\n    css += \"@media \".concat(obj.media, \" {\");\n  }\n\n  var needLayer = typeof obj.layer !== \"undefined\";\n\n  if (needLayer) {\n    css += \"@layer\".concat(obj.layer.length > 0 ? \" \".concat(obj.layer) : \"\", \" {\");\n  }\n\n  css += obj.css;\n\n  if (needLayer) {\n    css += \"}\";\n  }\n\n  if (obj.media) {\n    css += \"}\";\n  }\n\n  if (obj.supports) {\n    css += \"}\";\n  }\n\n  var sourceMap = obj.sourceMap;\n\n  if (sourceMap && typeof btoa !== \"undefined\") {\n    css += \"\\n/*# sourceMappingURL=data:application/json;base64,\".concat(btoa(unescape(encodeURIComponent(JSON.stringify(sourceMap)))), \" */\");\n  } // For old IE\n\n  /* istanbul ignore if  */\n\n\n  options.styleTagTransform(css, styleElement, options.options);\n}\n\nfunction removeStyleElement(styleElement) {\n  // istanbul ignore if\n  if (styleElement.parentNode === null) {\n    return false;\n  }\n\n  styleElement.parentNode.removeChild(styleElement);\n}\n/* istanbul ignore next  */\n\n\nfunction domAPI(options) {\n  var styleElement = options.insertStyleElement(options);\n  return {\n    update: function update(obj) {\n      apply(styleElement, options, obj);\n    },\n    remove: function remove() {\n      removeStyleElement(styleElement);\n    }\n  };\n}\n\nmodule.exports = domAPI;\n\n//# sourceURL=webpack://anolet/./node_modules/style-loader/dist/runtime/styleDomAPI.js?");
+
+/***/ }),
+
+/***/ "./node_modules/style-loader/dist/runtime/styleTagTransform.js":
+/*!*********************************************************************!*\
+  !*** ./node_modules/style-loader/dist/runtime/styleTagTransform.js ***!
+  \*********************************************************************/
+/***/ ((module) => {
+
+"use strict";
+eval("\n\n/* istanbul ignore next  */\nfunction styleTagTransform(css, styleElement) {\n  if (styleElement.styleSheet) {\n    styleElement.styleSheet.cssText = css;\n  } else {\n    while (styleElement.firstChild) {\n      styleElement.removeChild(styleElement.firstChild);\n    }\n\n    styleElement.appendChild(document.createTextNode(css));\n  }\n}\n\nmodule.exports = styleTagTransform;\n\n//# sourceURL=webpack://anolet/./node_modules/style-loader/dist/runtime/styleTagTransform.js?");
+
+/***/ }),
+
+/***/ "./src/js/events/avatar.js":
+/*!*********************************!*\
+  !*** ./src/js/events/avatar.js ***!
+  \*********************************/
+/***/ ((module) => {
+
+eval("module.exports = function(msg) {\r\n    document.getElementById(\"player-\" + msg.plrid).firstElementChild.src = msg.avatar;\r\n}\n\n//# sourceURL=webpack://anolet/./src/js/events/avatar.js?");
+
+/***/ }),
+
+/***/ "./src/js/events/exit.js":
+/*!*******************************!*\
+  !*** ./src/js/events/exit.js ***!
+  \*******************************/
+/***/ ((module) => {
+
+eval("module.exports = function(msg) {\r\n    document.getElementById(\"player-\" + msg.plrid).remove();\r\n}\n\n//# sourceURL=webpack://anolet/./src/js/events/exit.js?");
+
+/***/ }),
+
+/***/ "./src/js/events/init.js":
+/*!*******************************!*\
+  !*** ./src/js/events/init.js ***!
+  \*******************************/
+/***/ ((module) => {
+
+eval("module.exports = function(msg) {\r\n    msg.players.forEach(player => {\r\n        var plr = document.createElement(\"div\");\r\n        plr.className = \"player\";\r\n        plr.id = \"player-\" + player.id;\r\n        plr.innerHTML = `<img width=\"200\" height=\"200\" src=\"${player.avatar}\">`;\r\n        if (player.y == 0 && player.x == 0) {\r\n            plr.style.top = player.y + \"px\";\r\n            plr.style.left = player.x + \"px\";\r\n        } else {\r\n            plr.style.top = player.y - 230 + \"px\";\r\n            plr.style.left = player.x - 110 + \"px\";\r\n        }\r\n        document.getElementById(\"game\").appendChild(plr);\r\n    });\r\n}\n\n//# sourceURL=webpack://anolet/./src/js/events/init.js?");
+
+/***/ }),
+
+/***/ "./src/js/events/newplr.js":
+/*!*********************************!*\
+  !*** ./src/js/events/newplr.js ***!
+  \*********************************/
+/***/ ((module) => {
+
+eval("module.exports = function (msg, plrid) {\r\n    var nplr = document.createElement(\"div\");\r\n    nplr.className = \"player\";\r\n    nplr.id = \"player-\" + msg.plrid;\r\n    nplr.innerHTML = `<img width=\"200\" height=\"200\" src=\"${msg.avatar}\">`;\r\n    if (msg.plrid == plrid) {\r\n        nplr.classList.add(\"me\")\r\n    }\r\n    document.getElementById(\"game\").appendChild(nplr);\r\n}\n\n//# sourceURL=webpack://anolet/./src/js/events/newplr.js?");
+
+/***/ }),
+
+/***/ "./src/js/events/posupdate.js":
+/*!************************************!*\
+  !*** ./src/js/events/posupdate.js ***!
+  \************************************/
+/***/ ((module) => {
+
+eval("module.exports = function(msg) {\r\n    document.getElementById(\"player-\" + msg.id).style.top = msg.y - 230 + \"px\";\r\n    document.getElementById(\"player-\" + msg.id).style.left = msg.x - 110 + \"px\";\r\n};\n\n//# sourceURL=webpack://anolet/./src/js/events/posupdate.js?");
+
+/***/ }),
+
+/***/ "./src/js/events sync recursive ^\\.\\/.*$":
+/*!**************************************!*\
+  !*** ./src/js/events/ sync ^\.\/.*$ ***!
+  \**************************************/
+/***/ ((module, __unused_webpack_exports, __webpack_require__) => {
+
+eval("var map = {\n\t\"./avatar\": \"./src/js/events/avatar.js\",\n\t\"./avatar.js\": \"./src/js/events/avatar.js\",\n\t\"./exit\": \"./src/js/events/exit.js\",\n\t\"./exit.js\": \"./src/js/events/exit.js\",\n\t\"./init\": \"./src/js/events/init.js\",\n\t\"./init.js\": \"./src/js/events/init.js\",\n\t\"./newplr\": \"./src/js/events/newplr.js\",\n\t\"./newplr.js\": \"./src/js/events/newplr.js\",\n\t\"./posupdate\": \"./src/js/events/posupdate.js\",\n\t\"./posupdate.js\": \"./src/js/events/posupdate.js\"\n};\n\n\nfunction webpackContext(req) {\n\tvar id = webpackContextResolve(req);\n\treturn __webpack_require__(id);\n}\nfunction webpackContextResolve(req) {\n\tif(!__webpack_require__.o(map, req)) {\n\t\tvar e = new Error(\"Cannot find module '\" + req + \"'\");\n\t\te.code = 'MODULE_NOT_FOUND';\n\t\tthrow e;\n\t}\n\treturn map[req];\n}\nwebpackContext.keys = function webpackContextKeys() {\n\treturn Object.keys(map);\n};\nwebpackContext.resolve = webpackContextResolve;\nmodule.exports = webpackContext;\nwebpackContext.id = \"./src/js/events sync recursive ^\\\\.\\\\/.*$\";\n\n//# sourceURL=webpack://anolet/./src/js/events/_sync_^\\.\\/.*$?");
+
+/***/ }),
+
+/***/ "./src/js/game.js":
+/*!************************!*\
+  !*** ./src/js/game.js ***!
+  \************************/
+/***/ ((__unused_webpack_module, __webpack_exports__, __webpack_require__) => {
+
+"use strict";
+eval("__webpack_require__.r(__webpack_exports__);\n/* harmony import */ var _scss_main_scss__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! ../scss/main.scss */ \"./src/scss/main.scss\");\n/* harmony import */ var _websocket__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! ./websocket */ \"./src/js/websocket.js\");\n\r\n\r\n\r\n(0,_websocket__WEBPACK_IMPORTED_MODULE_1__.start)().then(wsresp => {\r\n    var ws = wsresp;\r\n\r\n\r\n    // Ran by MouseClick Event\r\n    function moved(event) {\r\n        document.getElementById(\"player-\" + ws.plrid).style.top = event.clientY - 230 + \"px\";\r\n        document.getElementById(\"player-\" + ws.plrid).style.left = event.clientX - 110 + \"px\";\r\n        ws.ws.send(JSON.stringify({\r\n            type: \"pos\",\r\n            x: event.clientX,\r\n            y: event.clientY\r\n        }));\r\n        console.log(event.clientX, event.clientY)\r\n    }\r\n\r\n    // Ran when character is selected\r\n    function avatar(id) {\r\n        document.getElementById(\"player-\" + ws.plrid).firstElementChild.src = \"./avatars/Avatar\" + id + \".png\";\r\n        ws.ws.send(JSON.stringify({\r\n            type: \"setavatar\",\r\n            avatar: id\r\n        }));\r\n    };\r\n    window.avatar = avatar;\r\n\r\n    // Assign the move event to when the mouse is clicked\r\n    document.getElementById(\"game\").addEventListener(\"click\", moved);\r\n\r\n    console.log(ws)\r\n\r\n});\n\n//# sourceURL=webpack://anolet/./src/js/game.js?");
+
+/***/ }),
+
+/***/ "./src/js/websocket.js":
+/*!*****************************!*\
+  !*** ./src/js/websocket.js ***!
+  \*****************************/
+/***/ ((__unused_webpack_module, __webpack_exports__, __webpack_require__) => {
+
+"use strict";
+eval("__webpack_require__.r(__webpack_exports__);\n/* harmony export */ __webpack_require__.d(__webpack_exports__, {\n/* harmony export */   \"start\": () => (/* binding */ start)\n/* harmony export */ });\nvar wsurl = \"\";\r\nvar plrid;\r\nvar players = 0;\r\n\r\n\r\nfunction updateCount(amount) {\r\n    players = players + amount;\r\n    document.getElementById(\"players\").innerHTML = players + \" players\";\r\n}\r\n\r\nfunction start () {\r\n   return new Promise((resolve, reject) => {\r\n\r\n        // Determine WS URL based off of environment and connect\r\n        if (window.location.host == \"oldiegoodie.herokuapp.com\") { wsurl = \"wss://oldiegoodie.herokuapp.com/ws\" } else { wsurl = \"ws://192.168.0.36/ws\" }\r\n        var ws = new WebSocket(wsurl);\r\n        \r\n        // Notify the user if the connection is closed\r\n        ws.onclose = function (e) {\r\n            document.getElementById(\"interactive-wrapper\").style.filter = \"blur(5px)\";\r\n            document.getElementById(\"error\").style.display = \"block\";\r\n        };\r\n        \r\n        // Process the messages received by server and act accordingly\r\n        ws.onmessage = function (event) {\r\n            var msg = JSON.parse(event.data);\r\n\r\n            __webpack_require__(\"./src/js/events sync recursive ^\\\\.\\\\/.*$\")(\"./\" + msg.type)(msg, plrid);\r\n            if (msg.type == \"init\") {\r\n                var plrid = msg.myid;\r\n                updateCount(msg.players.length);\r\n                resolve({ ws, plrid });\r\n            } else if (msg.type == \"newplr\") {\r\n                updateCount(1);\r\n            } else if (msg.type == \"exit\") {\r\n                updateCount(-1);\r\n            };\r\n        }\r\n        \r\n        ws.onerror = function (e) {\r\n            document.getElementById(\"tit\").innerHTML = \"Unable to connect to server\";\r\n            document.getElementById(\"desc\").innerHTML = \"The client was unable to initiate a connection to the Websocket server.\";\r\n            document.getElementById(\"interactive-wrapper\").style.filter = \"blur(5px)\";\r\n            document.getElementById(\"error\").style.display = \"block\";\r\n        }\r\n        \r\n        // Close the socket connection when the browser is closed so the user is instantly removed from the game.\r\n        window.onbeforeunload = function (evt) {\r\n            evt.preventDefault();\r\n            ws.close();\r\n            return null;\r\n        };\r\n        \r\n    });\r\n    \r\n}\n\n//# sourceURL=webpack://anolet/./src/js/websocket.js?");
+
+/***/ })
+
+/******/ 	});
+/************************************************************************/
+/******/ 	// The module cache
+/******/ 	var __webpack_module_cache__ = {};
+/******/ 	
+/******/ 	// The require function
+/******/ 	function __webpack_require__(moduleId) {
+/******/ 		// Check if module is in cache
+/******/ 		var cachedModule = __webpack_module_cache__[moduleId];
+/******/ 		if (cachedModule !== undefined) {
+/******/ 			return cachedModule.exports;
+/******/ 		}
+/******/ 		// Create a new module (and put it into the cache)
+/******/ 		var module = __webpack_module_cache__[moduleId] = {
+/******/ 			id: moduleId,
+/******/ 			// no module.loaded needed
+/******/ 			exports: {}
+/******/ 		};
+/******/ 	
+/******/ 		// Execute the module function
+/******/ 		__webpack_modules__[moduleId](module, module.exports, __webpack_require__);
+/******/ 	
+/******/ 		// Return the exports of the module
+/******/ 		return module.exports;
+/******/ 	}
+/******/ 	
+/************************************************************************/
+/******/ 	/* webpack/runtime/compat get default export */
+/******/ 	(() => {
+/******/ 		// getDefaultExport function for compatibility with non-harmony modules
+/******/ 		__webpack_require__.n = (module) => {
+/******/ 			var getter = module && module.__esModule ?
+/******/ 				() => (module['default']) :
+/******/ 				() => (module);
+/******/ 			__webpack_require__.d(getter, { a: getter });
+/******/ 			return getter;
+/******/ 		};
+/******/ 	})();
+/******/ 	
+/******/ 	/* webpack/runtime/define property getters */
+/******/ 	(() => {
+/******/ 		// define getter functions for harmony exports
+/******/ 		__webpack_require__.d = (exports, definition) => {
+/******/ 			for(var key in definition) {
+/******/ 				if(__webpack_require__.o(definition, key) && !__webpack_require__.o(exports, key)) {
+/******/ 					Object.defineProperty(exports, key, { enumerable: true, get: definition[key] });
+/******/ 				}
+/******/ 			}
+/******/ 		};
+/******/ 	})();
+/******/ 	
+/******/ 	/* webpack/runtime/hasOwnProperty shorthand */
+/******/ 	(() => {
+/******/ 		__webpack_require__.o = (obj, prop) => (Object.prototype.hasOwnProperty.call(obj, prop))
+/******/ 	})();
+/******/ 	
+/******/ 	/* webpack/runtime/make namespace object */
+/******/ 	(() => {
+/******/ 		// define __esModule on exports
+/******/ 		__webpack_require__.r = (exports) => {
+/******/ 			if(typeof Symbol !== 'undefined' && Symbol.toStringTag) {
+/******/ 				Object.defineProperty(exports, Symbol.toStringTag, { value: 'Module' });
+/******/ 			}
+/******/ 			Object.defineProperty(exports, '__esModule', { value: true });
+/******/ 		};
+/******/ 	})();
+/******/ 	
+/************************************************************************/
+/******/ 	
+/******/ 	// startup
+/******/ 	// Load entry module and return exports
+/******/ 	// This entry module can't be inlined because the eval devtool is used.
+/******/ 	var __webpack_exports__ = __webpack_require__("./src/js/game.js");
+/******/ 	
+/******/ })()
+;
