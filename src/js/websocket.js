@@ -12,7 +12,7 @@ export function start () {
    return new Promise((resolve, reject) => {
 
         // Determine WS URL based off of environment and connect
-        if (window.location.host == "oldiegoodie.herokuapp.com") { wsurl = "wss://anolet.herokuapp.com/ws" } else { wsurl = "ws://192.168.0.36/ws" }
+        if (window.location.host == "anolet.herokuapp.com") { wsurl = "wss://anolet.herokuapp.com/ws" } else { wsurl = "ws://192.168.0.36/ws" }
         var ws = new WebSocket(wsurl);
         
         // Notify the user if the connection is closed
