@@ -74,7 +74,7 @@ wss.on('connection', (ws, req) => {
                 y: msg.y
             }));
         } else if (msg.type == "setavatar") {
-            if (msg.avatar > avatars.length - 1) return;
+            if (msg.avatar > avatars.length) return;
             console.log(chalk.black.bgYellow(" Avatar Change ") + " " + ws.id + " | " + players.find(p => p.id == ws.id).avatar + " -> " + "./avatars" + avatars[msg.avatar]);
             players.find(p => p.id == ws.id).avatar = "/avatars" + avatars[msg.avatar - 1];
             wss.broadcast(JSON.stringify({
