@@ -1,6 +1,7 @@
 # Anolet
 
 ### Production: https://anolet.herokuapp.com/ | Do not share
+### Production (More Reliable): https://anolet.phexora.com/ | Do not share
 ## Running for the first time
 When running for the first time, run `npm i` to install the dependencies.
 
