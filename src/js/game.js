@@ -2,20 +2,25 @@ import { start } from "./websocket"; // Import our websocket handler
 import "../scss/main.scss"; // Import SCSS
 import "./animation/logo" // Import animation for the logo
 
+function percentage(partialValue, totalValue) {
+    return (100 * partialValue) / totalValue;
+ };
+
+
 start().then(wsresp => {
     var ws = wsresp;
 
     // Ran by MouseClick Event
     function moved(event) {
         console.log(event)
-        document.getElementById("player-" + ws.plrid).top = event.clientY - 230 + "px";
-        document.getElementById("player-" + ws.plrid).left = event.clientX - 110 + "px";
+        console.log(ws.plrid)
+        document.getElementById("player-" + ws.plrid).style.top = "calc(" + percentage(event.clientY, window.innerHeight).toString() + "%" + " - 100px)";
+        document.getElementById("player-" + ws.plrid).style.left = "calc(" + percentage(event.clientX, window.innerWidth).toString() + "%" + " - 100px)";
         ws.ws.send(JSON.stringify({
             type: "pos",
-            x: event.clientX,
-            y: event.clientY
+            x:  percentage(event.clientX, window.innerWidth),
+            y: percentage(event.clientY, window.innerHeight)
         }));
-        console.log(event.clientX, event.clientY)
     }
 
     // Ran when character is selected
