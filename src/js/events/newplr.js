@@ -5,7 +5,7 @@ module.exports = function (msg, plrid) {
     nplr.innerHTML = `<img src="${msg.avatar}" class="playerimage">`;
     if (msg.plrid == plrid) {
         nplr.classList.add("me");
-        nplr.classList.add("selected");
+        document.getElementsByClassName("choose-image-" + msg.avatar_id)[0].classList.add("selected");
     }
     document.getElementById("game").appendChild(nplr);
     console.log(msg.avatar_id);

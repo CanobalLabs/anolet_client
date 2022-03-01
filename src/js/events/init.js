@@ -8,10 +8,8 @@ module.exports = function (msg) {
         plr.className = "player";
         plr.id = "player-" + player.id;
         plr.innerHTML = `<img src="${player.avatar}" class="playerimage">`;
-
         plr.style.top = "calc(" + player.y.toString() + "%" + " - 100px)";
         plr.style.left = "calc(" + player.x.toString() + "%" + " - 100px)";
-
         document.getElementById("game").appendChild(plr);
     });
 }

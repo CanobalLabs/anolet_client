@@ -1,9 +1,7 @@
+@use "_variables.scss" as *;
+
 .player {
   user-select: none;
-  -moz-user-select: none;
-  -khtml-user-select: none;
-  -webkit-user-select: none;
-  -o-user-select: none;
   transition: top 0.5s ease-out, left 0.5s ease-out;
   animation-fill-mode: forwards;
   background: none;
@@ -26,7 +24,7 @@
   position: absolute;
   top: 0;
   left: 0;
-  background: #161616;
+  background: $game;
   width: 100%;
   overflow: hidden;
   color: white;

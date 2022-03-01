@@ -1,3 +1,4 @@
+@use "_variables.scss" as *;
 @use "info.scss";
 @use "chooser.scss";
 @use "error.scss";
@@ -6,8 +7,8 @@
 body {
   user-select: none;
   cursor: default;
-  background: #101010;
-  font-family: "Roboto", sans-serif;
+  background: $body;
+  font-family: $font;
 }
 
 .logo {
@@ -22,9 +23,9 @@ body {
   margin-left: 10px;
   z-index: 5;
   color: rgba(255,255,255,0.25);
-  font-family: "Roboto", sans-serif;
+  font-family: $font;
   transition: color 0.5s ease;
-  &:hover{
+  &:hover {
     color: rgba(255,255,255,1);
   }
 }

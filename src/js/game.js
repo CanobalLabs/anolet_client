@@ -12,10 +12,6 @@ start().then(wsresp => {
 
     // Ran by MouseClick Event
     function moved(event) {
-        console.log(event)
-        console.log(ws.plrid)
-        document.getElementById("player-" + ws.plrid).style.top = "calc(" + percentage(event.clientY, window.innerHeight).toString() + "%" + " - 100px)";
-        document.getElementById("player-" + ws.plrid).style.left = "calc(" + percentage(event.clientX, window.innerWidth).toString() + "%" + " - 100px)";
         ws.ws.send(JSON.stringify({
             type: "pos",
             x:  percentage(event.clientX, window.innerWidth),
@@ -25,9 +21,7 @@ start().then(wsresp => {
 
     // Ran when character is selected
     function avatar(id) {
-        // Play avatar animation
         require("./animation/changeAvatar")(id);
-        document.getElementById("player-" + ws.plrid).firstElementChild.src = "./avatars/Avatar" + id + ".png";
         ws.ws.send(JSON.stringify({
             type: "setavatar",
             avatar: id
