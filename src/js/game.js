@@ -19,6 +19,34 @@ start().then(wsresp => {
         }));
     }
 
+    // Ran when username is chosen
+    function username(event, el) {
+        if (event.which == 13) {
+            if (event.target.value.length > 20 || event.target.value.length < 3) return;
+            ws.ws.send(JSON.stringify({
+                type: "setname",
+                username: event.target.value
+            }));   
+            el.placeholder = "Send a chat message"
+            el.value = "";
+            el.maxLength = "50";
+            el.attributes.onkeydown.value = "chat(event, this)";
+        }
+    };
+    window.username = username;
+
+    // Ran when chat is sent
+    function chat(event, el) {
+        if (event.which == 13) {
+            if (event.target.value.length > 50 || event.target.value.length < 3) return;
+            ws.ws.send(JSON.stringify({
+                type: "chat",
+                message: event.target.value
+            }));
+            el.value = "";
+        }
+    };
+    window.chat = chat;
     // Ran when character is selected
     function avatar(id) {
         require("./animation/changeAvatar")(id);

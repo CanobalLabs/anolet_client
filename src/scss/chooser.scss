@@ -13,6 +13,11 @@
   display: inline-block;
 }
 
+.choose-wrap {
+  display: inline-block;
+  overflow: hidden;
+}
+
 .avatar-choose {
   background: $button-chooser;
   height: 100px;
@@ -25,19 +30,8 @@
   display: grid;
   grid-template-columns: auto auto auto auto auto;
   grid-row: 1;
-  height: 100px;
-  width: fit-content;
   position: absolute;
-  justify-content: center;
-  align-items: center;
-  justify-items: stretch;
-  align-content: space-between;
-  align-self: center;
-  margin-left: auto;
-  margin-right: auto;
-  position: absolute;
-  left: 50%;
-  transform: translate(-50%);
+  left: 10px;
 }
 
 .selected {

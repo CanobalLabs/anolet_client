@@ -26,23 +26,26 @@
     <div class="interactive-wrapper" id="interactive-wrapper">
         <div class="avatar-select">
             <div class="avatar-choose" id="chooser">
-                <div class="choose-image-1" onclick="avatar(1)"></div>
-                <div class="choose-image-2" onclick="avatar(2)"></div>
-                <div class="choose-image-3" onclick="avatar(3)"></div>
-                <div class="choose-image-4" onclick="avatar(4)"></div>
-                <div class="choose-image-5" onclick="avatar(5)"></div>
-                <div class="choose-image-6" onclick="avatar(6)"></div>
-                <div class="choose-image-7" onclick="avatar(7)"></div>
-                <div class="choose-image-8" onclick="avatar(8)"></div>
-                <div class="choose-image-9" onclick="avatar(9)"></div>
-                <div class="choose-image-10" onclick="avatar(10)"></div>
-                <div class="choose-image-11" onclick="avatar(11)"></div>
-                <div class="choose-image-12" onclick="avatar(12)"></div>
+                <div class="choose-wrap"><div class="choose-image-1" onclick="avatar(1)"></div></div>
+                <div class="choose-wrap"><div class="choose-image-2" onclick="avatar(2)"></div></div>
+                <div class="choose-wrap"><div class="choose-image-3" onclick="avatar(3)"></div></div>
+                <div class="choose-wrap"><div class="choose-image-4" onclick="avatar(4)"></div></div>
+                <div class="choose-wrap"><div class="choose-image-5" onclick="avatar(5)"></div></div>
+                <div class="choose-wrap"><div class="choose-image-6" onclick="avatar(6)"></div></div>
+                <div class="choose-wrap"><div class="choose-image-7" onclick="avatar(7)"></div></div>
+                <div class="choose-wrap"><div class="choose-image-8" onclick="avatar(8)"></div></div>
+                <div class="choose-wrap"><div class="choose-image-9" onclick="avatar(9)"></div></div>
+                <div class="choose-wrap"><div class="choose-image-10" onclick="avatar(10)"></div></div>
+                <div class="choose-wrap"><div class="choose-image-12" onclick="avatar(12)"></div></div>
+                <div class="choose-wrap"><div class="choose-image-11" onclick="avatar(11)"></div></div>
             </div>
         </div>
         <!-- <div class="count" id="players">/ Players</div> -->
         <div id="game">
-
+            <div class="chat">
+                <div class="log" id="log"></div>
+                <input type="text" name="Choose a username first" id="" minlength="3" maxlength="20" placeholder="Choose a username" class="chatbox" onkeydown="username(event, this)">
+            </div>
             <div class="info">
                 <img class="logo" id="logo" src="./pixie.png">
                 <div class="info_content">

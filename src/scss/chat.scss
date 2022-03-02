@@ -1,0 +1,59 @@
+.chat {
+    position: absolute;
+    top: calc(100px + 1% + 15px);
+    left: 10px;
+    background: rgba(18,18,18,0.4);
+    transition: background 0.2s ease;
+    width: 450px;
+    height: 200px;
+    z-index: 2;
+    border-radius: 10px;
+    &:hover {
+        background: rgba(18,18,18,0.8);
+        .chatbox {
+            background: rgb(16, 16, 16, 0.8);
+        }
+    }
+}
+
+.chatbox {
+    width: calc(100% - 10px);
+    background: rgb(16, 16, 16, 0.4);
+    border: none;
+    color: white;
+    padding: 10px 0 10px 10px;
+    margin-right: -10px;
+    outline: none;
+    position: absolute;
+    bottom: 0;
+    left: 0;
+    border-bottom-right-radius: 10px;
+    border-bottom-left-radius: 10px;
+}
+
+.log {
+    height: 184px;
+    overflow: scroll;
+    overflow-x: hidden;
+    padding-top: 10px;
+    padding-left: 10px;
+}
+
+::-webkit-scrollbar {
+    width: 10px;
+  }
+  
+  /* Track */
+  ::-webkit-scrollbar-track {
+    background: #f1f1f1; 
+  }
+   
+  /* Handle */
+  ::-webkit-scrollbar-thumb {
+    background: none; 
+  }
+  
+  /* Handle on hover */
+  ::-webkit-scrollbar-thumb:hover {
+    background: #555; 
+  }

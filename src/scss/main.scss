@@ -3,6 +3,7 @@
 @use "chooser.scss";
 @use "error.scss";
 @use "game.scss";
+@use "chat.scss";;
 
 body {
   user-select: none;
@@ -10,6 +11,7 @@ body {
   background: $body;
   font-family: $font;
 }
+
 
 .logo {
   width: 50px;

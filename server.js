@@ -43,6 +43,7 @@ wss.on('connection', (ws, req) => {
     players.push({
         id: ws.id,
         avatar: "./avatars" + randav,
+        username: "",
         x: 0,
         y: 0,
     });
@@ -50,6 +51,7 @@ wss.on('connection', (ws, req) => {
         type: 'newplr',
         avatar: "./avatars" + randav,
         avatar_id: randav.replace(/[^0-9]/g,''),
+        username: "",
         plrid: ws.id
     }));
     ws.on("close", reason => {
@@ -81,6 +83,25 @@ wss.on('connection', (ws, req) => {
                 type: "avatar",
                 plrid: ws.id,
                 avatar: "/avatars" + avatars[msg.avatar - 1]
+            }));
+        } else if (msg.type == "setname") {
+            if (msg.username.length > 20 || msg.username.length < 3) return;
+            if (players.find(p => p.id == ws.id).username != "") return;
+            console.log(chalk.black.bgCyan(" Name Change ") + " " + ws.id + " | " + players.find(p => p.id == ws.id).username + " -> " + msg.username);
+            players.find(p => p.id == ws.id).username = msg.username;
+            wss.broadcast(JSON.stringify({
+                type: "name",
+                plrid: ws.id,
+                username: msg.username
+            }));
+        } else if (msg.type == "chat") {
+            if (msg.message.length > 50 || msg.message.length < 3) return;
+            console.log(chalk.black.bgBlueBright(" Chat ") + " " + ws.id + " | " + msg.message);
+            wss.broadcast(JSON.stringify({
+                type: "chatmsg",
+                plrid: ws.id,
+                username: players.find(p => p.id == ws.id).username,
+                message: msg.message
             }));
         }
     });
