@@ -44,8 +44,8 @@ wss.on('connection', (ws, req) => {
         id: ws.id,
         avatar: "./avatars" + randav,
         username: "",
-        x: 0,
-        y: 0,
+        x: 50,
+        y: 50,
     });
     wss.broadcast(JSON.stringify({
         type: 'newplr',
@@ -95,7 +95,7 @@ wss.on('connection', (ws, req) => {
                 username: msg.username
             }));
         } else if (msg.type == "chat") {
-            if (msg.message.length > 50 || msg.message.length < 3) return;
+            if (msg.message.length > 100 || msg.message.length < 3) return;
             console.log(chalk.black.bgBlueBright(" Chat ") + " " + ws.id + " | " + msg.message);
             wss.broadcast(JSON.stringify({
                 type: "chatmsg",

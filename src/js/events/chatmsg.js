@@ -9,6 +9,9 @@ function escapeHtml(unsafe)
  }
 module.exports = function (msg) {
     var chat = document.createElement("div");
+    var log = document.getElementById("log");
+    chat.classList.add("message");
     chat.innerHTML = `<b>${escapeHtml(msg.username)}: </b> ${escapeHtml(msg.message)}`;
-    document.getElementById("log").appendChild(chat);
+    log.appendChild(chat);
+    log.scrollTop = log.scrollHeight; // Scroll to bottom when new message is added
 }

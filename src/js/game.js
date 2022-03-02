@@ -29,7 +29,7 @@ start().then(wsresp => {
             }));   
             el.placeholder = "Send a chat message"
             el.value = "";
-            el.maxLength = "50";
+            el.maxLength = "100";
             el.attributes.onkeydown.value = "chat(event, this)";
         }
     };
