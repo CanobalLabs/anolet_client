@@ -1,8 +1,8 @@
 module.exports = function (msg) {
     var chat = document.createElement("div");
-    chat.innerHTML += `<b>`;
-    chat.innerText += `${msg.username}: `
-    chat.innerHTML += `</b>`
-    chat.innerText += ` ${msg.message}`;
+    var username = document.createElement("b");
+    username.innerText = `${msg.username}: `;
+    chat.appendChild(username);
+    chat.innerText +=  ` ${msg.message}`;
     document.getElementById("log").appendChild(chat);
 }
