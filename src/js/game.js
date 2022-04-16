@@ -43,6 +43,18 @@ start().then(wsresp => {
                 type: "chat",
                 message: event.target.value
             }));
+            el.disabled = true;
+            var timeLeft = 3;
+            el.placeholder = "Please wait 3 seconds...";
+            var timeout = setInterval(() => {
+                timeLeft--;
+                el.placeholder = "Please wait " + timeLeft + " seconds...";
+                if (timeLeft == 0) {
+                    el.placeholder = "Send a chat message";
+                    el.disabled = false
+                }
+            }, 1000);
+            setTimeout(function() {clearInterval(timeout) }, 3000);
             el.value = "";
         }
     };

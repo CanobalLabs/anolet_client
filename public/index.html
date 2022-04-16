@@ -8,7 +8,7 @@
     <title>Anolet</title>
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-    <link href="https://fonts.googleapis.com/css2?family=Roboto:wght@300&display=swap" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css?family=Open+Sans:300,400,700" rel="stylesheet">
     <script src="./code/bundle.js" defer></script>
     <link rel="icon" type="image/x-icon" href="/favicon.ico">
 </head>
@@ -26,55 +26,61 @@
     <div class="interactive-wrapper" id="interactive-wrapper">
         <div class="avatar-select">
             <div class="avatar-choose" id="chooser">
-                <div class="choose-wrap"><div class="choose-image-1" onclick="avatar(1)"></div></div>
-                <div class="choose-wrap"><div class="choose-image-2" onclick="avatar(2)"></div></div>
-                <div class="choose-wrap"><div class="choose-image-3" onclick="avatar(3)"></div></div>
-                <div class="choose-wrap"><div class="choose-image-4" onclick="avatar(4)"></div></div>
-                <div class="choose-wrap"><div class="choose-image-5" onclick="avatar(5)"></div></div>
-                <div class="choose-wrap"><div class="choose-image-6" onclick="avatar(6)"></div></div>
-                <div class="choose-wrap"><div class="choose-image-7" onclick="avatar(7)"></div></div>
-                <div class="choose-wrap"><div class="choose-image-8" onclick="avatar(8)"></div></div>
-                <div class="choose-wrap"><div class="choose-image-9" onclick="avatar(9)"></div></div>
-                <div class="choose-wrap"><div class="choose-image-10" onclick="avatar(10)"></div></div>
-                <div class="choose-wrap"><div class="choose-image-12" onclick="avatar(12)"></div></div>
-                <div class="choose-wrap"><div class="choose-image-11" onclick="avatar(11)"></div></div>
+                <div class="choose-wrap">
+                    <div class="choose-image-1" onclick="avatar(1)"></div>
+                </div>
+                <div class="choose-wrap">
+                    <div class="choose-image-2" onclick="avatar(2)"></div>
+                </div>
+                <div class="choose-wrap">
+                    <div class="choose-image-3" onclick="avatar(3)"></div>
+                </div>
+                <div class="choose-wrap">
+                    <div class="choose-image-4" onclick="avatar(4)"></div>
+                </div>
+                <div class="choose-wrap">
+                    <div class="choose-image-5" onclick="avatar(5)"></div>
+                </div>
+                <div class="choose-wrap">
+                    <div class="choose-image-6" onclick="avatar(6)"></div>
+                </div>
+                <div class="choose-wrap">
+                    <div class="choose-image-7" onclick="avatar(7)"></div>
+                </div>
+                <div class="choose-wrap">
+                    <div class="choose-image-8" onclick="avatar(8)"></div>
+                </div>
+                <div class="choose-wrap">
+                    <div class="choose-image-9" onclick="avatar(9)"></div>
+                </div>
+                <div class="choose-wrap">
+                    <div class="choose-image-10" onclick="avatar(10)"></div>
+                </div>
+                <div class="choose-wrap">
+                    <div class="choose-image-12" onclick="avatar(12)"></div>
+                </div>
+                <div class="choose-wrap">
+                    <div class="choose-image-11" onclick="avatar(11)"></div>
+                </div>
             </div>
         </div>
         <!-- <div class="count" id="players">/ Players</div> -->
         <div id="game">
             <div class="chat">
                 <div class="log" id="log">
-                    <div class="rules">Please be nice and respectful in the chat, and do not spam in the chat.</div>
+                    <div class="rules">Please be nice and respectful in the chat. <div class="red">This chat is not moderated 24/7.</div></div>
                 </div>
-                <input type="text" name="Choose a username first" id="" minlength="3" maxlength="20" placeholder="Choose a username" class="chatbox" onkeydown="username(event, this)">
+                <input type="text" name="Choose a username first" id="" minlength="3" maxlength="20"
+                    placeholder="Choose a username" class="chatbox" onkeydown="username(event, this)">
             </div>
-            <div class="info">
-                <img class="logo" id="logo" src="./pixie.png">
-                <div class="info_content">
-                    Anolet by Léo Badeaux
+            
+            <img class="logo" id="logo" src="./AnoletLogoLarge.png">
+            <div class="announcement">
+                <p>
+                    <b>What is this? · <a href="https://discord.gg/57SRwnJdg8" style="color: #7289DA" target="_blank">Join our Discord!</a></b>
                     <br>
-                    Character design by Alex Binello
-                    <br>
-                    Logo design inspired by Coates
-                </div>
-            </div>
-
-
-            <div class="notices">
-                Anolet Game Test #2
-                <br>
-                This game test is being conducted from 8:00 to 9:00 PM ET
-                <br>
-                Writing messages is encouraged!
-                <br>
-                <br>
-                Known Bugs to look out for:
-                <br>
-                - Styling issues
-                <br>
-                - Avatar selector bugs, namely hitbox issues
-                <br>
-                - User position not the same across clients
+                    This is a barebones multiplayer client demonstration. It isn't fully featured, and it isn't polished, but it serves as a proof of work. In the real Anolet, you'll have your own avatar, games will have a background, etc. It is multiplayer, so try inviting friends or opening another tab!
+                </p>
             </div>
         </div>
     </div>
