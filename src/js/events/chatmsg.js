@@ -15,7 +15,12 @@ module.exports = function (msg) {
     if (msg.admin) {
         admin = "<div class='red' style='display: contents;'>[ADMIN] </div>";
     }
-    chat.innerHTML = `${admin}<b>${escapeHtml(msg.username)}: </b> ${escapeHtml(msg.message)}`;
+    if (msg.admin) {
+        chat.innerHTML = `${admin}<b>${msg.username}: </b> ${msg.message}`;
+    } else {
+        chat.innerHTML = `${admin}<b>${escapeHtml(msg.username)}: </b> ${escapeHtml(msg.message)}`;
+    }
+
     log.appendChild(chat);
     log.scrollTop = log.scrollHeight; // Scroll to bottom when new message is added
 }
