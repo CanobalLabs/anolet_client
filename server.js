@@ -15,7 +15,32 @@ const { contextIsolated } = require("process");
         url: process.env.REDIS
     });
 
-    client.on('error', (err) => console.log('Redis Client Error', err));
+    client.on('error', (err) => {
+        console.log('Redis Client Error', err);
+        wss.broadcast(
+            JSON.stringify({
+                type: 'init',
+                players: [
+                    {
+                        'avatar': "./avatars/Error.png",
+                        'username': "",
+                        'x': 50,
+                        'y': 50,
+                        'id': "error"
+                    }
+                ],
+                myid: null
+            })
+        );
+
+        wss.broadcast(JSON.stringify({
+            type: "chatmsg",
+            plrid: "error",
+            username: "Error",
+            admin: false,
+            message: JSON.stringify(err)
+        }));
+    });
 
     await client.connect();
     await client.flushAll();
@@ -31,6 +56,7 @@ const { contextIsolated } = require("process");
 
     wss.on('connection', async (ws, req) => {
         if (!req.headers['user-agent']) return ws.close();
+    
         ws.id = wss.getUUID();
         var randav = avatars.random();
         console.log(chalk.black.bgGreen(" Connection ") + " " + ws.id);
