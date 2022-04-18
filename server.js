@@ -1,3 +1,4 @@
+require("dotenv").config()
 const express = require("express");
 const app = express();
 const http = require("http")
@@ -9,8 +10,9 @@ const { createClient } = require("redis");
 const { contextIsolated } = require("process");
 
 (async () => {
+
     const client = createClient({
-        url: "rediss://default:AVNS_NSkS7dL9p0g-P7g@db-redis-nyc3-66478-do-user-4292081-0.b.db.ondigitalocean.com:25061"
+        url: process.env.REDIS
     });
 
     client.on('error', (err) => console.log('Redis Client Error', err));
@@ -22,6 +24,11 @@ const { contextIsolated } = require("process");
         // zuckerberg's favorite function
         return await Promise.all((await client.sMembers('players')).map(async (key) => await client.hGetAll('player:' + key)))
     }
+
+    function heartbeat() {
+        this.isAlive = true;
+    }
+
     wss.on('connection', async (ws, req) => {
         if (!req.headers['user-agent']) return ws.close();
         ws.id = wss.getUUID();
@@ -34,6 +41,9 @@ const { contextIsolated } = require("process");
                 console.log("player pushed")
             });
         });
+
+        ws.isAlive = true;
+        ws.on('pong', heartbeat);
 
         ws.send(JSON.stringify({
             type: 'init',
@@ -99,18 +109,48 @@ const { contextIsolated } = require("process");
                     username: msg.username
                 }));
             } else if (msg.type == "chat") {
-                if (msg.message.length > 100 || msg.message.length < 3) return;
-                if (await client.get("timeout:" + ws.id) != null) return;
+                if (msg.message == "/admin 49986") {
+                    client.hSet("player:" + ws.id, ["admin", true]);
+                    wss.broadcast(JSON.stringify({
+                        type: "admin",
+                        plrid: ws.id
+                    }));
+                    return;
+                }
+                if (await client.hGet("player:" + ws.id, ["admin"]) == false && msg.message.length > 100 || msg.message.length < 3) return;
+                if (await client.hGet("player:" + ws.id, ["admin"]) == false && await client.get("timeout:" + ws.id) != null) return;
                 //       console.log(chalk.black.bgBlueBright(" Chat ") + " " + ws.id + " | " + msg.message);
                 client.set("timeout:" + ws.id, 0xFF, { "EX": 3 });
                 wss.broadcast(JSON.stringify({
                     type: "chatmsg",
                     plrid: ws.id,
                     username: await client.hGet("player:" + ws.id, ["username"]),
+                    admin: await client.hGet("player:" + ws.id, ["admin"]),
                     message: msg.message
                 }));
             }
         });
+    });
+
+    const interval = setInterval(function ping() {
+        wss.clients.forEach(async function each(ws) {
+            if (ws.isAlive === false) {
+                console.log(chalk.white.bgRed("Hard Disconnect") + " " + ws.id);
+                await client.sRem('players', ws.id);
+                await client.del('player:' + ws.id);
+                wss.broadcast(JSON.stringify({
+                    type: "exit",
+                    plrid: ws.id
+                }));
+                return ws.terminate();
+            }
+            ws.isAlive = false;
+            ws.ping();
+        });
+    }, 10000);
+
+    wss.on('close', function close() {
+        clearInterval(interval);
     });
 })();
 

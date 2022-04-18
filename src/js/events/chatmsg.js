@@ -10,8 +10,12 @@ function escapeHtml(unsafe)
 module.exports = function (msg) {
     var chat = document.createElement("div");
     var log = document.getElementById("log");
+    var admin = "";
     chat.classList.add("message");
-    chat.innerHTML = `<b>${escapeHtml(msg.username)}: </b> ${escapeHtml(msg.message)}`;
+    if (msg.admin) {
+        admin = "<div class='red' style='display: contents;'>[ADMIN] </div>";
+    }
+    chat.innerHTML = `${admin}<b>${escapeHtml(msg.username)}: </b> ${escapeHtml(msg.message)}`;
     log.appendChild(chat);
     log.scrollTop = log.scrollHeight; // Scroll to bottom when new message is added
 }

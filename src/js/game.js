@@ -4,7 +4,7 @@ import "./animation/logo" // Import animation for the logo
 
 function percentage(partialValue, totalValue) {
     return (100 * partialValue) / totalValue;
- };
+};
 
 
 start().then(wsresp => {
@@ -14,7 +14,7 @@ start().then(wsresp => {
     function moved(event) {
         ws.ws.send(JSON.stringify({
             type: "pos",
-            x:  percentage(event.clientX, window.innerWidth),
+            x: percentage(event.clientX, window.innerWidth),
             y: percentage(event.clientY, window.innerHeight)
         }));
     }
@@ -26,7 +26,7 @@ start().then(wsresp => {
             ws.ws.send(JSON.stringify({
                 type: "setname",
                 username: event.target.value
-            }));   
+            }));
             el.placeholder = "Send a chat message"
             el.value = "";
             el.maxLength = "100";
@@ -38,23 +38,25 @@ start().then(wsresp => {
     // Ran when chat is sent
     function chat(event, el) {
         if (event.which == 13) {
-            if (event.target.value.length > 50 || event.target.value.length < 3) return;
+            if (document?.iamadmin != true && (event.target.value.length > 100 || event.target.value.length < 3)) return;
             ws.ws.send(JSON.stringify({
                 type: "chat",
                 message: event.target.value
             }));
-            el.disabled = true;
-            var timeLeft = 3;
-            el.placeholder = "Please wait 3 seconds...";
-            var timeout = setInterval(() => {
-                timeLeft--;
-                el.placeholder = "Please wait " + timeLeft + " seconds...";
-                if (timeLeft == 0) {
-                    el.placeholder = "Send a chat message";
-                    el.disabled = false
-                }
-            }, 1000);
-            setTimeout(function() {clearInterval(timeout) }, 3000);
+            if (!document.iamadmin) {
+                el.disabled = true;
+                var timeLeft = 3;
+                el.placeholder = "Please wait 3 seconds...";
+                var timeout = setInterval(() => {
+                    timeLeft--;
+                    el.placeholder = "Please wait " + timeLeft + " seconds...";
+                    if (timeLeft == 0) {
+                        el.placeholder = "Send a chat message";
+                        el.disabled = false
+                    }
+                }, 1000);
+                setTimeout(function () { clearInterval(timeout) }, 3000);
+            }
             el.value = "";
         }
     };

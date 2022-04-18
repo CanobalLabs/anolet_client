@@ -31,7 +31,7 @@ export function start () {
 
             require("./events/" + msg.type)(msg, plrid);
             if (msg.type == "init") {
-                var plrid = msg.myid;
+                plrid = msg.myid;
                 updateCount(msg.players.length);
                 resolve({ ws, plrid });
             } else if (msg.type == "newplr") {
