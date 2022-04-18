@@ -11,5 +11,8 @@ module.exports = function (msg) {
         plr.style.top = "calc(" + player.y.toString() + "%" + " - 100px)";
         plr.style.left = "calc(" + player.x.toString() + "%" + " - 100px)";
         document.getElementById("game").appendChild(plr);
+        if (player.admin) {
+            document.getElementById("player-" + player.id).children[1].innerHTML = "<div class='red' style='display: contents;'>[ADMIN] </div>" + document.getElementById("player-" + player.id).children[1].innerText;
+        }
     });
 }
