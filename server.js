@@ -56,7 +56,8 @@ const { contextIsolated } = require("process");
 
     wss.on('connection', async (ws, req) => {
         if (!req.headers['user-agent']) return ws.close();
-    
+        if (await client.sIsMember("addresses", req.socket.remoteAddress)) return ws.close();
+        client.sAdd("addresses", req.socket.remoteAddress);
         ws.id = wss.getUUID();
         var randav = avatars.random();
         console.log(chalk.black.bgGreen(" Connection ") + " " + ws.id);
@@ -67,6 +68,7 @@ const { contextIsolated } = require("process");
                 console.log("player pushed")
             });
         });
+
 
         ws.isAlive = true;
         ws.on('pong', heartbeat);
