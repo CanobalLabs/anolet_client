@@ -8,38 +8,13 @@ const wss = new Websocket.Server({ noServer: true });
 var avatars = ["/Avatar1.png", "/Avatar2.png", "/Avatar3.png", "/Avatar4.png", "/Avatar5.png", "/Avatar6.png", "/Avatar7.png", "/Avatar8.png", "/Avatar9.png", "/Avatar10.png", "/Avatar11.png", "/Avatar12.png"];
 const { createClient } = require("redis");
 const { contextIsolated } = require("process");
+const { setInterval } = require("timers/promises");
 
 (async () => {
 
+
     const client = createClient({
         url: process.env.REDIS
-    });
-
-    client.on('error', (err) => {
-        console.log('Redis Client Error', err);
-        wss.broadcast(
-            JSON.stringify({
-                type: 'init',
-                players: [
-                    {
-                        'avatar': "./avatars/Error.png",
-                        'username': "",
-                        'x': 50,
-                        'y': 50,
-                        'id': "error"
-                    }
-                ],
-                myid: null
-            })
-        );
-
-        wss.broadcast(JSON.stringify({
-            type: "chatmsg",
-            plrid: "error",
-            username: "Error",
-            admin: false,
-            message: JSON.stringify(err)
-        }));
     });
 
     await client.connect();
@@ -50,15 +25,29 @@ const { contextIsolated } = require("process");
         return await Promise.all((await client.sMembers('players')).map(async (key) => await client.hGetAll('player:' + key)))
     }
 
+
     function heartbeat() {
         this.isAlive = true;
     }
 
     wss.on('connection', async (ws, req) => {
-        if (!req.headers['user-agent']) return ws.close();
-        if (await client.sIsMember("addresses", req.headers['x-forwarded-for'] || req.connection.remoteAddress)) return ws.close();
-        client.sAdd("addresses", req.headers['x-forwarded-for'] || req.connection.remoteAddress);
         ws.id = wss.getUUID();
+        if (!req.headers['user-agent']) return ws.close();
+        var lui = await client.get("address:" + (req.headers['x-forwarded-for'] || req.socket.remoteAddress))
+        if (lui) {
+            // this user is already connected, but we can advocate for them.
+            // we'll kick the other user out
+            console.log("kicked")
+            console.log(chalk.white.bgRed("Disconnect") + " " + lui);
+            await client.sRem('players', lui);
+            await client.del('player:' + lui);
+            wss.broadcast(JSON.stringify({
+                type: "exit",
+                plrid: lui
+            }));
+            await client.del("address:" + (req.headers['x-forwarded-for'] || req.socket.remoteAddress));
+        }
+        await client.set("address:" + (req.headers['x-forwarded-for'] || req.socket.remoteAddress), ws.id);
         var randav = avatars.random();
         console.log(chalk.black.bgGreen(" Connection ") + " " + ws.id);
         await (await client.sMembers('players')).forEach(async (id) => {
@@ -103,7 +92,7 @@ const { contextIsolated } = require("process");
                 type: "exit",
                 plrid: ws.id
             }));
-            client.sRem("addresses", req.headers['x-forwarded-for'] || req.connection.remoteAddress);
+            client.del("address:" + (req.headers['x-forwarded-for'] || req.socket.remoteAddress));
         });
         ws.on("message", async msg => {
             var msg = JSON.parse(msg);
@@ -171,7 +160,7 @@ const { contextIsolated } = require("process");
                     type: "exit",
                     plrid: ws.id
                 }));
-                client.sRem("addresses", req.headers['x-forwarded-for'] || req.connection.remoteAddress);
+                client.del("address:" + (req.headers['x-forwarded-for'] || req.socket.remoteAddress));
                 return ws.terminate();
             }
             ws.isAlive = false;
