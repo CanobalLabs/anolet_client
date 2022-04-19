@@ -103,6 +103,7 @@ const { contextIsolated } = require("process");
                 type: "exit",
                 plrid: ws.id
             }));
+            client.sRem("addresses", req.headers['x-forwarded-for'] || req.connection.remoteAddress);
         });
         ws.on("message", async msg => {
             var msg = JSON.parse(msg);
@@ -170,6 +171,7 @@ const { contextIsolated } = require("process");
                     type: "exit",
                     plrid: ws.id
                 }));
+                client.sRem("addresses", req.headers['x-forwarded-for'] || req.connection.remoteAddress);
                 return ws.terminate();
             }
             ws.isAlive = false;
