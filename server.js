@@ -56,8 +56,8 @@ const { contextIsolated } = require("process");
 
     wss.on('connection', async (ws, req) => {
         if (!req.headers['user-agent']) return ws.close();
-        if (await client.sIsMember("addresses", ws._socket.remoteAddress)) return ws.close();
-        client.sAdd("addresses", ws._socket.remoteAddress);
+        if (await client.sIsMember("addresses", req.headers['x-forwarded-for'] || req.connection.remoteAddress)) return ws.close();
+        client.sAdd("addresses", req.headers['x-forwarded-for'] || req.connection.remoteAddress);
         ws.id = wss.getUUID();
         var randav = avatars.random();
         console.log(chalk.black.bgGreen(" Connection ") + " " + ws.id);
