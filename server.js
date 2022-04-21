@@ -30,8 +30,7 @@ const { createClient } = require("redis");
 
     wss.on('connection', async (ws, req) => {
         ws.id = wss.getUUID();
-        if (!req.headers['user-agent']) return ws.close(); await client.set("address:" + (req.headers['x-forwarded-for'] || req.socket.remoteAddress), ws.id);
-        var randav = avatars.random();
+       var randav = avatars.random();
         console.log(chalk.black.bgGreen(" Connection ") + " " + ws.id);
         await (await client.sMembers('players')).forEach(async (id) => {
             let players = [];
@@ -75,7 +74,6 @@ const { createClient } = require("redis");
                 type: "exit",
                 plrid: ws.id
             }));
-            client.del("address:" + (req.headers['x-forwarded-for'] || req.socket.remoteAddress));
         });
         ws.on("message", async msg => {
             var msg = JSON.parse(msg);
@@ -143,7 +141,6 @@ const { createClient } = require("redis");
                     type: "exit",
                     plrid: ws.id
                 }));
-                client.del("address:" + (req.headers['x-forwarded-for'] || req.socket.remoteAddress));
                 return ws.terminate();
             }
             ws.isAlive = false;
