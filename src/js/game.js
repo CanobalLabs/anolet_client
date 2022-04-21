@@ -56,6 +56,8 @@ start().then(wsresp => {
                     }
                 }, 1000);
                 setTimeout(function () { clearInterval(timeout) }, 3000);
+                setTimeout(function () { el.placeholder = "Send a chat message";
+                el.disabled = false }, 3000); // bandaid solution
             }
             el.value = "";
         }
