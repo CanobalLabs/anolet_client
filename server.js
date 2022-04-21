@@ -168,7 +168,7 @@ const { setInterval } = require("timers/promises");
     server.on('upgrade', async (request, socket, head) => {
         if (request.url.startsWith("/ws")) {
             console.log(request.url.split("/"));
-            if (await client.get("key:" + request.url.split("/")?.[2])) {
+            if (await client.get("key:" + request.url.split("/")[2])) {
                 client.del("key:" + request.url.split("/")?.[2]);
                 wss.handleUpgrade(request, socket, head, socket => {
                     wss.emit('connection', socket, request);
