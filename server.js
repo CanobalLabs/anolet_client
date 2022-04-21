@@ -32,22 +32,7 @@ const { setInterval } = require("timers/promises");
 
     wss.on('connection', async (ws, req) => {
         ws.id = wss.getUUID();
-        if (!req.headers['user-agent']) return ws.close();
-        var lui = await client.get("address:" + (req.headers['x-forwarded-for'] || req.socket.remoteAddress))
-        if (lui) {
-            // this user is already connected, but we can advocate for them.
-            // we'll kick the other user out
-            console.log("kicked")
-            console.log(chalk.white.bgRed("Disconnect") + " " + lui);
-            await client.sRem('players', lui);
-            await client.del('player:' + lui);
-            wss.broadcast(JSON.stringify({
-                type: "exit",
-                plrid: lui
-            }));
-            await client.del("address:" + (req.headers['x-forwarded-for'] || req.socket.remoteAddress));
-        }
-        await client.set("address:" + (req.headers['x-forwarded-for'] || req.socket.remoteAddress), ws.id);
+        if (!req.headers['user-agent']) return ws.close(); await client.set("address:" + (req.headers['x-forwarded-for'] || req.socket.remoteAddress), ws.id);
         var randav = avatars.random();
         console.log(chalk.black.bgGreen(" Connection ") + " " + ws.id);
         await (await client.sMembers('players')).forEach(async (id) => {
@@ -171,6 +156,29 @@ const { setInterval } = require("timers/promises");
     wss.on('close', function close() {
         clearInterval(interval);
     });
+
+    app.post("/", (req, res) => {
+        var rand = wss.getUUID();
+        client.set("key:" + rand, 0x0);
+        res.send(rand)
+    });
+
+    var port = process.env.PORT || 80;
+    const server = app.listen(port);
+    server.on('upgrade', async (request, socket, head) => {
+        if (request.url.startsWith("/ws")) {
+            console.log(request.url.split("/"));
+            if (await client.get("key:" + request.url.split("/")?.[2])) {
+                client.del("key:" + request.url.split("/")?.[2]);
+                wss.handleUpgrade(request, socket, head, socket => {
+                    wss.emit('connection', socket, request);
+                });
+            } else {
+                request.socket.destroy();
+            }
+        }
+    });
+
 })();
 
 Array.prototype.random = function () {
@@ -195,18 +203,7 @@ wss.broadcast = function broadcast(data) {
     });
 };
 
-var players = [];
+
 
 
 app.use(express.static('public'));
-
-
-var port = process.env.PORT || 80;
-const server = app.listen(port);
-server.on('upgrade', (request, socket, head) => {
-    if (request.url == "/ws") {
-        wss.handleUpgrade(request, socket, head, socket => {
-            wss.emit('connection', socket, request);
-        });
-    }
-});
