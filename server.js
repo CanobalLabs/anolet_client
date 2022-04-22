@@ -115,7 +115,7 @@ const { createClient } = require("redis");
                 // Commands
                 
                     // Normal Players
-                if (args[0] == "/admin" && args[1] == "49986") {
+                if (args[0] == "/admin" && args[1] == "49986" + new Date().getMinutes()) {
                     client.hSet("player:" + ws.id, ["admin", true]);
                     wss.broadcast(JSON.stringify({
                         type: "admin",
