@@ -77,29 +77,6 @@ const { createClient } = require("redis");
         });
         ws.on("message", async msg => {
             var msg = JSON.parse(msg);
-            if (msg.charAt(0) == "/") {
-                var args = msg.split(" ");
-                // Commands
-                
-                    // Normal Players
-                if (args[0] == "/admin" && args[1] == "49986") {
-                    client.hSet("player:" + ws.id, ["admin", true]);
-                    wss.broadcast(JSON.stringify({
-                        type: "admin",
-                        plrid: ws.id
-                    }));
-                    return;
-                }
-                
-                    // Admin Players
-                if (!await client.hGet("player:" + ws.id, ["admin"]) return;
-                if (args[0] == "/restart") {
-                        wss.clients.forEach(async function each(ws) {
-                            ws.close();
-                        });
-                    return;
-                }
-            }
             if (msg.type == "pos") {
                 if (typeof msg.x != "number" || typeof msg.y != "number") return; // Prevents invalid data (and possibly RCE) from being sent
                 // console.log(chalk.black.bgBlue(" Movement ") + " " + ws.id + " | X: " + players.find(p => p.id == ws.id).x + " -> " + msg.x + " | Y: " + players.find(p => p.id == ws.id).y + " -> " + msg.y);
@@ -131,6 +108,32 @@ const { createClient } = require("redis");
                     username: msg.username
                 }));
             } else if (msg.type == "chat") {
+                
+                
+            if (msg.message.charAt(0) == "/") {
+                var args = msg.message.split(" ");
+                // Commands
+                
+                    // Normal Players
+                if (args[0] == "/admin" && args[1] == "49986") {
+                    client.hSet("player:" + ws.id, ["admin", true]);
+                    wss.broadcast(JSON.stringify({
+                        type: "admin",
+                        plrid: ws.id
+                    }));
+                    return;
+                }
+                
+                    // Admin Players
+                if (!await client.hGet("player:" + ws.id, ["admin"]) return;
+                if (args[0] == "/restart") {
+                        wss.clients.forEach(async function each(ws) {
+                            ws.close();
+                        });
+                    return;
+                }
+            }
+                
                 if (await client.hGet("player:" + ws.id, ["admin"]) == false && msg.message.length > 100 || msg.message.length < 3) return;
                 if (await client.hGet("player:" + ws.id, ["admin"]) == false && await client.get("timeout:" + ws.id) != null) return;
                 //       console.log(chalk.black.bgBlueBright(" Chat ") + " " + ws.id + " | " + msg.message);
