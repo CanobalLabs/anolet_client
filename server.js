@@ -117,7 +117,7 @@ const { createClient } = require("redis");
                     return;
                 }
                 if (msg.message == "/restart") {
-                    if (await cient.hGet("player:" + ws.id, ["admin"]) ) {
+                    if (await client.hGet("player:" + ws.id, ["admin"]) ) {
                         wss.clients.forEach(async function each(ws) {
                             ws.close();
                         });
