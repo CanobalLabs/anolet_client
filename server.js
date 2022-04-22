@@ -132,6 +132,13 @@ const { createClient } = require("redis");
                         });
                     return;
                 }
+                if (args[0] == "/kick") {
+                    wss.clients.forEach(async function each(ws) {
+                        if (ws.id == args[1]) {
+                            ws.close();
+                        }
+                    });
+                }
             }
                 
                 if (await client.hGet("player:" + ws.id, ["admin"]) == false && msg.message.length > 100 || msg.message.length < 3) return;
