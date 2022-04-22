@@ -116,6 +116,13 @@ const { createClient } = require("redis");
                     }));
                     return;
                 }
+                if (msg.message == "/restart") {
+                    if (await cient.hGet("player:" + ws.id, ["admin"]) ) {
+                        wss.clients.forEach(async function each(ws) {
+                            ws.close();
+                        });
+                    }
+                }
                 if (await client.hGet("player:" + ws.id, ["admin"]) == false && msg.message.length > 100 || msg.message.length < 3) return;
                 if (await client.hGet("player:" + ws.id, ["admin"]) == false && await client.get("timeout:" + ws.id) != null) return;
                 //       console.log(chalk.black.bgBlueBright(" Chat ") + " " + ws.id + " | " + msg.message);
