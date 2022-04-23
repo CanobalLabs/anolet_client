@@ -1,9 +1,11 @@
 .chat {
   position: absolute;
-  top: calc(100px + 1% + 15px);
+  top: calc(50px + 1% + 10px);
   left: 10px;
   background: rgba(18, 18, 18, 0.4);
-  transition: background 0.2s ease;
+  color: white;
+  transition: 0.2s opacity linear;
+  opacity: 1;
   width: 30%;
   height: 25%;
   z-index: 2;
@@ -17,7 +19,7 @@
 }
 
 .chatbox {
-  width: calc(100% - 10px);
+  width: 100%;
   background: rgb(16, 16, 16, 0.4);
   border: none;
   color: white;

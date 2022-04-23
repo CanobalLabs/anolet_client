@@ -23,6 +23,9 @@
   },
   "homepage": "https://github.com/LeoBadeaux/oldiegoodie#readme",
   "dependencies": {
+    "@jamescoyle/svg-icon": "^0.1.1",
+    "@mdi/js": "^6.6.96",
+    "@mdi/svg": "^6.6.96",
     "axios": "^0.26.1",
     "chalk": "4.1.2",
     "dotenv": "^16.0.0",

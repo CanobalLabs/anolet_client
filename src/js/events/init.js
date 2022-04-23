@@ -7,7 +7,7 @@ module.exports = function (msg) {
         var plr = document.createElement("div");
         plr.className = "player";
         plr.id = "player-" + player.id;
-        plr.innerHTML = `<img src="${player.avatar}" class="playerimage"><div class="username">${player.username}</div>`;
+        plr.innerHTML = `<img src="/avatars/Avatar${player.avatar}.png" class="playerimage"><div class="username">${player.username}</div>`;
         plr.style.top = "calc(" + player.y.toString() + "%" + " - 100px)";
         plr.style.left = "calc(" + player.x.toString() + "%" + " - 100px)";
         document.getElementById("game").appendChild(plr);

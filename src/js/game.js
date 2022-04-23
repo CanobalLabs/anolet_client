@@ -1,6 +1,7 @@
 import { start } from "./websocket"; // Import our websocket handler
 import "../scss/main.scss"; // Import SCSS
 import "./animation/logo" // Import animation for the logo
+import '@jamescoyle/svg-icon'
 
 function percentage(partialValue, totalValue) {
     return (100 * partialValue) / totalValue;
@@ -56,26 +57,66 @@ start().then(wsresp => {
                     }
                 }, 1000);
                 setTimeout(function () { clearInterval(timeout) }, 3000);
-                setTimeout(function () { el.placeholder = "Send a chat message";
-                el.disabled = false }, 3000); // bandaid solution
+                setTimeout(function () {
+                    el.placeholder = "Send a chat message";
+                    el.disabled = false
+                }, 3000); // bandaid solution
             }
             el.value = "";
         }
     };
     window.chat = chat;
+
     // Ran when character is selected
     function avatar(id) {
-        require("./animation/changeAvatar")(id);
         ws.ws.send(JSON.stringify({
-            type: "setavatar",
-            avatar: id
+            type: "setavatar"
         }));
     };
     window.avatar = avatar; // Make it available to the frontend or else webpack will change the name
 
+    // aghhhhh this is so bad, REFACTORING NEEDED EVENTUALLY (OF THE ENTIRE CLIENT)
+
     // Assign the move event to when the mouse is clicked
     document.getElementById("game").addEventListener("click", moved);
 
+    document.getElementById("chat_toggle").addEventListener("click", function () {
+        if (document.getElementById("chat").style.opacity == "0") {
+            document.getElementById("chat").style["z-index"] = "1";
+            document.getElementById("chat").style.opacity = "1";
+            document.getElementById("chat_toggle").style.filter = "invert(1)";
+        } else {
+            setTimeout(function() {
+                document.getElementById("chat").style["z-index"] = "-1";
+            }, 200);
+            document.getElementById("chat").style.opacity = "0";
+            document.getElementById("chat_toggle").style.filter = "invert(0)";
+        }
+    });
+
+    document.getElementById("menu_toggle").addEventListener("click", function () {
+        if (document.getElementById("menu").style.opacity == "0") {
+            document.getElementById("menu").style["z-index"] = "0";
+            document.getElementById("menu").style.opacity = "1";
+            document.getElementById("menu_toggle").style.filter = "invert(1)";
+        } else {
+            setTimeout(function() {
+                document.getElementById("menu").style["z-index"] = "-1";
+            }, 200);
+            document.getElementById("menu").style.opacity = "0";
+            document.getElementById("menu_toggle").style.filter = "invert(0)";
+        }
+    });
+    document.getElementById("menu_close").addEventListener("click", function () {
+        setTimeout(function() {
+            document.getElementById("menu").style["z-index"] = "-1";
+        }, 200);
+        document.getElementById("menu").style.opacity = "0";
+        document.getElementById("menu_toggle").style.filter = "invert(0)";
+    });
+    document.getElementById("avatar").addEventListener("click", function () {
+        avatar();
+    });
     console.log(ws)
 
 });

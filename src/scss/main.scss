@@ -5,6 +5,12 @@
 @use "game.scss";
 @use "chat.scss";
 
+@font-face {
+  font-family: "Highway Gothic";
+  src: url("highway/HighwayGothicWide.woff") format("woff"),
+    /* Modern Browsers */ url("highway/HighwayGothicWide.svg") format("svg"); /* Legacy iOS */
+}
+
 * {
   box-sizing: border-box;
 }
@@ -29,4 +35,114 @@ body {
 .red {
   display: contents;
   color: #ff6464;
+}
+
+.topbar {
+  position: absolute;
+  top: 10px;
+}
+.item {
+  background: #101010;
+  height: 50px;
+  width: 50px;
+  margin-left: 10px;
+  border-radius: 10px;
+  cursor: pointer;
+  float: left;
+}
+
+.svg {
+  position: relative;
+  top: calc(50% + 2px);
+  left: calc(50% + 4px);
+  transform: translate(-50%, -50%);
+  color: white;
+}
+
+.chatbtn {
+  top: calc(50% + 2px);
+  left: calc(50% + 10px);
+}
+
+#chat_toggle {
+  transition: 0.2s filter linear;
+}
+.toplogo {
+  display: none;
+}
+
+#menu {
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  transition: 0.2s opacity linear;
+  opacity: 0;
+  background: #121212;
+  width: 500px;
+  height: 200px;
+  color: white;
+  border-radius: 10px;
+  z-index: -1;
+}
+
+.menbtn {
+  background: #262626;
+  margin: revert;
+  width: calc(50% - 10px);
+  margin-left: 10px;
+}
+
+.game-name {
+  font-size: 2rem;
+  font-family: Highway Gothic;
+}
+
+.game-image {
+  margin-left: 30px;
+  border-radius: 15px;
+  margin-top: 37.5px;
+  width: 125px;
+  position: absolute;
+}
+
+.game-name,
+.game-author {
+  margin-left: 175px;
+  padding-top: 37.5px;
+}
+
+.game-author {
+  padding: revert;
+}
+
+.close {
+  font-family: "Highway Gothic";
+  background: #101010;
+  width: fit-content;
+  padding: 5px;
+  position: absolute;
+  border-radius: 5px;
+  top: 10px;
+  right: 10px;
+  font-weight: bold;
+  cursor: pointer;
+}
+
+hr {
+  background: #262626;
+  border-style: solid;
+  border-color: #262626;
+  margin-top: 85px;
+}
+
+.exit {
+  background: #262626;
+  width: fit-content;
+  position: absolute;
+  bottom: 10px;
+  right: 10px;
+  padding: 10px;
+  border-radius: 5px;
+  cursor: not-allowed;
 }

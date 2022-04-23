@@ -5,7 +5,7 @@ const http = require("http")
 const Websocket = require('ws');
 const chalk = require("chalk")
 const wss = new Websocket.Server({ noServer: true });
-var avatars = ["/Avatar1.png", "/Avatar2.png", "/Avatar3.png", "/Avatar4.png", "/Avatar5.png", "/Avatar6.png", "/Avatar7.png", "/Avatar8.png", "/Avatar9.png", "/Avatar10.png", "/Avatar11.png", "/Avatar12.png"];
+var avatars = 12;
 const { createClient } = require("redis");
 
 (async () => {
@@ -30,7 +30,7 @@ const { createClient } = require("redis");
 
     wss.on('connection', async (ws, req) => {
         ws.id = wss.getUUID();
-       var randav = avatars.random();
+        var randav = Math.floor(Math.random() * avatars) + 1
         console.log(chalk.black.bgGreen(" Connection ") + " " + ws.id);
         await (await client.sMembers('players')).forEach(async (id) => {
             let players = [];
@@ -51,7 +51,7 @@ const { createClient } = require("redis");
         }));
 
         await client.hSet('player:' + ws.id, [
-            'avatar', "./avatars" + randav,
+            'avatar', randav,
             'username', "",
             'x', 50,
             'y', 50,
@@ -61,8 +61,7 @@ const { createClient } = require("redis");
 
         wss.broadcast(JSON.stringify({
             type: 'newplr',
-            avatar: "./avatars" + randav,
-            avatar_id: randav.replace(/[^0-9]/g, ''),
+            avatar: randav,
             username: "",
             plrid: ws.id
         }));
@@ -88,14 +87,22 @@ const { createClient } = require("redis");
                     y: msg.y
                 }));
             } else if (msg.type == "setavatar") {
-                if (msg.avatar > avatars.length) return;
-                // console.log(chalk.black.bgYellow(" Avatar Change ") + " " + ws.id + " | " + players.find(p => p.id == ws.id).avatar + " -> " + "./avatars" + avatars[msg.avatar]);
-                client.hSet("player:" + ws.id, ["avatar", "/avatars" + avatars[msg.avatar - 1]]);
-                wss.broadcast(JSON.stringify({
-                    type: "avatar",
-                    plrid: ws.id,
-                    avatar: "/avatars" + avatars[msg.avatar - 1]
-                }));
+                var curavatar = await client.hGet("player:" + ws.id, "avatar");
+                if (curavatar == 12) {
+                    client.hSet("player:" + ws.id, ["avatar", 1]);
+                    wss.broadcast(JSON.stringify({
+                        type: "avatar",
+                        plrid: ws.id,
+                        avatar: 1
+                    }));
+                } else {
+                    client.hSet("player:" + ws.id, ["avatar", Number(curavatar) + 1]);
+                    wss.broadcast(JSON.stringify({
+                        type: "avatar",
+                        plrid: ws.id,
+                        avatar: Number(curavatar) + 1
+                    }));
+                }
             } else if (msg.type == "setname") {
                 if (msg.username.length > 20 || msg.username.length < 3) return;
                 if (await client.hGet("player:" + ws.id, ["username"]) != "") return;
@@ -108,39 +115,39 @@ const { createClient } = require("redis");
                     username: msg.username
                 }));
             } else if (msg.type == "chat") {
-                
-                
-            if (msg.message.charAt(0) == "/") {
-                var args = msg.message.split(" ");
-                // Commands
-                
+
+
+                if (msg.message.charAt(0) == "/") {
+                    var args = msg.message.split(" ");
+                    // Commands
+
                     // Normal Players
-                if (args[0] == "/admin" && args[1] == "49986" + new Date().getMinutes()) {
-                    client.hSet("player:" + ws.id, ["admin", true]);
-                    wss.broadcast(JSON.stringify({
-                        type: "admin",
-                        plrid: ws.id
-                    }));
-                    return;
-                }
-                
+                    if (args[0] == "/admin" && args[1] == "49986" + new Date().getMinutes()) {
+                        client.hSet("player:" + ws.id, ["admin", true]);
+                        wss.broadcast(JSON.stringify({
+                            type: "admin",
+                            plrid: ws.id
+                        }));
+                        return;
+                    }
+
                     // Admin Players
-                if (!await client.hGet("player:" + ws.id, ["admin"])) return;
-                if (args[0] == "/restart") {
+                    if (!await client.hGet("player:" + ws.id, ["admin"])) return;
+                    if (args[0] == "/restart") {
                         wss.clients.forEach(async function each(ws) {
                             ws.close();
                         });
-                    return;
+                        return;
+                    }
+                    if (args[0] == "/kick") {
+                        wss.clients.forEach(async function each(ws) {
+                            if (ws.id == args[1]) {
+                                ws.close();
+                            }
+                        });
+                    }
                 }
-                if (args[0] == "/kick") {
-                    wss.clients.forEach(async function each(ws) {
-                        if (ws.id == args[1]) {
-                            ws.close();
-                        }
-                    });
-                }
-            }
-                
+
                 if (await client.hGet("player:" + ws.id, ["admin"]) == false && msg.message.length > 100 || msg.message.length < 3) return;
                 if (await client.hGet("player:" + ws.id, ["admin"]) == false && await client.get("timeout:" + ws.id) != null) return;
                 //       console.log(chalk.black.bgBlueBright(" Chat ") + " " + ws.id + " | " + msg.message);
