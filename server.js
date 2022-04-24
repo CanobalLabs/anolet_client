@@ -164,6 +164,14 @@ const { createClient } = require("redis");
                 wss.clients.forEach(async function each(cl) {
                     if (cl.id == msg.id) {
                         cl.close();
+                        wss.broadcast(JSON.stringify({
+                            type: "chatmsg",
+                            plrid: "SYSTEM",
+                            username: "Anolet",
+                            admin: false,
+                            system: true,
+                            message: "A player was kicked from the game!"
+                        }));
                     }
                 });
             }

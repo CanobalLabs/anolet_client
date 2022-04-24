@@ -1,24 +1,27 @@
-function escapeHtml(unsafe)
-{
+function escapeHtml(unsafe) {
     return unsafe
-         .replace(/&/g, "&amp;")
-         .replace(/</g, "&lt;")
-         .replace(/>/g, "&gt;")
-         .replace(/"/g, "&quot;")
-         .replace(/'/g, "&#039;");
- }
+        .replace(/&/g, "&amp;")
+        .replace(/</g, "&lt;")
+        .replace(/>/g, "&gt;")
+        .replace(/"/g, "&quot;")
+        .replace(/'/g, "&#039;");
+}
 module.exports = function (msg) {
     var chat = document.createElement("div");
     var log = document.getElementById("log");
     var admin = "";
     chat.classList.add("message");
-    if (msg.admin) {
-        admin = "<div class='red' style='display: contents;'>[ADMIN] </div>";
-    }
-    if (msg.admin) {
-        chat.innerHTML = `${admin}<b>${msg.username}: </b> ${msg.message}`;
+    if (msg?.system) {
+        chat.innerHTML = `<b>System<span style="margin-left: 5px;" class="mdi mdi-check-decagram"></span>: </b>${msg.message}`;
     } else {
-        chat.innerHTML = `${admin}<b>${escapeHtml(msg.username)}: </b> ${escapeHtml(msg.message)}`;
+        if (msg.admin) {
+            admin = "<div class='red' style='display: contents;'>[ADMIN] </div>";
+        }
+        if (msg.admin) {
+            chat.innerHTML = `${admin}<b>${msg.username}: </b> ${msg.message}`;
+        } else {
+            chat.innerHTML = `${admin}<b>${escapeHtml(msg.username)}: </b> ${escapeHtml(msg.message)}`;
+        }
     }
 
     log.appendChild(chat);
