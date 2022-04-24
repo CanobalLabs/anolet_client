@@ -159,6 +159,13 @@ const { createClient } = require("redis");
                     admin: await client.hGet("player:" + ws.id, ["admin"]),
                     message: msg.message
                 }));
+            } else if (msg.type == "kick") {
+                if (await !client.hGet("player:" + ws.id, ["admin"])) return console.log("a");
+                wss.clients.forEach(async function each(cl) {
+                    if (cl.id == msg.id) {
+                        cl.close();
+                    }
+                });
             }
         });
     });

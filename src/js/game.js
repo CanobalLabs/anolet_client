@@ -75,6 +75,14 @@ start().then(wsresp => {
     };
     window.avatar = avatar; // Make it available to the frontend or else webpack will change the name
 
+
+    function kick(id) {
+        ws.ws.send(JSON.stringify({
+            type: "kick",
+            id: id.substring(7)
+        }));
+    }
+    window.kick = kick;
     // aghhhhh this is so bad, REFACTORING NEEDED EVENTUALLY (OF THE ENTIRE CLIENT)
 
     // Assign the move event to when the mouse is clicked
