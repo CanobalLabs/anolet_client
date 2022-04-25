@@ -14,6 +14,10 @@ const { createClient } = require("redis");
     const client = createClient({
         url: process.env.REDIS
     });
+    
+    client.on('error', function(err){ 
+  console.error('Redis error:', err); 
+});
 
     await client.connect();
     await client.flushAll();
