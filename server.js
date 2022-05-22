@@ -92,7 +92,7 @@ const { createClient } = require("redis");
                 }));
             } else if (msg.type == "setavatar") {
                 var curavatar = await client.hGet("player:" + ws.id, "avatar");
-                if (curavatar == 12) {
+                if (curavatar == avatars) {
                     client.hSet("player:" + ws.id, ["avatar", 1]);
                     wss.broadcast(JSON.stringify({
                         type: "avatar",
