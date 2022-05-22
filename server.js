@@ -5,7 +5,7 @@ const http = require("http")
 const Websocket = require('ws');
 const chalk = require("chalk")
 const wss = new Websocket.Server({ noServer: true });
-var avatars = 12;
+var avatars = 13;
 const { createClient } = require("redis");
 
 (async () => {
@@ -140,6 +140,12 @@ const { createClient } = require("redis");
                         return;
                     }
                     if (args[0] == "/kick") {
+                        await client.sRem('players', args[1]);
+                        await client.del('player:' + args[1]);
+                        wss.broadcast(JSON.stringify({
+                            type: "exit",
+                            plrid: args[1]
+                        }));
                         wss.clients.forEach(async function each(ws) {
                             if (ws.id == args[1]) {
                                 ws.close();
