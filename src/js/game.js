@@ -8,6 +8,7 @@ function percentage(partialValue, totalValue) {
     return (100 * partialValue) / totalValue;
 };
 
+document.addEventListener('contextmenu', event => event.preventDefault());
 
 start().then(wsresp => {
     var ws = wsresp;
