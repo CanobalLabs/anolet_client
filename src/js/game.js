@@ -4,6 +4,76 @@ import "./animation/logo" // Import animation for the logo
 import '@jamescoyle/svg-icon'
 var pointInPolygon = require('point-in-polygon');
 var polygon = [ [ 0, 79.73333333333333 ], [ 21.809895833333343, 77.86666666666667 ], [ 37.565104166666664, 76.13333333333333 ], [ 45.638020833333336, 73.06666666666666 ], [ 49.0234375, 69.46666666666667 ], [ 50, 71.33333333333333 ], [ 51.953125, 70.53333333333333 ], [ 60.15625, 69.46666666666667 ], [ 99.93489583333333, 70.66666666666667 ], [ 99.93489583333333, 0 ], [ 0, 0.13333333333332575 ], [ 0, 79.73333333333333 ] ];
+var poly2 = [
+    [
+        48.958333333333336,
+        93.86666666666667
+    ],
+    [
+        50.78125,
+        91.6
+    ],
+    [
+        51.10677083333333,
+        91.6
+    ],
+    [
+        51.43229166666667,
+        92
+    ],
+    [
+        51.5625,
+        91.46666666666667
+    ],
+    [
+        53.7109375,
+        93.73333333333333
+    ],
+    [
+        53.58072916666667,
+        94.66666666666667
+    ],
+    [
+        55.79427083333333,
+        96.93333333333334
+    ],
+    [
+        55.72916666666667,
+        99.6
+    ],
+    [
+        54.296875,
+        99.6
+    ],
+    [
+        50.71614583333333,
+        99.73333333333333
+    ],
+    [
+        50.06510416666667,
+        99.2
+    ],
+    [
+        49.609375,
+        99.46666666666667
+    ],
+    [
+        48.958333333333336,
+        99.06666666666666
+    ],
+    [
+        48.828125,
+        98.13333333333334
+    ],
+    [
+        48.828125,
+        96.66666666666667
+    ],
+    [
+        48.958333333333336,
+        93.86666666666667
+    ]
+]
 function percentage(partialValue, totalValue) {
     return (100 * partialValue) / totalValue;
 };
@@ -16,6 +86,9 @@ start().then(wsresp => {
     // Ran by MouseClick Event
     function moved(event) {
         if (pointInPolygon([percentage(event.clientX, window.innerWidth), percentage(event.clientY, window.innerHeight)], polygon)) {
+            return;
+        }
+        if (pointInPolygon([percentage(event.clientX, window.innerWidth), percentage(event.clientY, window.innerHeight)], poly2)) {
             return;
         }
         ws.ws.send(JSON.stringify({

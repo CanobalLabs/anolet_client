@@ -10,6 +10,7 @@
   left: 0;
   opacity: 1;
   pointer-events: none;
+  z-index: 2
 }
 
 .username {
@@ -23,10 +24,6 @@
 
 .playerimage {
   width: 200px;
-}
-
-.me {
-  z-index: 1;
 }
 
 #game {
