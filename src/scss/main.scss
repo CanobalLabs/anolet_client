@@ -11,6 +11,16 @@
     /* Modern Browsers */ url("highway/HighwayGothicWide.svg") format("svg"); /* Legacy iOS */
 }
 
+@font-face {
+  font-family: 'Circular Std';
+  src: url('circular/CircularStd-Bold.woff2') format('woff2'),
+      url('circular/CircularStd-Bold.woff') format('woff'),
+      url('circular/CircularStd-Bold.svg#CircularStd-Bold') format('svg');
+  font-weight: bold;
+  font-style: normal;
+  font-display: swap;
+}
+
 * {
   box-sizing: border-box;
 }
@@ -100,7 +110,7 @@ body {
 
 .game-name {
   font-size: 2rem;
-  font-family: Highway Gothic;
+  font-family: $font;
 }
 
 .game-image {
