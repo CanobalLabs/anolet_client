@@ -19,8 +19,9 @@
   right: 10px;
   text-align: center;
   color: black;
-
-  
+  transition: 0.2s opacity linear;
+  opacity: 1;
+  z-index: 2;
   font-weight: 100;
   font-size: 18px;
 }

@@ -102,6 +102,22 @@ start().then(wsresp => {
         }
     });
 
+
+    document.getElementById("info_toggle").addEventListener("click", function () {
+        if (document.getElementById("info").style.opacity == "0") {
+            document.getElementById("info").style["z-index"] = "1";
+            document.getElementById("info").style.opacity = "1";
+            document.getElementById("info_toggle").style.filter = "invert(1)";
+        } else {
+            setTimeout(function() {
+                document.getElementById("info").style["z-index"] = "-1";
+            }, 200);
+            document.getElementById("info").style.opacity = "0";
+            document.getElementById("info_toggle").style.filter = "invert(0)";
+        }
+    });
+
+
     document.getElementById("menu_toggle").addEventListener("click", function () {
         if (document.getElementById("menu").style.opacity == "0") {
             document.getElementById("menu").style["z-index"] = "0";
