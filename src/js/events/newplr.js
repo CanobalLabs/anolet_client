@@ -6,8 +6,8 @@ module.exports = function (msg, plrid) {
     if (msg.plrid == plrid) {
         nplr.classList.add("me");
     }
-    nplr.style.top = "calc(50% - 100px)";
-    nplr.style.left = "calc(50% - 100px)";
+    nplr.style.top = "calc(75.7333% - 100px)";
+    nplr.style.left = "calc(73.92% - 100px)";
     document.getElementById("game").appendChild(nplr);
     console.log(msg.avatar_id);
 }

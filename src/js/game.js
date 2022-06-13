@@ -2,7 +2,57 @@ import { start } from "./websocket"; // Import our websocket handler
 import "../scss/main.scss"; // Import SCSS
 import "./animation/logo" // Import animation for the logo
 import '@jamescoyle/svg-icon'
-
+var pointInPolygon = require('point-in-polygon');
+var polygon = [
+    [
+        0,
+        79.73333333333333
+    ],
+    [
+        21.809895833333343,
+        77.86666666666667
+    ],
+    [
+        37.565104166666664,
+        76.13333333333333
+    ],
+    [
+        45.638020833333336,
+        73.06666666666666
+    ],
+    [
+        49.0234375,
+        69.46666666666667
+    ],
+    [
+        50,
+        71.33333333333333
+    ],
+    [
+        51.953125,
+        70.53333333333333
+    ],
+    [
+        60.15625,
+        69.46666666666667
+    ],
+    [
+        99.93489583333333,
+        70.66666666666667
+    ],
+    [
+        99.93489583333333,
+        0
+    ],
+    [
+        0,
+        0.13333333333332575
+    ],
+    [
+        0,
+        79.73333333333333
+    ]
+];
 function percentage(partialValue, totalValue) {
     return (100 * partialValue) / totalValue;
 };
@@ -13,6 +63,9 @@ start().then(wsresp => {
 
     // Ran by MouseClick Event
     function moved(event) {
+        if (pointInPolygon([percentage(event.clientX, window.innerWidth), percentage(event.clientY, window.innerHeight)], polygon)) {
+            return;
+        }
         ws.ws.send(JSON.stringify({
             type: "pos",
             x: percentage(event.clientX, window.innerWidth),
@@ -94,7 +147,7 @@ start().then(wsresp => {
             document.getElementById("chat").style.opacity = "1";
             document.getElementById("chat_toggle").style.filter = "invert(1)";
         } else {
-            setTimeout(function() {
+            setTimeout(function () {
                 document.getElementById("chat").style["z-index"] = "-1";
             }, 200);
             document.getElementById("chat").style.opacity = "0";
@@ -109,7 +162,7 @@ start().then(wsresp => {
             document.getElementById("info").style.opacity = "1";
             document.getElementById("info_toggle").style.filter = "invert(1)";
         } else {
-            setTimeout(function() {
+            setTimeout(function () {
                 document.getElementById("info").style["z-index"] = "-1";
             }, 200);
             document.getElementById("info").style.opacity = "0";
@@ -124,7 +177,7 @@ start().then(wsresp => {
             document.getElementById("menu").style.opacity = "1";
             document.getElementById("menu_toggle").style.filter = "invert(1)";
         } else {
-            setTimeout(function() {
+            setTimeout(function () {
                 document.getElementById("menu").style["z-index"] = "-1";
             }, 200);
             document.getElementById("menu").style.opacity = "0";
@@ -132,7 +185,7 @@ start().then(wsresp => {
         }
     });
     document.getElementById("menu_close").addEventListener("click", function () {
-        setTimeout(function() {
+        setTimeout(function () {
             document.getElementById("menu").style["z-index"] = "-1";
         }, 200);
         document.getElementById("menu").style.opacity = "0";

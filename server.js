@@ -57,8 +57,8 @@ const { createClient } = require("redis");
         await client.hSet('player:' + ws.id, [
             'avatar', randav,
             'username', "",
-            'x', 50,
-            'y', 50,
+            'x', 75.7333,
+            'y', 73.92,
             'id', ws.id
         ]);
         await client.sAdd('players', ws.id);
