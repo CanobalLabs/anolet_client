@@ -10,7 +10,7 @@
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
     <link href="https://fonts.googleapis.com/css?family=Open+Sans:300,400,700" rel="stylesheet">
-    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@mdi/font@6.6.96/css/materialdesignicons.min.css">
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@mdi/font@6.6.96/css/materialdesignicons.min.css" crossorigin="anonymous">
     <link rel="preload" href="highway/HighwayGothicWide.woff2" as="font" type="font/woff2" crossorigin>
     <script src="./code/bundle.js" defer></script>
     <script async src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=ca-pub-2572875166112703"
@@ -56,9 +56,9 @@
     <div id="menu" style="opacity: 0;">
         <div class="close" id="menu_close">X</div>
         <div class="game-meta">
-            <img src="./game/1.png" class="game-image">
-            <div class="game-name">Anolet Game Preview</div>
-            <div class="game-author">by <b>TeamAnolet</b><span style="margin-left: 5px;"
+            <img src="" class="game-image" id="game-image">
+            <div class="game-name" id="game-name">Loading...</div>
+            <div class="game-author">by <b id="game-author">Loading...</b><span style="margin-left: 5px;"
                     class="mdi mdi-check-decagram"></span>
             </div>
         </div>
@@ -89,9 +89,6 @@
         </div>
         <img class="logo" id="logo" src="./AnoletLogoLarge.png">
         <div id="game">
-            <img class="layer" src="/games/1/Layer1.png" style="z-index: 1;">
-            <img class="layer" src="/games/1/Layer2.png" style="z-index: 3;">
-            <img class="layer" src="/games/1/Layer3.png" style="z-index: 4;">
             <div class="announcement" id="info">
                 <p>
                     <b>What is this? · <a href="https://discord.gg/57SRwnJdg8" style="color: #7289DA;"

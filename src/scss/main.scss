@@ -1,15 +1,9 @@
 @use "_variables.scss" as *;
 @use "info.scss";
-@use "chooser.scss";
 @use "error.scss";
 @use "game.scss";
 @use "chat.scss";
 
-@font-face {
-  font-family: "Highway Gothic";
-  src: url("highway/HighwayGothicWide.woff") format("woff"),
-    /* Modern Browsers */ url("highway/HighwayGothicWide.svg") format("svg"); /* Legacy iOS */
-}
 
 @font-face {
   font-family: "Circular Std";
