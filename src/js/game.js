@@ -42,16 +42,20 @@ axios.get("https://staging-api-infra.anolet.com/game/1").then((res) => {
 
         // Ran by MouseClick Event
         function moved(event) {
-            currentZone.boundaryPolylines.forEach(boundary => {
+            let allowed = true;
+            console.log(currentZone.boundaryPolylines)
+            currentZone.boundaryPolylines.forEach((boundary, index) => {
                 if (pointInPolygon([percentage(event.clientX, window.innerWidth), percentage(event.clientY, window.innerHeight)], boundary)) {
-                    return;
+                    return allowed = false;
+                }
+                if (index == currentZone.boundaryPolylines.length - 1 && allowed) {
+                    ws.ws.send(JSON.stringify({
+                        type: "pos",
+                        x: percentage(event.clientX, window.innerWidth),
+                        y: percentage(event.clientY, window.innerHeight)
+                    }));
                 }
             });
-            ws.ws.send(JSON.stringify({
-                type: "pos",
-                x: percentage(event.clientX, window.innerWidth),
-                y: percentage(event.clientY, window.innerHeight)
-            }));
         }
 
         // Ran when username is chosen
