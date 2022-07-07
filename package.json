@@ -30,6 +30,7 @@
     "chalk": "4.1.2",
     "dotenv": "^16.0.0",
     "express": "^4.17.2",
+    "newrelic": "^8.14.1",
     "npm-run-all": "^4.1.5",
     "point-in-polygon": "^1.1.0",
     "redis": "^4.0.6",
