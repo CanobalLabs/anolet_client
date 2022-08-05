@@ -13,7 +13,7 @@ var gameid = new URLSearchParams(window.location.search).get("game");
 
 detail("Getting game information")
 axios.get("https://staging-api-infra.anolet.com/game/" + gameid).then((res) => {
-detail("Processing game information")
+    detail("Processing game information")
     document.getElementById("load-name").innerText = res.data.title;
     document.getElementById("load-author").innerText = res.data.creator.name;
     document.getElementById("load-image").src = res.data.iconAssetURL;
@@ -48,24 +48,22 @@ detail("Processing game information")
                     type: "chat",
                     message: event.target.value
                 }));
-                if (!document.iamadmin) {
-                    el.disabled = true;
-                    var timeLeft = 3;
-                    el.placeholder = "Please wait 3 seconds...";
-                    var timeout = setInterval(() => {
-                        timeLeft--;
-                        el.placeholder = "Please wait " + timeLeft + " seconds...";
-                        if (timeLeft == 0) {
-                            el.placeholder = "Send a chat message";
-                            el.disabled = false
-                        }
-                    }, 1000);
-                    setTimeout(function () { clearInterval(timeout) }, 3000);
-                    setTimeout(function () {
+                el.disabled = true;
+                var timeLeft = 1;
+                el.placeholder = "Please wait 1 second...";
+                var timeout = setInterval(() => {
+                    timeLeft--;
+                    el.placeholder = "Please wait " + timeLeft + " second...";
+                    if (timeLeft == 0) {
                         el.placeholder = "Send a chat message";
                         el.disabled = false
-                    }, 3000); // bandaid solution
-                }
+                    }
+                }, 1000);
+                setTimeout(function () { clearInterval(timeout) }, 1000);
+                setTimeout(function () {
+                    el.placeholder = "Send a chat message";
+                    el.disabled = false
+                }, 1000); // bandaid solution
                 el.value = "";
             }
         };
@@ -138,9 +136,9 @@ detail("Processing game information")
         Promise.all(Array.from(document.images).filter(img => !img.complete).map(img => new Promise(resolve => { img.onload = img.onerror = resolve; }))).then(() => {
             detail("Assets Loaded");
             document.getElementById("loading").style.opacity = "0"
-            setTimeout(function() {
+            setTimeout(function () {
                 document.getElementById("loading").style.display = "none"
-            }, 1000);
+            }, 400);
         });
     });
 });
