@@ -32,38 +32,41 @@ const log = require("./utils/logger");
                 "ServerAuth": process.env.HASH
             }
         }).then(async res => {
+            console.log("send init message")
             ws.send(JSON.stringify({
                 type: 'init',
                 players: await getAllUserData(locals.game),
                 myid: locals.user,
                 gameState: res.data
             }));
+            axios.get("https://staging-api-infra.anolet.com/user/" + locals.user).then(async user => {
+       
+
+                await client.hSet('player:' + locals.game + ":" + locals.user, [
+                    'avatar', user.data.defaultRender ? "https://cdn.anolet.com/avatars/anolet/internal.png" : "https://cdn.anolet.com/avatars/" + locals.user + "/internal.png",
+                    'username', user.data.username,
+                    'x', res.data.worldSettings.spawn.x,
+                    'y', res.data.worldSettings.spawn.y,
+                    'id', locals.user,
+                    'admin', locals.user == "anolet"
+                ]);
+
+                await client.sAdd('players:' + locals.game, locals.user);
+
+                wss.broadcast(locals.game, JSON.stringify({
+                    type: 'newplr',
+                    avatar: user.data.defaultRender ? "https://cdn.anolet.com/avatars/anolet/internal.png" : "https://cdn.anolet.com/avatars/" + locals.user + "/internal.png",
+                    username: user.data.username,
+                    admin: locals.user == "anolet",
+                    plrid: locals.user,
+                    x: res.data.worldSettings.spawn.x,
+                    y: res.data.worldSettings.spawn.y,
+                }));
+            }).catch(e => {
+
+            });
         });
 
-        axios.get("https://staging-api-infra.anolet.com/user/" + locals.user).then(async res => {
-
-
-            await client.hSet('player:' + locals.game + ":" + locals.user, [
-                'avatar', res.data.defaultRender ? "https://cdn.anolet.com/avatars/anolet/internal.png" : "https://cdn.anolet.com/avatars/" + locals.user + "/internal.png",
-                'username', res.data.username,
-                'x', 75.7333,
-                'y', 73.92,
-                'id', locals.user,
-                'admin', locals.user == "anolet"
-            ]);
-
-            await client.sAdd('players:' + locals.game, locals.user);
-
-            wss.broadcast(locals.game, JSON.stringify({
-                type: 'newplr',
-                avatar: res.data.defaultRender ? "https://cdn.anolet.com/avatars/anolet/internal.png" : "https://cdn.anolet.com/avatars/" + locals.user + "/internal.png",
-                username: res.data.username,
-                admin: locals.user == "anolet",
-                plrid: locals.user
-            }));
-        }).catch(e => {
-            
-        })
 
         ws.on("close", async reason => {
             log("Disconnect", locals.user, "Red");
