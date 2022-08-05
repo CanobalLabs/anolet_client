@@ -3,63 +3,49 @@ var plrid;
 var players = 0;
 
 const axios = require("axios")
+var detail = require("./loadDetail");
 
-function updateCount(amount) {
-    players = players + amount;
-    // document.getElementById("players").innerHTML = players + " players";
-}
-
-export function start() {
+export function start(gameid) {
     return new Promise((resolve, reject) => {
 
+        detail("Finding Websocket Address")
         // Determine WS URL based off of environment and connect
         if (location.protocol === 'https:') {
             wsurl = window.location.origin.replace("https", "wss") + "/ws"
         } else {
             wsurl = window.location.origin.replace("http", "ws") + "/ws"
         }
-        axios.post("/").then(res => {
-            var ws = new WebSocket(wsurl + "/" + res.data);
+        detail("Connecting To Websocket")
+        var ws = new WebSocket(wsurl + "/" + gameid + "/" + new URLSearchParams(window.location.search).get("auth"));
 
-            // Notify the user if the connection is closed
-            ws.onclose = function (e) {
-                document.getElementById("interactive-wrapper").style.filter = "blur(5px)";
-                document.getElementById("error").style.display = "block";
-            };
+        // Notify the user if the connection is closed
+        ws.onclose = function (e) {
+            detail("Websocket Connection Closed", true);
+        };
 
+        detail("Waiting On init Message")
+        // Process the messages received by server and act accordingly
+        ws.onmessage = function (event) {
+            var msg = JSON.parse(event.data);
 
-
-
-            // Process the messages received by server and act accordingly
-            ws.onmessage = function (event) {
-                var msg = JSON.parse(event.data);
-
-                require("./events/" + msg.type)(msg, plrid);
-                if (msg.type == "init") {
-                    plrid = msg.myid;
-                    updateCount(msg.players.length);
-                    resolve({ ws, plrid });
-                } else if (msg.type == "newplr") {
-                    updateCount(1);
-                } else if (msg.type == "exit") {
-                    updateCount(-1);
-                };
+            require("./events/" + msg.type)(msg, plrid);
+            if (msg.type == "init") {
+                detail("Processing init Message")
+                plrid = msg.myid;
+                resolve({ ws, plrid });
             }
+        }
 
-            ws.onerror = function (e) {
-                document.getElementById("tit").innerHTML = "Unable to connect to server";
-                document.getElementById("desc").innerHTML = "The client was unable to initiate a connection to the Websocket server.";
-                document.getElementById("interactive-wrapper").style.filter = "blur(5px)";
-                document.getElementById("error").style.display = "block";
-            }
-                    // Close the socket connection when the browser is closed so the user is instantly removed from the game.
+        ws.onerror = function (e) {
+            detail("Unable To Connect To Websocket", true)
+        }
+        // Close the socket connection when the browser is closed so the user is instantly removed from the game.
         window.onbeforeunload = function (evt) {
             evt.preventDefault();
             ws.close();
             return null;
         };
 
-        });
 
     });
 

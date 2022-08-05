@@ -26,4 +26,14 @@ module.exports = function (msg) {
 
     log.appendChild(chat);
     log.scrollTop = log.scrollHeight; // Scroll to bottom when new message is added
+    
+    // bubble
+    clearTimeout(document.chatHide);
+    document.getElementById("player-" + msg.plrid).children[0].innerText = msg.message;
+    document.getElementById("player-" + msg.plrid).children[0].style.opacity = "1";
+    document.getElementById("player-" + msg.plrid).children[1].style.opacity = "1";
+    document.chatHide = setTimeout(function() {
+        document.getElementById("player-" + msg.plrid).children[0].style.opacity = "0";
+        document.getElementById("player-" + msg.plrid).children[1].style.opacity = "0";
+    }, 5000);
 }

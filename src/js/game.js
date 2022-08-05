@@ -3,52 +3,34 @@ import "../scss/main.scss"; // Import SCSS
 import "./animation/logo" // Import animation for the logo
 import '@jamescoyle/svg-icon'
 var pointInPolygon = require('point-in-polygon');
+var detail = require("./loadDetail");
 function percentage(partialValue, totalValue) {
     return (100 * partialValue) / totalValue;
 };
 
 document.addEventListener('contextmenu', event => event.preventDefault());
+var gameid = new URLSearchParams(window.location.search).get("game");
 
-// this file is becoming unmanageable. we need to clean up the code in all the files sooner or later.
-document.gameID = 1;
-axios.get("https://staging-api-infra.anolet.com/game/1").then((res) => {
-    console.log(res);
-    document.getElementById("game-name").innerText = res.data.title;
-    document.getElementById("game-author").innerText = res.data.creator.name;
-    document.getElementById("game-image").src = res.data.iconAssetURL;
+detail("Getting game information")
+axios.get("https://staging-api-infra.anolet.com/game/" + gameid).then((res) => {
+detail("Processing game information")
+    document.getElementById("load-name").innerText = res.data.title;
+    document.getElementById("load-author").innerText = res.data.creator.name;
+    document.getElementById("load-image").src = res.data.iconAssetURL;
 
-    var styleSheet = document.createElement("style")
-    styleSheet.innerHTML = `
-    .player {
-        transition: top ${res.data.worldSettings.defaultSpeed}s ease-out, left ${res.data.worldSettings.defaultSpeed}s ease-out, opacity ${res.data.worldSettings.defaultSpeed}s ease-out;
-    }
-    `
-    document.head.appendChild(styleSheet);
-    var defaultZone = res.data.zones.find(zone => zone.id == res.data.worldSettings.defaultZone);
-    var currentZone = defaultZone;
-    defaultZone.layers.forEach(layer => {
-        var layerElement = document.createElement("img");
-        layerElement.classList.add("layer");
-        layerElement.src = layer.assetURL;
-        if (layer.layer == 1) {
-            layerElement.style = "z-index: 1;";
-        } else {
-            layerElement.style = `z-index: ${layer.layer + 1};`
-        }
-        document.getElementById("game").appendChild(layerElement);
-    });
-    start().then(wsresp => {
+    detail("Beginning websocket processor");
+    start(gameid).then(wsresp => {
+        detail("Tidying up");
         var ws = wsresp;
 
         // Ran by MouseClick Event
         function moved(event) {
             let allowed = true;
-            console.log(currentZone.boundaryPolylines)
-            currentZone.boundaryPolylines.forEach((boundary, index) => {
+            document.currentZone.boundaryPolylines.forEach((boundary, index) => {
                 if (pointInPolygon([percentage(event.clientX, window.innerWidth), percentage(event.clientY, window.innerHeight)], boundary)) {
                     return allowed = false;
                 }
-                if (index == currentZone.boundaryPolylines.length - 1 && allowed) {
+                if (index == document.currentZone.boundaryPolylines.length - 1 && allowed) {
                     ws.ws.send(JSON.stringify({
                         type: "pos",
                         x: percentage(event.clientX, window.innerWidth),
@@ -58,26 +40,10 @@ axios.get("https://staging-api-infra.anolet.com/game/1").then((res) => {
             });
         }
 
-        // Ran when username is chosen
-        function username(event, el) {
-            if (event.which == 13) {
-                if (event.target.value.length > 20 || event.target.value.length < 3) return;
-                ws.ws.send(JSON.stringify({
-                    type: "setname",
-                    username: event.target.value
-                }));
-                el.placeholder = "Send a chat message"
-                el.value = "";
-                el.maxLength = "100";
-                el.attributes.onkeydown.value = "chat(event, this)";
-            }
-        };
-        window.username = username;
-
         // Ran when chat is sent
         function chat(event, el) {
             if (event.which == 13) {
-                if (document?.iamadmin != true && (event.target.value.length > 100 || event.target.value.length < 3)) return;
+                if (event.target.value.length > 150 || event.target.value.length < 2) return;
                 ws.ws.send(JSON.stringify({
                     type: "chat",
                     message: event.target.value
@@ -105,15 +71,6 @@ axios.get("https://staging-api-infra.anolet.com/game/1").then((res) => {
         };
         window.chat = chat;
 
-        // Ran when character is selected
-        function avatar(id) {
-            ws.ws.send(JSON.stringify({
-                type: "setavatar"
-            }));
-        };
-        window.avatar = avatar; // Make it available to the frontend or else webpack will change the name
-
-
         function kick(id) {
             ws.ws.send(JSON.stringify({
                 type: "kick",
@@ -121,8 +78,8 @@ axios.get("https://staging-api-infra.anolet.com/game/1").then((res) => {
             }));
         }
         window.kick = kick;
-        // aghhhhh this is so bad, REFACTORING NEEDED EVENTUALLY (OF THE ENTIRE CLIENT)
 
+        detail("Adding Event Listeners");
         // Assign the move event to when the mouse is clicked
         document.getElementById("game").addEventListener("click", moved);
 
@@ -141,17 +98,17 @@ axios.get("https://staging-api-infra.anolet.com/game/1").then((res) => {
         });
 
 
-        document.getElementById("info_toggle").addEventListener("click", function () {
-            if (document.getElementById("info").style.opacity == "0") {
-                document.getElementById("info").style["z-index"] = "1";
-                document.getElementById("info").style.opacity = "1";
-                document.getElementById("info_toggle").style.filter = "invert(1)";
+        document.getElementById("list_toggle").addEventListener("click", function () {
+            if (document.getElementById("list").style.opacity == "0") {
+                document.getElementById("list").style["z-index"] = "1";
+                document.getElementById("list").style.opacity = "1";
+                document.getElementById("list_toggle").style.filter = "invert(1)";
             } else {
                 setTimeout(function () {
-                    document.getElementById("info").style["z-index"] = "-1";
+                    document.getElementById("list").style["z-index"] = "-1";
                 }, 200);
-                document.getElementById("info").style.opacity = "0";
-                document.getElementById("info_toggle").style.filter = "invert(0)";
+                document.getElementById("list").style.opacity = "0";
+                document.getElementById("list_toggle").style.filter = "invert(0)";
             }
         });
 
@@ -176,10 +133,14 @@ axios.get("https://staging-api-infra.anolet.com/game/1").then((res) => {
             document.getElementById("menu").style.opacity = "0";
             document.getElementById("menu_toggle").style.filter = "invert(0)";
         });
-        document.getElementById("avatar").addEventListener("click", function () {
-            avatar();
-        });
-        console.log(ws)
 
+        detail("Waiting On Assets To Load");
+        Promise.all(Array.from(document.images).filter(img => !img.complete).map(img => new Promise(resolve => { img.onload = img.onerror = resolve; }))).then(() => {
+            detail("Assets Loaded");
+            document.getElementById("loading").style.opacity = "0"
+            setTimeout(function() {
+                document.getElementById("loading").style.display = "none"
+            }, 1000);
+        });
     });
 });

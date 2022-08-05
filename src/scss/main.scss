@@ -1,9 +1,7 @@
 @use "_variables.scss" as *;
-@use "info.scss";
 @use "error.scss";
 @use "game.scss";
 @use "chat.scss";
-
 
 @font-face {
   font-family: "Circular Std";
@@ -69,6 +67,10 @@ body {
 }
 
 #chat_toggle {
+  transition: 0.2s filter linear;
+}
+
+#list_toggle {
   transition: 0.2s filter linear;
 }
 
@@ -166,4 +168,88 @@ hr {
   position: absolute;
   top: 0;
   left: 0;
+}
+
+ul {
+  list-style-type: none;
+  float: right;
+  margin-right: 16px;
+  transition: 0.2s opacity linear;
+  opacity: 1;
+  z-index: 2;
+}
+
+li {
+  width: 200px;
+  background: #121212;
+  color: white;
+  padding: 10px;
+  margin-bottom: 5px;
+  border-radius: 10px;
+  overflow: hidden;
+}
+
+.bubble {
+  max-height: 500px;
+  background: #101010;
+  position: absolute;
+  padding: 10px;
+  border-radius: 15px;
+  max-width: 200%;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+  margin-left: 50%;
+  transform: translate(-50%);
+  transition: 0.2s opacity linear;
+}
+
+.caret {
+  position: absolute;
+  padding: 10px;
+  border-radius: 15px;
+  margin-left: 50%;
+  transform: translate(-50%);
+  transition: 0.2s opacity linear;
+  margin-top: calc(1ch + 15px);
+  color: #101010;
+  opacity: 0;
+}
+
+
+#loading {
+  position: absolute;
+  transition: 0.2s opacity linear;
+  opacity: 1;
+  background: #121212;
+  width: 100%;
+  height: 100%;
+  color: white;
+  z-index: 2147483647;
+}
+
+#load-status {
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  font-size: 2rem;
+  font-family: $font;
+}
+
+#load-detail {
+  position: absolute;
+  top: 55%;
+  left: 50%;
+  transform: translate(-50%);
+  font-size: 1rem;
+  font-family: $font;
+}
+
+.refresh {
+  background: #262626;
+  width: fit-content;
+  padding: 10px;
+  border-radius: 5px;
+  cursor: pointer;
 }
