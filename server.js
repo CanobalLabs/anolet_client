@@ -77,8 +77,12 @@ const log = require("./utils/logger");
         });
 
         ws.on("message", async msg => {
-            var msg = JSON.parse(msg);
-            require("./messages/" + msg.type)(msg, locals, wss);
+            try {
+                var msg = JSON.parse(msg);
+                require("./messages/" + msg.type)(msg, locals, wss);
+            } catch (e) {
+                return;
+            }
         });
     });
 
