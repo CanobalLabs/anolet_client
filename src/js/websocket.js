@@ -5,6 +5,7 @@ var players = 0;
 const axios = require("axios")
 var detail = require("./loadDetail");
 
+var err = "";
 export function start(gameid) {
     return new Promise((resolve, reject) => {
 
@@ -20,13 +21,22 @@ export function start(gameid) {
 
         // Notify the user if the connection is closed
         ws.onclose = function (e) {
-            detail("Websocket Connection Closed", true);
+            console.log(err)
+            if (err) {
+                detail("Error Launching: " + err, true);
+            } else {
+                detail("Websocket Connection Closed", true);
+            }
         };
 
         detail("Waiting On init Message")
         // Process the messages received by server and act accordingly
         ws.onmessage = function (event) {
-            var msg = JSON.parse(event.data);
+            try {
+                var msg = JSON.parse(event.data);
+            } catch {
+                err = event.data;
+            }
 
             require("./events/" + msg.type)(msg, plrid);
             if (msg.type == "init") {

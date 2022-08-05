@@ -52,6 +52,7 @@ const log = require("./utils/logger");
                 ]);
 
                 await client.sAdd('players:' + locals.game, locals.user);
+                await client.sAdd('playersGlobal' , locals.user);
 
                 wss.broadcast(locals.game, JSON.stringify({
                     type: 'newplr',
@@ -72,6 +73,7 @@ const log = require("./utils/logger");
             log("Disconnect", locals.user, "Red");
 
             await client.sRem('players:' + locals.game, locals.user);
+            await client.sRem('playersGlobal' , locals.user);
             await client.del('player:' + locals.game + ":" + locals.user);
             wss.broadcast(locals.game, JSON.stringify({
                 type: "exit",
@@ -94,6 +96,7 @@ const log = require("./utils/logger");
             if (ws.isAlive === false) {
                 log("Hard Disconnect", locals.user, "Red");
                 await client.sRem('players:' + locals.game, locals.user);
+                await client.sRem('playersGlobal' , locals.user);
                 await client.del('player:' + locals.game + ":" + locals.user);
                 wss.broadcast(locals.game, JSON.stringify({
                     type: "exit",
@@ -112,8 +115,7 @@ const log = require("./utils/logger");
 
     var port = process.env.PORT || 80;
     const server = app.listen(port);
-    require('./server/upgrade')(server, wss);
-
+    require('./server/upgrade')(server, wss, client);
 })();
 
 wss.broadcast = function broadcast(gameid, data) {

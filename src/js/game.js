@@ -8,6 +8,12 @@ function percentage(partialValue, totalValue) {
     return (100 * partialValue) / totalValue;
 };
 
+function closeSelf() {
+    try { ws.ws.close(); } catch(e) { } // Still close window even if websocket is not connected
+    parent.window.postMessage("disconnect", "*");
+}
+window.closeSelf = closeSelf;
+
 document.addEventListener('contextmenu', event => event.preventDefault());
 var gameid = new URLSearchParams(window.location.search).get("game");
 
@@ -138,7 +144,7 @@ axios.get("https://staging-api-infra.anolet.com/game/" + gameid).then((res) => {
             document.getElementById("loading").style.opacity = "0"
             setTimeout(function () {
                 document.getElementById("loading").style.display = "none"
-            }, 400);
+            }, 800);
         });
     });
 });
