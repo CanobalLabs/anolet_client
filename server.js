@@ -121,7 +121,7 @@ const log = require("./utils/logger");
 
     setInterval(async function () {
         axios.get("https://staging-api-infra.anolet.com/game/s").then(response => {
-            response.data.forEach(game => {
+            response.data.forEach(async function (game) {
                 axios.get("https://staging-api-infra.anolet.com/ACCService/" + game.id + "/setPlayerCount/" + await (client.sCard("players:" + game.id)), {
                     headers: {
                         "serverauth": process.env.HASH
@@ -129,16 +129,6 @@ const log = require("./utils/logger");
                 });
             })
         });
-        for await (const key of client.scanIterator({
-            TYPE: 'set',
-            MATCH: 'players:*'
-        })) {
-            axios.get("https://staging-api-infra.anolet.com/ACCService/" + key.split(":")[1] + "/setPlayerCount/" + await (client.sCard(key)), {
-                headers: {
-                    "serverauth": process.env.HASH
-                }
-            });
-        }
     }, 2000);
 
     var port = process.env.PORT || 80;
