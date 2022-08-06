@@ -29,7 +29,7 @@ const log = require("./utils/logger");
         // HASH has to be same on the API
         axios.get("https://staging-api-infra.anolet.com/game/" + locals.game, {
             headers: {
-                "ServerAuth": process.env.HASH
+                "serverauth": process.env.HASH
             }
         }).then(async res => {
             console.log("send init message")
@@ -67,7 +67,7 @@ const log = require("./utils/logger");
                 // update player count on website
                 axios.get("https://staging-api-infra.anolet.com/ACCService/" + locals.game + "/increasePlayerCount", {
                     headers: {
-                        "ServerAuth": process.env.HASH
+                        "serverauth": process.env.HASH
                     }
                 });
             }).catch(e => {
@@ -86,9 +86,9 @@ const log = require("./utils/logger");
                 type: "exit",
                 plrid: locals.user
             }));
-            axios.get("https://staging-api-infra.anolet.com/ACCService/" + locals.game + "/decreasePlayerCount", {
+            axios.get("https://staging-api-infra.anolet.com/ACCService/" + locals.game + "/removePlayerCount", {
                     headers: {
-                        "ServerAuth": process.env.HASH
+                        "serverauth": process.env.HASH
                     }
                 });
         });
@@ -114,9 +114,9 @@ const log = require("./utils/logger");
                     type: "exit",
                     plrid: locals.user
                 }));
-                axios.get("https://staging-api-infra.anolet.com/ACCService/" + locals.game + "/decreasePlayerCount", {
+                axios.get("https://staging-api-infra.anolet.com/ACCService/" + locals.game + "/removePlayerCount", {
                     headers: {
-                        "ServerAuth": process.env.HASH
+                        "serverauth": process.env.HASH
                     }
                 });
                 return ws.terminate();
