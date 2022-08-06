@@ -8,7 +8,7 @@ module.exports = async function (msg, locals, wss) {
         type: "chatmsg",
         plrid: locals.user,
         username: await client.hGet("player:" + locals.game + ":" + locals.user, ["username"]),
-        admin: await client.hGet("player:" + locals.game + ":" + locals.user, ["admin"]),
+        admin: await client.hGet("player:" + locals.game + ":" + locals.user, ["admin"]) == "true",
         message: msg.message
     }));
 }
