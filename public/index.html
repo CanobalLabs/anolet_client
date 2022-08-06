@@ -31,7 +31,8 @@
     <div class="error" id="error">
         <div class="title" id="tit">Connection Lost</div>
         <div class="description" id="desc">The connection to the game server has been lost.</div>
-        <div class="button" onclick="window.location.reload()">Reload</div>
+        <div style="display: inline;" class="button" onclick="window.location.reload()">Reload</div>
+        <div style="display: inline; margin-left: 10px;" class="button" onlick="closeSelf()">Leave Game</div>
     </div>
     <div class="topbar">
         <div class="item" id="menu_toggle">
@@ -68,7 +69,7 @@
                     class="mdi mdi-check-decagram"></span>
             </div>
         </div>
-        <div class="exit">Leave Game</div>
+        <div class="exit" onlick="closeSelf()">Leave Game</div>
         <div class="buttons" style="display: none;">
         <hr>
             <div class="item" style="filter: invert(1);">
