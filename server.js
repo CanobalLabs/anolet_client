@@ -26,6 +26,12 @@ const log = require("./utils/logger");
         ws.isAlive = true;
         ws.on('pong', heartbeat);
 
+        axios.get("https://staging-api-infra.anolet.com/ACCService/" + ws.game + "/increaseVisitCount", {
+            headers: {
+                "serverauth": process.env.HASH
+            }
+        });
+
         // HASH has to be same on the API
         axios.get("https://staging-api-infra.anolet.com/game/" + locals.game, {
             headers: {
@@ -115,10 +121,10 @@ const log = require("./utils/logger");
 
     setInterval(async function () {
         for await (const key of client.scanIterator({
-            TYPE: 'set', 
+            TYPE: 'set',
             MATCH: 'players:*'
-          })) {
-            axios.patch("https://staging-api-infra.anolet.com/ACCService/" + key.split(":")[1] + "/setPlayerCount/" + await (client.sCard(key)), {
+        })) {
+            axios.get("https://staging-api-infra.anolet.com/ACCService/" + key.split(":")[1] + "/setPlayerCount/" + await (client.sCard(key)), {
                 headers: {
                     "serverauth": process.env.HASH
                 }
