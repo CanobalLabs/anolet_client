@@ -120,6 +120,15 @@ const log = require("./utils/logger");
     });
 
     setInterval(async function () {
+        axios.get("https://staging-api-infra.anolet.com/game/s").then(response => {
+            response.data.forEach(game => {
+                axios.get("https://staging-api-infra.anolet.com/ACCService/" + game.id + "/setPlayerCount/" + await (client.sCard("players:" + game.id)), {
+                    headers: {
+                        "serverauth": process.env.HASH
+                    }
+                });
+            })
+        });
         for await (const key of client.scanIterator({
             TYPE: 'set',
             MATCH: 'players:*'
