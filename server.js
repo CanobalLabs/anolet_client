@@ -63,6 +63,13 @@ const log = require("./utils/logger");
                     x: res.data.worldSettings.spawn.x,
                     y: res.data.worldSettings.spawn.y,
                 }));
+
+                // update player count on website
+                axios.get("https://staging-api-infra.anolet.com/ACCService/" + locals.game + "/increasePlayerCount", {
+                    headers: {
+                        "ServerAuth": process.env.HASH
+                    }
+                });
             }).catch(e => {
 
             });
@@ -79,6 +86,11 @@ const log = require("./utils/logger");
                 type: "exit",
                 plrid: locals.user
             }));
+            axios.get("https://staging-api-infra.anolet.com/ACCService/" + locals.game + "/decreasePlayerCount", {
+                    headers: {
+                        "ServerAuth": process.env.HASH
+                    }
+                });
         });
 
         ws.on("message", async msg => {
@@ -102,6 +114,11 @@ const log = require("./utils/logger");
                     type: "exit",
                     plrid: locals.user
                 }));
+                axios.get("https://staging-api-infra.anolet.com/ACCService/" + locals.game + "/decreasePlayerCount", {
+                    headers: {
+                        "ServerAuth": process.env.HASH
+                    }
+                });
                 return ws.terminate();
             }
             ws.isAlive = false;
