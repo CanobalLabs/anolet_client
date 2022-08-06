@@ -131,6 +131,7 @@ const log = require("./utils/logger");
     require('./server/upgrade')(server, wss, client);
 })();
 
+
 wss.broadcast = function broadcast(gameid, data) {
     wss.clients.forEach(function each(client) {
         if (client.readyState === Websocket.OPEN && client?.game == gameid) {
