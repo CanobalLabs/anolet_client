@@ -118,7 +118,7 @@ const log = require("./utils/logger");
             TYPE: 'set', 
             MATCH: 'players:*'
           })) {
-            axios.get("https://staging-api-infra.anolet.com/ACCService/" + key.split(":")[1] + "/setPlayerCount", {
+            axios.patch("https://staging-api-infra.anolet.com/ACCService/" + key.split(":")[1] + "/setPlayerCount/" + await (client.sCard(key)), {
                 headers: {
                     "serverauth": process.env.HASH
                 }
