@@ -40,7 +40,7 @@ const log = require("./utils/logger");
                 gameState: res.data
             }));
             axios.get("https://staging-api-infra.anolet.com/user/" + locals.user).then(async user => {
-       
+
 
                 await client.hSet('player:' + locals.game + ":" + locals.user, [
                     'avatar', user.data.defaultRender ? "https://cdn.anolet.com/avatars/anolet/internal.png" : "https://cdn.anolet.com/avatars/" + locals.user + "/internal.png",
@@ -52,7 +52,7 @@ const log = require("./utils/logger");
                 ]);
 
                 await client.sAdd('players:' + locals.game, locals.user);
-                await client.sAdd('playersGlobal' , locals.user);
+                await client.sAdd('playersGlobal', locals.user);
 
                 wss.broadcast(locals.game, JSON.stringify({
                     type: 'newplr',
@@ -63,13 +63,6 @@ const log = require("./utils/logger");
                     x: res.data.worldSettings.spawn.x,
                     y: res.data.worldSettings.spawn.y,
                 }));
-
-                // update player count on website
-                axios.get("https://staging-api-infra.anolet.com/ACCService/" + locals.game + "/increasePlayerCount", {
-                    headers: {
-                        "serverauth": process.env.HASH
-                    }
-                });
             }).catch(e => {
 
             });
@@ -80,17 +73,12 @@ const log = require("./utils/logger");
             log("Disconnect", locals.user, "Red");
 
             await client.sRem('players:' + locals.game, locals.user);
-            await client.sRem('playersGlobal' , locals.user);
+            await client.sRem('playersGlobal', locals.user);
             await client.del('player:' + locals.game + ":" + locals.user);
             wss.broadcast(locals.game, JSON.stringify({
                 type: "exit",
                 plrid: locals.user
             }));
-            axios.get("https://staging-api-infra.anolet.com/ACCService/" + locals.game + "/removePlayerCount", {
-                    headers: {
-                        "serverauth": process.env.HASH
-                    }
-                });
         });
 
         ws.on("message", async msg => {
@@ -108,17 +96,12 @@ const log = require("./utils/logger");
             if (ws.isAlive === false) {
                 log("Hard Disconnect", locals.user, "Red");
                 await client.sRem('players:' + locals.game, locals.user);
-                await client.sRem('playersGlobal' , locals.user);
+                await client.sRem('playersGlobal', locals.user);
                 await client.del('player:' + locals.game + ":" + locals.user);
                 wss.broadcast(locals.game, JSON.stringify({
                     type: "exit",
                     plrid: locals.user
                 }));
-                axios.get("https://staging-api-infra.anolet.com/ACCService/" + locals.game + "/removePlayerCount", {
-                    headers: {
-                        "serverauth": process.env.HASH
-                    }
-                });
                 return ws.terminate();
             }
             ws.isAlive = false;
@@ -129,6 +112,19 @@ const log = require("./utils/logger");
     wss.on('close', function close() {
         clearInterval(interval);
     });
+
+    setInterval(async function () {
+        for await (const key of client.scanIterator({
+            TYPE: 'set', 
+            MATCH: 'players:*'
+          })) {
+            axios.get("https://staging-api-infra.anolet.com/ACCService/" + key.split(":")[1] + "/setPlayerCount", {
+                headers: {
+                    "serverauth": process.env.HASH
+                }
+            });
+        }
+    }, 2000);
 
     var port = process.env.PORT || 80;
     const server = app.listen(port);
