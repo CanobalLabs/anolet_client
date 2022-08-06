@@ -54,7 +54,7 @@ const log = require("./utils/logger");
                     'x', res.data.worldSettings.spawn.x,
                     'y', res.data.worldSettings.spawn.y,
                     'id', locals.user,
-                    'admin', locals.user == "anolet"
+                    'admin', locals.user.ranks.includes("ADMIN_TAG")
                 ]);
 
                 await client.sAdd('players:' + locals.game, locals.user);
@@ -64,7 +64,7 @@ const log = require("./utils/logger");
                     type: 'newplr',
                     avatar: user.data.defaultRender ? "https://cdn.anolet.com/avatars/anolet/internal.png" : "https://cdn.anolet.com/avatars/" + locals.user + "/internal.png",
                     username: user.data.username,
-                    admin: locals.user == "anolet",
+                    admin: locals.user.ranks.includes("ADMIN_TAG"),
                     plrid: locals.user,
                     x: res.data.worldSettings.spawn.x,
                     y: res.data.worldSettings.spawn.y,
