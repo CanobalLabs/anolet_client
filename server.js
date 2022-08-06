@@ -8,7 +8,6 @@ const chalk = require("chalk")
 const wss = new Websocket.Server({ noServer: true });
 var avatars = 13;
 const { createClient } = require("redis");
-const axios = require("axios");
 
 (async () => {
 
@@ -16,10 +15,10 @@ const axios = require("axios");
     const client = createClient({
         url: process.env.REDIS_URL || process.env.REDIS_TLS_URL
     });
-
-    client.on('error', function (err) {
-        console.error('Redis error:', err);
-    });
+    
+    client.on('error', function(err){ 
+  console.error('Redis error:', err); 
+});
 
     await client.connect();
     await client.flushAll();
@@ -49,12 +48,6 @@ const axios = require("axios");
 
         ws.isAlive = true;
         ws.on('pong', heartbeat);
-
-        axios.get("https://staging-api-infra.anolet.com/ACCService/" + ws.game + "/increaseVisitCount", {
-            headers: {
-                "serverauth": process.env.HASH
-            }
-        });
 
         ws.send(JSON.stringify({
             type: 'init',
@@ -212,14 +205,6 @@ const axios = require("axios");
             ws.ping();
         });
     }, 10000);
-
-    setInterval(async function () {
-        axios.get("https://staging-api-infra.anolet.com/ACCService/1/setPlayerCount/" + await (client.sCard("players")), {
-            headers: {
-                "serverauth": process.env.HASH
-            }
-        });
-    }, 2000);
 
     wss.on('close', function close() {
         clearInterval(interval);

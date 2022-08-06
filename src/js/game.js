@@ -7,11 +7,6 @@ function percentage(partialValue, totalValue) {
     return (100 * partialValue) / totalValue;
 };
 
-function closeSelf() {
-    try { ws.ws.close(); } catch(e) { } // Still close window even if websocket is not connected
-    parent.window.postMessage("disconnect", "*");
-}
-window.closeSelf = closeSelf;
 document.addEventListener('contextmenu', event => event.preventDefault());
 
 // this file is becoming unmanageable. we need to clean up the code in all the files sooner or later.
