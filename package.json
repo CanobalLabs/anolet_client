@@ -4,7 +4,8 @@
   "description": "",
   "main": "server.js",
   "scripts": {
-    "start": "doppler run -- node server.js",
+    "start": "node server.js",
+    "startwdoppler": "doppler run -- node server.js",
     "build": "webpack --mode production",
     "both": "npm run build && doppler run -- npm start",
     "dev": "npm-run-all --parallel watch:server watch:build",
