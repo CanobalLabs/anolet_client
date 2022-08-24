@@ -1,0 +1,10 @@
+<script src="https://unpkg.com/wasm-jseval/quickjsEval.js"></script>
+<script>
+	quickjsEval.getInstance().then(mod => {
+		mod.eval('var chason = 0') // 2
+        console.log(mod.eval('return chason')) // 2
+		/* const add = mod.newFunction(['a', 'b'], 'return a+b')
+		console.log(add(1, 2)) */
+        console.log(chason)
+	});
+</script>

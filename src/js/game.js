@@ -1,3 +1,4 @@
+require("./filter.js");
 import { start } from "./websocket"; // Import our websocket handler
 import "../scss/main.scss"; // Import SCSS
 import "./animation/logo" // Import animation for the logo
@@ -13,7 +14,6 @@ function closeSelf() {
     parent.window.postMessage("disconnect", "*");
 }
 window.closeSelf = closeSelf;
-
 document.addEventListener('contextmenu', event => event.preventDefault());
 var gameid = new URLSearchParams(window.location.search).get("game");
 
@@ -145,6 +145,8 @@ axios.get("https://staging-api-infra.anolet.com/game/" + gameid).then((res) => {
             setTimeout(function () {
                 document.getElementById("loading").style.display = "none"
             }, 800);
+            // begin running game specific code
+            require("./sandboxedCode.js");
         });
     });
 });

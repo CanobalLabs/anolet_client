@@ -6,12 +6,32 @@ const Websocket = require('ws');
 const wss = new Websocket.Server({ noServer: true });
 const axios = require("axios");
 const log = require("./utils/logger");
+const mqtt = require("mqtt");
 
 (async () => {
+
 
     const client = require("./database/init");
     await client.connect();
     await client.flushAll();
+    var currentGames = []
+    const pubsub = mqtt.connect(process.env.MQTT_URL, {
+        protocolVersion: 5,
+        port: 8883,
+        clean: true,
+        connectTimeout: 2000, // 2 seconds
+        clientId: "",
+        username: "PubSub",
+        password: process.env.MQTT_AUTH_JWT,
+    });
+
+    pubsub.on("error", function (err) {
+        console.error(err);
+    });
+      
+    pubsub.on("connect", function () {
+        console.log("PubSub Ready");
+      });
 
     const getAllUserData = require("./database/getAllUserData");
 
@@ -22,6 +42,8 @@ const log = require("./utils/logger");
     wss.on('connection', async (ws, req, locals) => {
         ws.game = locals.game
         log("Connection", locals.user, "Green");
+        if (!currentGames.includes(ws.game)) pubsub.subscribe(ws.game);
+        currentGames.push(ws.game);
 
         ws.isAlive = true;
         ws.on('pong', heartbeat);
@@ -60,7 +82,7 @@ const log = require("./utils/logger");
                 await client.sAdd('players:' + locals.game, locals.user);
                 await client.sAdd('playersGlobal', locals.user);
 
-                wss.broadcast(locals.game, JSON.stringify({
+                pubsub.broadcast(locals.game, JSON.stringify({
                     type: 'newplr',
                     avatar: user.data.defaultRender ? "https://cdn.anolet.com/avatars/anolet/internal.png" : "https://cdn.anolet.com/avatars/" + locals.user + "/internal.png",
                     username: user.data.username,
@@ -74,14 +96,21 @@ const log = require("./utils/logger");
             });
         });
 
+        function removeItem(arr, value) {
+            var index = arr.indexOf(value);
+            if (index > -1) {
+              arr.splice(index, 1);
+            }
+            return arr;
+        }
 
         ws.on("close", async reason => {
             log("Disconnect", locals.user, "Red");
-
+            removeItem(currentGames, locals.game);
             await client.sRem('players:' + locals.game, locals.user);
             await client.sRem('playersGlobal', locals.user);
             await client.del('player:' + locals.game + ":" + locals.user);
-            wss.broadcast(locals.game, JSON.stringify({
+            pubsub.broadcast(locals.game, JSON.stringify({
                 type: "exit",
                 plrid: locals.user
             }));
@@ -90,7 +119,7 @@ const log = require("./utils/logger");
         ws.on("message", async msg => {
             try {
                 var msg = JSON.parse(msg);
-                require("./messages/" + msg.type)(msg, locals, wss);
+                require("./messages/" + msg.type)(msg, locals, pubsub);
             } catch (e) {
                 return;
             }
@@ -101,10 +130,11 @@ const log = require("./utils/logger");
         wss.clients.forEach(async function each(ws) {
             if (ws.isAlive === false) {
                 log("Hard Disconnect", locals.user, "Red");
+                removeItem(currentGames, locals.game);
                 await client.sRem('players:' + locals.game, locals.user);
                 await client.sRem('playersGlobal', locals.user);
                 await client.del('player:' + locals.game + ":" + locals.user);
-                wss.broadcast(locals.game, JSON.stringify({
+                pubsub.broadcast(locals.game, JSON.stringify({
                     type: "exit",
                     plrid: locals.user
                 }));
@@ -120,7 +150,9 @@ const log = require("./utils/logger");
     });
 
     setInterval(async function () {
+        if (process.env.ENVIRONMENT == "dev") return;
         axios.get("https://staging-api-infra.anolet.com/game/s").then(response => {
+            if (response.status != 200) return;
             response.data.forEach(async function (game) {
                 axios.get("https://staging-api-infra.anolet.com/ACCService/" + game.id + "/setPlayerCount/" + await (client.sCard("players:" + game.id)), {
                     headers: {
@@ -131,11 +163,21 @@ const log = require("./utils/logger");
         });
     }, 2000);
 
+    pubsub.broadcast = function broadcast(gameid, data) {
+        pubsub.publish(gameid, data);
+    };
+    
+    // Start waiting for messages
+    pubsub.on("message", async function (topic, message) {
+        wss.broadcast(topic, message.toString());
+    });
+
     var port = process.env.PORT || 80;
     const server = app.listen(port);
     require('./server/upgrade')(server, wss, client);
 })();
 
+  
 
 wss.broadcast = function broadcast(gameid, data) {
     wss.clients.forEach(function each(client) {

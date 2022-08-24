@@ -30,13 +30,13 @@ module.exports = function (server, wss, client) {
                         });
                         return;
                     }
-                    if ((await client.sMembers('playersGlobal')).includes(decoded.user)) {
+                    /* if ((await client.sMembers('playersGlobal')).includes(decoded.user)) {
                         // This user is already in a game
                         ErrorWSS.handleUpgrade(request, socket, head, socket => {
                             ErrorWSS.emit('connection', socket, request, "You are already in a game");
                         });
                         return;
-                    }
+                    } */
                     log("Approved", decoded.user + " for game " + decoded.game, "Magenta");
                     wss.handleUpgrade(request, socket, head, socket => {
                         wss.emit('connection', socket, request, decoded);

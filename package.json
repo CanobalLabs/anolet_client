@@ -4,38 +4,44 @@
   "description": "",
   "main": "server.js",
   "scripts": {
-    "start": "node server.js",
+    "start": "doppler run -- node server.js",
     "build": "webpack --mode production",
-    "both": "npm run build && npm start",
+    "both": "npm run build && doppler run -- npm start",
     "dev": "npm-run-all --parallel watch:server watch:build",
     "watch:build": "webpack --watch --mode development",
-    "watch:server": "nodemon server.js"
+    "watch:server": "doppler run -- nodemon server.js"
   },
   "repository": {
     "type": "git",
-    "url": "git+https://github.com/LeoBadeaux/oldiegoodie.git"
+    "url": "git+https://github.com/PlayAnolet/client.git"
   },
   "keywords": [],
   "author": "",
   "license": "ISC",
   "bugs": {
-    "url": "https://github.com/LeoBadeaux/oldiegoodie/issues"
+    "url": "https://github.com/PlayAnolet/client/issues"
   },
-  "homepage": "https://github.com/LeoBadeaux/oldiegoodie#readme",
+  "homepage": "https://anolet.com",
   "dependencies": {
     "@jamescoyle/svg-icon": "^0.1.1",
     "@mdi/js": "^6.6.96",
     "@mdi/svg": "^6.6.96",
     "axios": "^0.26.1",
+    "buffer": "^6.0.3",
     "chalk": "4.1.2",
+    "crypto-browserify": "^3.12.0",
     "dotenv": "^16.0.0",
     "express": "^4.17.2",
     "jsonwebtoken": "^8.5.1",
+    "mqtt": "^4.3.7",
     "newrelic": "^8.14.1",
     "npm-run-all": "^4.1.5",
+    "path-browserify": "^1.0.1",
     "point-in-polygon": "^1.1.0",
+    "quickjs-emscripten": "^0.21.0",
     "redis": "^4.0.6",
     "sass": "^1.49.9",
+    "stream-browserify": "^3.0.0",
     "ws": "^8.5.0"
   },
   "devDependencies": {

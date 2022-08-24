@@ -1,3 +1,4 @@
+const webpack = require('webpack');
 const path = require('path');
 
 module.exports = (env, argv) => {
@@ -9,6 +10,19 @@ module.exports = (env, argv) => {
         },
         experiments: {
             topLevelAwait: true
+        },
+        plugins: [
+            new webpack.DefinePlugin({
+                'process.env': "{}"
+             })
+        ],
+        resolve: {
+            fallback: {
+                "crypto": require.resolve("crypto-browserify"),
+                "path": require.resolve("path-browserify"),
+                "buffer": require.resolve("buffer/"),
+                "stream": require.resolve("stream-browserify"),
+            }
         },
         module: {
             rules: [
