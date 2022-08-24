@@ -14,7 +14,11 @@ const axios = require("axios");
 
 
     const client = createClient({
-        url: process.env.REDIS_URL || process.env.REDIS_TLS_URL
+        url: process.env.REDIS_URL || process.env.REDIS_TLS_URL,
+        socket: {
+    tls: true,
+    rejectUnauthorized: false
+  }
     });
 
     client.on('error', function (err) {
