@@ -42,7 +42,7 @@ const mqtt = require("mqtt");
     wss.on('connection', async (ws, req, locals) => {
         ws.game = locals.game
         log("Connection", locals.user, "Green");
-       // if (!currentGames.includes(ws.game)) pubsub.subscribe(ws.game);
+        if (!currentGames.includes(ws.game)) pubsub.subscribe(ws.game);
         currentGames.push(ws.game);
 
         ws.isAlive = true;
