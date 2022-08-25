@@ -8,7 +8,7 @@ var detail = require("./loadDetail");
 function percentage(partialValue, totalValue) {
     return (100 * partialValue) / totalValue;
 };
-var BASE_URL = "https://staging-api-infra";
+var BASE_URL = "https://staging-api-infra.anolet.com";
 window.BASE_URL = BASE_URL;
 
 function closeSelf() {
