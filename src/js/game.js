@@ -8,6 +8,8 @@ var detail = require("./loadDetail");
 function percentage(partialValue, totalValue) {
     return (100 * partialValue) / totalValue;
 };
+var BASE_URL = "https://staging-api-infra.anolet.com";
+window.BASE_URL = BASE_URL;
 
 function closeSelf() {
     try { ws.ws.close(); } catch(e) { } // Still close window even if websocket is not connected
@@ -18,7 +20,7 @@ document.addEventListener('contextmenu', event => event.preventDefault());
 var gameid = new URLSearchParams(window.location.search).get("game");
 
 detail("Getting game information")
-axios.get(process.env.BASE_URL + "/game/" + gameid).then((res) => {
+axios.get(window.BASE_URL + "/game/" + gameid).then((res) => {
     detail("Processing game information")
     document.getElementById("load-name").innerText = res.data.title;
     document.getElementById("load-author").innerText = res.data.creator.name;
