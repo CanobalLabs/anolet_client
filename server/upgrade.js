@@ -18,7 +18,7 @@ module.exports = function (server, wss, client) {
             // [3] = YT
             // [4] = rest of token
             if (!request.url.split("/")[3] || !request.url.split("/")[2]) return;
-            axios.get("https://staging-api-infra.anolet.com/ACCService/" + request.url.split("/")[2] + "/requestGameLaunchAuthorization", {
+            axios.get(process.env.BASE_URL + "/ACCService/" + request.url.split("/")[2] + "/requestGameLaunchAuthorization", {
                 headers: {
                     "Authorization": request.url.split("/")[3] + "/" + request.url.split("/")[4]
                 }

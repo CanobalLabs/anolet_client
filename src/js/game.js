@@ -18,7 +18,7 @@ document.addEventListener('contextmenu', event => event.preventDefault());
 var gameid = new URLSearchParams(window.location.search).get("game");
 
 detail("Getting game information")
-axios.get("https://staging-api-infra.anolet.com/game/" + gameid).then((res) => {
+axios.get(process.env.BASE_URL + "/game/" + gameid).then((res) => {
     detail("Processing game information")
     document.getElementById("load-name").innerText = res.data.title;
     document.getElementById("load-author").innerText = res.data.creator.name;

@@ -13,8 +13,9 @@ const mqtt = require("mqtt");
 
     const client = require("./database/init");
     await client.connect();
-    await client.flushAll();
     var currentGames = []
+
+    // You cannot run multiple instances of MQTT using the same authorization. You have to create seperate tokens for each instance. For now, only run one instance.
     const pubsub = mqtt.connect(process.env.MQTT_URL, {
         protocolVersion: 5,
         port: 8883,
@@ -31,7 +32,7 @@ const mqtt = require("mqtt");
       
     pubsub.on("connect", function () {
         console.log("PubSub Ready");
-      });
+    });
 
     const getAllUserData = require("./database/getAllUserData");
 
@@ -48,14 +49,16 @@ const mqtt = require("mqtt");
         ws.isAlive = true;
         ws.on('pong', heartbeat);
 
-        axios.get("https://staging-api-infra.anolet.com/ACCService/" + ws.game + "/increaseVisitCount", {
-            headers: {
-                "serverauth": process.env.HASH
-            }
-        });
+        if (process.env.ENVIRONMENT != "dev") {
+            axios.get(process.env.BASE_URL + "/ACCService/" + ws.game + "/increaseVisitCount", {
+                headers: {
+                    "serverauth": process.env.HASH
+                }
+            });
+        }
 
         // HASH has to be same on the API
-        axios.get("https://staging-api-infra.anolet.com/game/" + locals.game, {
+        axios.get(process.env.BASE_URL + "/game/" + locals.game, {
             headers: {
                 "serverauth": process.env.HASH
             }
@@ -67,7 +70,7 @@ const mqtt = require("mqtt");
                 myid: locals.user,
                 gameState: res.data
             }));
-            axios.get("https://staging-api-infra.anolet.com/user/" + locals.user).then(async user => {
+            axios.get(process.env.BASE_URL + "/user/" + locals.user).then(async user => {
 
 
                 await client.hSet('player:' + locals.game + ":" + locals.user, [
@@ -96,24 +99,9 @@ const mqtt = require("mqtt");
             });
         });
 
-        function removeItem(arr, value) {
-            var index = arr.indexOf(value);
-            if (index > -1) {
-              arr.splice(index, 1);
-            }
-            return arr;
-        }
-
         ws.on("close", async reason => {
             log("Disconnect", locals.user, "Red");
-            removeItem(currentGames, locals.game);
-            await client.sRem('players:' + locals.game, locals.user);
-            await client.sRem('playersGlobal', locals.user);
-            await client.del('player:' + locals.game + ":" + locals.user);
-            pubsub.broadcast(locals.game, JSON.stringify({
-                type: "exit",
-                plrid: locals.user
-            }));
+            require("./deleteUser")(locals.game, locals.user, currentGames);
         });
 
         ws.on("message", async msg => {
@@ -130,14 +118,7 @@ const mqtt = require("mqtt");
         wss.clients.forEach(async function each(ws) {
             if (ws.isAlive === false) {
                 log("Hard Disconnect", locals.user, "Red");
-                removeItem(currentGames, locals.game);
-                await client.sRem('players:' + locals.game, locals.user);
-                await client.sRem('playersGlobal', locals.user);
-                await client.del('player:' + locals.game + ":" + locals.user);
-                pubsub.broadcast(locals.game, JSON.stringify({
-                    type: "exit",
-                    plrid: locals.user
-                }));
+                require("./deleteUser")(locals.game, locals.user, currentGames);
                 return ws.terminate();
             }
             ws.isAlive = false;
@@ -149,12 +130,11 @@ const mqtt = require("mqtt");
         clearInterval(interval);
     });
 
-    setInterval(async function () {
-        if (process.env.ENVIRONMENT == "dev") return;
-        axios.get("https://staging-api-infra.anolet.com/game/s").then(response => {
+    if (process.env.ENVIRONMENT != "dev") setInterval(async function () {
+        axios.get(process.env.BASE_URL + "/game/s").then(response => {
             if (response.status != 200) return;
             response.data.forEach(async function (game) {
-                axios.get("https://staging-api-infra.anolet.com/ACCService/" + game.id + "/setPlayerCount/" + await (client.sCard("players:" + game.id)), {
+                axios.get(process.env.BASE_URL + "/ACCService/" + game.id + "/setPlayerCount/" + await (client.sCard("players:" + game.id)), {
                     headers: {
                         "serverauth": process.env.HASH
                     }
