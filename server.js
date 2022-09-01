@@ -50,7 +50,7 @@ const mqtt = require("mqtt");
         ws.on('pong', heartbeat);
 
         if (process.env.ENVIRONMENT != "dev") {
-            axios.get(process.env.BASE_URL + "/ACCService/" + ws.game + "/increaseVisitCount", {
+            axios.patch(process.env.BASE_URL + "/ACCService/" + ws.game + "/increaseVisitCount", {
                 headers: {
                     "serverauth": process.env.HASH
                 }
@@ -131,16 +131,13 @@ const mqtt = require("mqtt");
     });
 
     if (process.env.ENVIRONMENT != "dev") setInterval(async function () {
-        axios.get(process.env.BASE_URL + "/game/s").then(response => {
-            if (response.status != 200) return;
-            response.data.forEach(async function (game) {
-                axios.get(process.env.BASE_URL + "/ACCService/" + game.id + "/setPlayerCount/" + await (client.sCard("players:" + game.id)), {
+            currentGames.forEach(async function (game) {
+                axios.patch(process.env.BASE_URL + "/ACCService/" + game + "/setPlayerCount/" + await (client.sCard("players:" + game)), {
                     headers: {
                         "serverauth": process.env.HASH
                     }
                 });
-            })
-        });
+            });
     }, 2000);
 
     pubsub.broadcast = function broadcast(gameid, data) {
