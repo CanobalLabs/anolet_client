@@ -54,7 +54,7 @@ const axios = require("axios");
         ws.isAlive = true;
         ws.on('pong', heartbeat);
 
-        axios.get("https://staging-api-infra.anolet.com/ACCService/1/increaseVisitCount", {
+        axios.patch("https://staging-api-infra.anolet.com/ACCService/1/increaseVisitCount", {
             headers: {
                 "serverauth": process.env.HASH
             }
@@ -218,7 +218,7 @@ const axios = require("axios");
     }, 10000);
 
     setInterval(async function () {
-        axios.get("https://staging-api-infra.anolet.com/ACCService/1/setPlayerCount/" + await (client.sCard("players")), {
+        axios.patch("https://staging-api-infra.anolet.com/ACCService/1/setPlayerCount/" + await (client.sCard("players")), {
             headers: {
                 "serverauth": process.env.HASH
             }
