@@ -22,7 +22,7 @@ const mqtt = require("mqtt");
     // You cannot run multiple instances of MQTT using the same authorization. You have to create seperate tokens for each instance. For now, only run one instance.
     const pubsub = mqtt.connect(process.env.MQTT_URL, {
         protocolVersion: 5,
-        port: 8883,
+        port: process.env.MQTT_PORT,
         clean: true,
         clientId: "",
         connectTimeout: 2000, // 2 seconds
