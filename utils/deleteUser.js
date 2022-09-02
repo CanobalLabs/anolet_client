@@ -1,5 +1,5 @@
 const removeItem = require("./utils/removeItem")
-module.exports = async function (game, user, currentGames) {
+module.exports = async function (game, user, currentGames, pubsub) {
     removeItem(currentGames, game);
     await client.sRem('players:' + game, user);
     await client.sRem('playersGlobal', user);
