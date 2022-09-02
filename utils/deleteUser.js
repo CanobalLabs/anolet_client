@@ -9,3 +9,4 @@ module.exports = async function (game, user, currentGames, pubsub, client) {
         plrid: user
     }));
 }
+ 
