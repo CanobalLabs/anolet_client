@@ -44,6 +44,7 @@ module.exports = function (server, wss, client) {
                     });
                 })
             }).catch((err) => {
+                console.error(err)
                 ErrorWSS.handleUpgrade(request, socket, head, socket => {
                     ErrorWSS.emit('connection', socket, request, "You aren't allowed to join that game.");
                 });
