@@ -1,5 +1,9 @@
 require("dotenv").config()
 require('newrelic');
+process.on('uncaughtException', function (err) {
+  console.error(err);
+  console.log("Node NOT Exiting...");
+});
 const express = require("express");
 const app = express();
 const Websocket = require('ws');
