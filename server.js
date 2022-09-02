@@ -24,9 +24,9 @@ const mqtt = require("mqtt");
         protocolVersion: 5,
         port: process.env.MQTT_PORT,
         clean: true,
-        clientId: "",
+        clientId: process.env.MQTT_AUTH_CLIENT_ID,
         connectTimeout: 2000, // 2 seconds
-        username: "PubSub",
+        username: process.env.MQTT_AUTH_CLIENT_ID,
         password: process.env.MQTT_AUTH_JWT,
     });
 
