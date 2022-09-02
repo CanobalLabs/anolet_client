@@ -105,7 +105,7 @@ const mqtt = require("mqtt");
 
         ws.on("close", async reason => {
             log("Disconnect", locals.user, "Red");
-            require("./utils/deleteUser")(locals.game, locals.user, currentGames, pubsub);
+            require("./utils/deleteUser")(locals.game, locals.user, currentGames, pubsub, client);
         });
 
         ws.on("message", async msg => {
@@ -122,7 +122,7 @@ const mqtt = require("mqtt");
         wss.clients.forEach(async function each(ws) {
             if (ws.isAlive === false) {
                 log("Hard Disconnect", locals.user, "Red");
-                require("./utils/deleteUser")(locals.game, locals.user, currentGames, pubsub);
+                require("./utils/deleteUser")(locals.game, locals.user, currentGames, pubsub, client);
                 return ws.terminate();
             }
             ws.isAlive = false;
