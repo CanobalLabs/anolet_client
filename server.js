@@ -53,13 +53,11 @@ const mqtt = require("mqtt");
         ws.isAlive = true;
         ws.on('pong', heartbeat);
 
-        if (process.env.ENVIRONMENT != "dev") {
-            axios.patch(process.env.BASE_URL + "/ACCService/" + ws.game + "/increaseVisitCount", null, {
+        if (process.env.ENVIRONMENT != "dev") axios.patch(process.env.BASE_URL + "/ACCService/" + ws.game + "/increaseVisitCount", null, {
                 headers: {
                     "serverauth": process.env.HASH
                 }
             });
-        }
 
         // HASH has to be same on the API
         axios.get(process.env.BASE_URL + "/game/" + locals.game, {
