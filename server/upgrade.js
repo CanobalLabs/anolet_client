@@ -23,6 +23,7 @@ module.exports = function (server, wss, client) {
                     "Authorization": request.url.split("/")[3] + "/" + request.url.split("/")[4]
                 }
             }).then(res => {
+                console.log(res.data, res.status)
                 jwt.verify(res.data, process.env.HASH, async function (err, decoded) {
                     if (err) {
                         ErrorWSS.handleUpgrade(request, socket, head, socket => {
