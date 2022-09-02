@@ -54,7 +54,7 @@ const mqtt = require("mqtt");
         ws.on('pong', heartbeat);
 
         if (process.env.ENVIRONMENT != "dev") {
-            axios.patch(process.env.BASE_URL + "/ACCService/" + ws.game + "/increaseVisitCount", {
+            axios.patch(process.env.BASE_URL + "/ACCService/" + ws.game + "/increaseVisitCount", null, {
                 headers: {
                     "serverauth": process.env.HASH
                 }
@@ -136,7 +136,7 @@ const mqtt = require("mqtt");
 
     if (process.env.ENVIRONMENT != "dev") setInterval(async function () {
             currentGames.forEach(async function (game) {
-                axios.patch(process.env.BASE_URL + "/ACCService/" + game + "/setPlayerCount/" + await (client.sCard("players:" + game)), {
+                axios.patch(process.env.BASE_URL + "/ACCService/" + game + "/setPlayerCount/" + await (client.sCard("players:" + game)), null, {
                     headers: {
                         "serverauth": process.env.HASH
                     }
