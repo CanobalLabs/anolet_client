@@ -122,7 +122,7 @@ axios.get("https://staging-api-infra.anolet.com/game/1").then((res) => {
         function kick(id) {
             ws.ws.send(JSON.stringify({
                 type: "kick",
-                id: id.substring(7)
+                id: id
             }));
         }
         window.kick = kick;
