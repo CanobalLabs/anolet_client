@@ -18,7 +18,7 @@ const axios = require("axios");
         socket: {
     tls: process.env.REDIS_URL.startsWith("rediss://"),
     rejectUnauthorized: false
-  }
+  } 
     });
 
     client.on('error', function (err) {
