@@ -55,10 +55,7 @@ body {
 }
 
 .svg {
-  position: relative;
-  top: calc(50% + 2px);
-  left: calc(50% + 4px);
-  transform: translate(-50%, -50%);
+  transform: scale(0.75);
   color: white;
 }
 
