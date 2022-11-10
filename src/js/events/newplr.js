@@ -10,8 +10,8 @@ module.exports = function (msg, plrid) {
         document.iamadmin = true;
         nplr.children[3].innerHTML = "<div class='red' style='display: contents;'>[ADMIN] </div>" + nplr.children[3].innerText;
     }
-    nplr.style.top = `calc(${msg.y}% - 100px)`;
-    nplr.style.left = `calc(${msg.x}% - 100px)`;
+    nplr.style.top = `calc(${msg.y}% - 150px)`;
+    nplr.style.left = `calc(${msg.x}% - 150px)`;
     document.getElementById("game").appendChild(nplr);
     if (msg.admin) {
         document.getElementById("list").innerHTML += `<li id="listusr-${msg.plrid}"><div class='red' style='display: contents;'>[ADMIN] </div>${msg.username}</li>`
