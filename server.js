@@ -17,6 +17,8 @@ const mqtt = require("mqtt");
 
     const client = require("./database/init");
     await client.connect();
+    await client.flushAll();
+  
     var currentGames = []
 
     // You cannot run multiple instances of MQTT using the same authorization. You have to create seperate tokens for each instance. For now, only run one instance.
