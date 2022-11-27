@@ -16,7 +16,7 @@ document.addEventListener('contextmenu', event => event.preventDefault());
 
 // this file is becoming unmanageable. we need to clean up the code in all the files sooner or later.
 document.gameID = 1;
-axios.get("https://staging-api-infra.anolet.com/game/1").then((res) => {
+axios.get("https://api-staging.anolet.com/game/1").then((res) => {
     console.log(res);
     document.getElementById("game-name").innerText = res.data.title;
     document.getElementById("game-author").innerText = res.data.creator.name;
