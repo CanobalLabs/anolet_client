@@ -13,7 +13,7 @@ window.BASE_URL = BASE_URL;
 
 function closeSelf() {
     try { ws.ws.close(); } catch(e) { } // Still close window even if websocket is not connected
-    parent.window.postMessage("disconnect", "*");
+    window.top.postMessage('disconnect', '*')
 }
 window.closeSelf = closeSelf;
 document.addEventListener('contextmenu', event => event.preventDefault());
