@@ -103,7 +103,6 @@ axios.get(window.BASE_URL + "/game/" + gameid).then((res) => {
             }
         });
 
-
         document.getElementById("list_toggle").addEventListener("click", function () {
             if (document.getElementById("list").style.opacity == "0") {
                 document.getElementById("list").style["z-index"] = "1";
