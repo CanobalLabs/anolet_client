@@ -29,9 +29,9 @@ module.exports = function (zone, players) {
         plr.style.left = "calc(" + player.x.toString() + "%" + " - 150px)";
         detail("Adding Player")
         document.getElementById("game").appendChild(plr);
+        if (player.admin) document.getElementById("player-" + player.id).children[3].innerHTML = "<div class='red' style='display: contents;'>[ADMIN] </div>" + document.getElementById("player-" + player.id).children[3].innerText;
         if (document.currentZone == document.defaultZone) {
             if (player.admin) {
-                document.getElementById("player-" + player.id).children[3].innerHTML = "<div class='red' style='display: contents;'>[ADMIN] </div>" + document.getElementById("player-" + player.id).children[3].innerText;
                 document.getElementById("list").innerHTML += `<li id="listusr-${player.id}"><div class='red' style='display: contents;'>[ADMIN] </div>${player.username}</li>`
             } else {
                 document.getElementById("list").innerHTML += `<li id="listusr-${player.id}">${player.username}</li>`
