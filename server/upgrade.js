@@ -3,7 +3,6 @@ const jwt = require("jsonwebtoken");
 const log = require("../utils/logger");
 
 const Websocket = require('ws');
-const { validate } = require("webpack");
 const ErrorWSS = new Websocket.Server({ noServer: true });
 
 ErrorWSS.on('connection', async (ws, req, errorMessage) => {
