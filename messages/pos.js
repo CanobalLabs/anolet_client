@@ -26,10 +26,9 @@ module.exports = async function (msg, locals, pubsub, ws) {
                 client.hSet("player:" + locals.game + ":" + locals.user, ["zone", teleporter.toZone, "x", locals.zoneData.spawn.x, "y", locals.zoneData.spawn.y]);
                 pubsub.broadcast(locals.game, JSON.stringify({
                     type: 'newplr',
-                    avatar: locals.userData.defaultRender ? "https://cdn.anolet.com/avatars/anolet/internal.png" : "https://cdn.anolet.com/avatars/" + locals.user + "/internal.png",
+                    id: locals.user,
                     username: locals.userData.username,
                     admin: locals.userData.ranks.includes("ADMIN_TAG"),
-                    plrid: locals.user,
                     x: locals.zoneData.spawn.x,
                     y: locals.zoneData.spawn.y,
                     zone: teleporter.toZone,

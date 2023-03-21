@@ -15,7 +15,7 @@ module.exports = async function (game, user, currentGames, pubsub, client) {
     await client.del('player:' + game + ":" + user);
     pubsub.broadcast(game, JSON.stringify({
         type: "exit",
-        plrid: user,
+        id: user,
         oldZone: null,
         newZone: ""
     }));

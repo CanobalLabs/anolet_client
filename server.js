@@ -81,7 +81,6 @@ const mqtt = require("mqtt");
                     'username', user.data.username,
                     'x', locals.gameData.zones.find(z => z.id == res.data.worldSettings.defaultZone).spawn.x,
                     'y', locals.gameData.zones.find(z => z.id == res.data.worldSettings.defaultZone).spawn.y,
-                    'id', locals.user,
                     'admin', user.data.ranks.includes("ADMIN_TAG"),
                     'zone', res.data.worldSettings.defaultZone
                 ]);
@@ -92,9 +91,9 @@ const mqtt = require("mqtt");
                 console.log("here 2")
                 pubsub.broadcast(locals.game, JSON.stringify({
                     type: 'newplr',
+                    id: locals.user,
                     username: user.data.username,
                     admin: user.data.ranks.includes("ADMIN_TAG"),
-                    plrid: locals.user,
                     x: locals.zoneData.spawn.x,
                     y: locals.zoneData.spawn.y,
                     zone: res.data.worldSettings.defaultZone

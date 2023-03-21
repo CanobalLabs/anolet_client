@@ -2,9 +2,9 @@ module.exports = function (msg, plrid) {
     if (msg.zone == document.currentZone.id) {
         var nplr = document.createElement("div");
         nplr.className = "player";
-        nplr.id = "player-" + msg.plrid;
-        nplr.innerHTML = `<div class="bubble" style="opacity: 0;"></div><div class="caret" id="caret">▼</div><img src="https://api-staging.anolet.com/user/${player.id}/avatar/internal" class="playerimage"><div class="username">${msg.username}</div>`;
-        if (msg.plrid == plrid) {
+        nplr.id = "player-" + msg.id;
+        nplr.innerHTML = `<div class="bubble" style="opacity: 0;"></div><div class="caret" id="caret">▼</div><img src="https://api-staging.anolet.com/user/${msg.id}/avatar/internal" class="playerimage"><div class="username">${msg.username}</div>`;
+        if (msg.id == plrid) {
             nplr.classList.add("me");
         }
         if (msg.admin) {
@@ -15,7 +15,7 @@ module.exports = function (msg, plrid) {
         nplr.style.left = `calc(${msg.x}% - 150px)`;
         document.getElementById("game").appendChild(nplr);
     }
-    if (msg.existed && msg.plrid == plrid) {
+    if (msg.existed && msg.id == plrid) {
         document.getElementById("loading").style.opacity = "0"
         setTimeout(function () {
             document.getElementById("loading").style.display = "none"
@@ -24,8 +24,8 @@ module.exports = function (msg, plrid) {
     
     if (msg.existed) { return };
     if (msg.admin) {
-        document.getElementById("list").innerHTML += `<li id="listusr-${msg.plrid}"><div class='red' style='display: contents;'>[ADMIN] </div>${msg.username}</li>`
+        document.getElementById("list").innerHTML += `<li id="listusr-${msg.id}"><div class='red' style='display: contents;'>[ADMIN] </div>${msg.username}</li>`
     } else {
-        document.getElementById("list").innerHTML += `<li id="listusr-${msg.plrid}">${msg.username}</li>`
+        document.getElementById("list").innerHTML += `<li id="listusr-${msg.id}">${msg.username}</li>`
     }
 }

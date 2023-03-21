@@ -33,14 +33,14 @@ module.exports = function (msg) {
     if (messages.children.length >= 50) {
         messages.children[0].remove();
     }
-    
+
     // bubble
     clearTimeout(document.chatHide);
-    document.getElementById("player-" + msg.plrid).children[0].innerText = msg.message;
-    document.getElementById("player-" + msg.plrid).children[0].style.opacity = "1";
-    document.getElementById("player-" + msg.plrid).children[1].style.opacity = "1";
+    document.getElementById("player-" + msg.id).children[0].innerText = msg.message;
+    document.getElementById("player-" + msg.id).children[0].style.opacity = "1";
+    document.getElementById("player-" + msg.id).children[1].style.opacity = "1";
     document.chatHide = setTimeout(function() {
-        document.getElementById("player-" + msg.plrid).children[0].style.opacity = "0";
-        document.getElementById("player-" + msg.plrid).children[1].style.opacity = "0";
+        document.getElementById("player-" + msg.id).children[0].style.opacity = "0";
+        document.getElementById("player-" + msg.id).children[1].style.opacity = "0";
     }, 5000);
 }
