@@ -78,7 +78,6 @@ const mqtt = require("mqtt");
                 locals.gameData = res.data
                 locals.userData = user.data
                 await client.hSet('player:' + locals.game + ":" + locals.user, [
-                    'avatar', user.data.defaultRender ? "https://cdn.anolet.com/avatars/anolet/internal.png" : "https://cdn.anolet.com/avatars/" + locals.user + "/internal.png",
                     'username', user.data.username,
                     'x', locals.gameData.zones.find(z => z.id == res.data.worldSettings.defaultZone).spawn.x,
                     'y', locals.gameData.zones.find(z => z.id == res.data.worldSettings.defaultZone).spawn.y,
@@ -93,7 +92,6 @@ const mqtt = require("mqtt");
                 console.log("here 2")
                 pubsub.broadcast(locals.game, JSON.stringify({
                     type: 'newplr',
-                    avatar: user.data.defaultRender ? "https://cdn.anolet.com/avatars/anolet/internal.png" : "https://cdn.anolet.com/avatars/" + locals.user + "/internal.png",
                     username: user.data.username,
                     admin: user.data.ranks.includes("ADMIN_TAG"),
                     plrid: locals.user,

@@ -12,7 +12,7 @@ var BASE_URL = "https://api-staging.anolet.com";
 window.BASE_URL = BASE_URL;
 
 function closeSelf() {
-    try { ws.ws.close(); } catch(e) { } // Still close window even if websocket is not connected
+    try { ws.ws.close(); } catch (e) { } // Still close window even if websocket is not connected
     window.top.postMessage('disconnect', '*')
 }
 window.closeSelf = closeSelf;
@@ -30,6 +30,31 @@ axios.get(window.BASE_URL + "/game/" + gameid).then((res) => {
     start(gameid).then(wsresp => {
         detail("Tidying up");
         var ws = wsresp;
+
+        const Stats = require('stats.js');
+        var stats = new Stats();
+        stats.showPanel(0); // 0: fps, 1: ms, 2: mb, 3+: custom
+        stats.dom.style.removeProperty("top")
+        stats.dom.style.removeProperty("left")
+        stats.dom.style.bottom = "0";
+        stats.dom.style.right = "0";
+        stats.dom.id = "stats";
+        document.body.appendChild(stats.dom);
+
+        function animate() {
+
+            stats.begin();
+
+            // monitored code goes here
+
+            stats.end();
+
+            requestAnimationFrame(animate);
+
+        }
+
+        requestAnimationFrame(animate);
+
 
         // Ran by MouseClick Event
         function moved(event) {
@@ -131,6 +156,21 @@ axios.get(window.BASE_URL + "/game/" + gameid).then((res) => {
                 document.getElementById("menu_toggle").style.filter = "invert(0)";
             }
         });
+
+        document.getElementById("debug_toggle").addEventListener("click", function () {
+            if (document.getElementById("stats").style.opacity == "0") {
+                document.getElementById("stats").style["z-index"] = "0";
+                document.getElementById("stats").style.opacity = "1";
+                document.getElementById("debug_toggle").style.filter = "invert(1)";
+            } else {
+                setTimeout(function () {
+                    document.getElementById("stats").style["z-index"] = "-1";
+                }, 200);
+                document.getElementById("stats").style.opacity = "0";
+                document.getElementById("debug_toggle").style.filter = "invert(0)";
+            }
+        });
+
         document.getElementById("menu_close").addEventListener("click", function () {
             setTimeout(function () {
                 document.getElementById("menu").style["z-index"] = "-1";

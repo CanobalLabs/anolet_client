@@ -9,6 +9,7 @@ function escapeHtml(unsafe) {
 module.exports = function (msg) {
     var chat = document.createElement("div");
     var log = document.getElementById("log");
+    var messages = document.getElementById("messages");
     var admin = "";
     chat.classList.add("message");
     if (msg?.system) {
@@ -24,8 +25,14 @@ module.exports = function (msg) {
         }
     }
 
-    log.appendChild(chat);
+    messages.appendChild(chat);
     log.scrollTop = log.scrollHeight; // Scroll to bottom when new message is added
+    
+    
+    // Remove old chat messages to save RAM
+    if (messages.children.length >= 50) {
+        messages.children[0].remove();
+    }
     
     // bubble
     clearTimeout(document.chatHide);

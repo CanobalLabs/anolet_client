@@ -76,8 +76,18 @@ body {
   transition: 0.2s filter linear;
 }
 
+#debug_toggle {
+  transition: 0.2s filter linear;
+}
+
 .toplogo {
   display: none;
+}
+
+#stats {
+  transition: 0.2s opacity linear;
+  opacity: 0;
+  z-index: 0;
 }
 
 #menu {
@@ -202,6 +212,7 @@ li {
   margin-left: 50%;
   transform: translate(-50%);
   transition: 0.2s opacity linear;
+  top: 20px;
 }
 
 .caret {
@@ -214,6 +225,7 @@ li {
   margin-top: calc(1ch + 15px);
   color: #101010;
   opacity: 0;
+  top: 20px;
 }
 
 

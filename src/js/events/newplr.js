@@ -3,7 +3,7 @@ module.exports = function (msg, plrid) {
         var nplr = document.createElement("div");
         nplr.className = "player";
         nplr.id = "player-" + msg.plrid;
-        nplr.innerHTML = `<div class="bubble" style="opacity: 0;"></div><div class="caret" id="caret">▼</div><img src="${msg.avatar}" class="playerimage"><div class="username">${msg.username}</div>`;
+        nplr.innerHTML = `<div class="bubble" style="opacity: 0;"></div><div class="caret" id="caret">▼</div><img src="https://api-staging.anolet.com/user/${player.id}/avatar/internal" class="playerimage"><div class="username">${msg.username}</div>`;
         if (msg.plrid == plrid) {
             nplr.classList.add("me");
         }
