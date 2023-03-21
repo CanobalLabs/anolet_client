@@ -17,7 +17,6 @@ module.exports = async function (msg, locals, pubsub, ws) {
                     newZone: teleporter.toZone
                 }));
                 locals.zoneData = locals.gameData.zones.find(zone => zone.id == teleporter.toZone)
-                console.log(locals.gameData.zones, teleporter.toZone)
                 ws.send(JSON.stringify({
                     type: "teleport",
                     zone: locals.zoneData,

@@ -21,7 +21,7 @@ export function start(gameid) {
 
         // Notify the user if the connection is closed
         ws.onclose = function (e) {
-            console.log(err)
+            console.error(err)
             if (err) {
                 detail("Error Launching: " + err, true);
             } else {

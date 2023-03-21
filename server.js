@@ -1,7 +1,6 @@
 require("dotenv").config()
 process.on('uncaughtException', function (err) {
     console.error(err);
-    console.log("Node NOT Exiting...");
 });
 const express = require("express");
 const app = express();
@@ -67,13 +66,17 @@ const mqtt = require("mqtt");
                 "serverauth": process.env.HASH
             }
         }).then(async res => {
-            console.log("send init message")
             ws.send(JSON.stringify({
                 type: 'init',
                 players: await getAllUserData(locals.game),
                 myid: locals.user,
                 gameState: res.data
             }));
+            if (await client.sIsMember('playersGlobal', locals.user)) {
+                // If the user is already in a game, remove them from that game first
+                require("./utils/deleteUser")(locals.game, locals.user, currentGames, pubsub, client); 
+            }
+            
             axios.get(process.env.BASE_URL + "/user/" + locals.user).then(async user => {
                 locals.gameData = res.data
                 locals.userData = user.data
@@ -85,10 +88,8 @@ const mqtt = require("mqtt");
                     'zone', res.data.worldSettings.defaultZone
                 ]);
                 locals.zoneData = res.data.zones.find(z => z.id == res.data.worldSettings.defaultZone);
-                console.log(locals.zoneData)
                 await client.sAdd('players:' + locals.game, locals.user);
                 await client.sAdd('playersGlobal', locals.user);
-                console.log("here 2")
                 pubsub.broadcast(locals.game, JSON.stringify({
                     type: 'newplr',
                     id: locals.user,
@@ -96,11 +97,11 @@ const mqtt = require("mqtt");
                     admin: user.data.ranks.includes("ADMIN_TAG"),
                     x: locals.zoneData.spawn.x,
                     y: locals.zoneData.spawn.y,
-                    zone: res.data.worldSettings.defaultZone
+                    zone: res.data.worldSettings.defaultZone,
+                    existed: false
                 }));
-                console.log("here 3")
             }).catch(e => {
-                console.log(e)
+                console.error(e)
             });
         });
 

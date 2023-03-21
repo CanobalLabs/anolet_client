@@ -3,6 +3,7 @@ function percentage(partialValue, totalValue) {
 };
 
 var detail = require("../loadDetail");
+const addPlayerToList = require("../utils/addPlayerToList");
 
 module.exports = function (msg) {
 
@@ -22,6 +23,10 @@ module.exports = function (msg) {
 
     detail("Calculating Zone Settings")
     document.defaultZone = msg.gameState.zones.find(zone => zone.id == msg.gameState.worldSettings.defaultZone);
+    document.currentZone = document.defaultZone;
 
     require("../utils/loadZone")(document.defaultZone, msg.players.filter(player => player.zone == document.defaultZone.id));
+    msg.players.forEach(player => {
+        addPlayerToList(player)
+    })
 }

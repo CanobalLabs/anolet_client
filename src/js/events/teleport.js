@@ -7,5 +7,5 @@ module.exports = function (msg) {
     document.querySelectorAll('.player, .layer').forEach(e => e.remove());
 
     // Load
-    require("../utils/loadZone")(msg.zone, msg.players);
+    require("../utils/loadZone")(msg.zone, msg.players, true);
 }

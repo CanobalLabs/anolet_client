@@ -1,6 +1,7 @@
 var detail = require("../loadDetail");
+const spawnPlayer = require("./spawnPlayer");
 
-module.exports = function (zone, players) {
+module.exports = function (zone, players, teleport) {
     document.currentZone = zone;
 
     detail("Rendering Zone Layers")
@@ -21,22 +22,6 @@ module.exports = function (zone, players) {
     detail("Rendering Players")
     players.forEach(player => {
         detail("Rendering Player " + player.name)
-        var plr = document.createElement("div");
-        plr.className = "player";
-        plr.id = "player-" + player.id;
-        plr.innerHTML = `<div class="bubble" style="opacity: 0;"></div><div class="caret" id="caret">▼</div><img src="https://api-staging.anolet.com/user/${player.id}/avatar/internal" class="playerimage"><div class="username">${player.username}</div>`;
-        plr.style.top = "calc(" + player.y.toString() + "%" + " - 150px)";
-        plr.style.left = "calc(" + player.x.toString() + "%" + " - 150px)";
-        detail("Adding Player")
-        document.getElementById("game").appendChild(plr);
-        if (player.admin === "true" || player.admin === true) document.getElementById("player-" + player.id).children[3].innerHTML = "<div class='red' style='display: contents;'>[ADMIN] </div>" + document.getElementById("player-" + player.id).children[3].innerText;
-        if (document.currentZone == document.defaultZone) {
-            if (player.admin === "true" || player.admin === true) {
-                document.getElementById("list").innerHTML += `<li id="listusr-${player.id}"><div class='red' style='display: contents;'>[ADMIN] </div>${player.username}</li>`
-            } else {
-                document.getElementById("list").innerHTML += `<li id="listusr-${player.id}">${player.username}</li>`
-            }
-        }
-
+        spawnPlayer(player)
     });
 }
