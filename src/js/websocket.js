@@ -1,5 +1,5 @@
 var wsurl = "";
-var plrid;
+var id;
 var players = 0;
 
 const axios = require("axios")
@@ -38,11 +38,11 @@ export function start(gameid) {
                 err = event.data;
             }
 
-            require("./events/" + msg.type)(msg, plrid);
+            require("./events/" + msg.type)(msg, id);
             if (msg.type == "init") {
                 detail("Processing init Message")
-                plrid = msg.myid;
-                resolve({ ws, plrid });
+                id = msg.myid;
+                resolve({ ws, id });
             }
         }
 

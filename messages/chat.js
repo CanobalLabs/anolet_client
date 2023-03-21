@@ -6,7 +6,7 @@ module.exports = async function (msg, locals, pubsub, ws) {
     client.set("timeout:" + locals.game + ":" + locals.user, 0xFF, { "EX": 1 });
     pubsub.broadcast(locals.game, JSON.stringify({
         type: "chatmsg",
-        plrid: locals.user,
+        id: locals.user,
         username: await client.hGet("player:" + locals.game + ":" + locals.user, ["username"]),
         admin: await client.hGet("player:" + locals.game + ":" + locals.user, ["admin"]) == "true",
         message: msg.message

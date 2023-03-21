@@ -12,7 +12,7 @@ module.exports = async function (msg, locals, pubsub, ws) {
             setTimeout(async function () {
                 pubsub.broadcast(locals.game, JSON.stringify({
                     type: "exit",
-                    plrid: locals.user,
+                    id: locals.user,
                     oldZone: locals.zoneData.id,
                     newZone: teleporter.toZone
                 }));
