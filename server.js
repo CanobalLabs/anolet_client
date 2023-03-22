@@ -13,50 +13,50 @@ const mqtt = require("mqtt");
 (async () => {
 
     function makeid(length) {
-    let result = '';
-    const characters = 'ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789';
-    const charactersLength = characters.length;
-    let counter = 0;
-    while (counter < length) {
-      result += characters.charAt(Math.floor(Math.random() * charactersLength));
-      counter += 1;
+        let result = '';
+        const characters = 'ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789';
+        const charactersLength = characters.length;
+        let counter = 0;
+        while (counter < length) {
+            result += characters.charAt(Math.floor(Math.random() * charactersLength));
+            counter += 1;
+        }
+        return result;
     }
-    return result;
-}
 
     const client = require("./database/init");
     await client.connect();
     await client.flushAll();
 
     var currentGames = []
-    var PSKey = process.env.MQTT_TYPE == "cloudflare" ? await axios.get("https://api.cloudflare.com/client/v4/accounts/9d14fe5ef4b07f0c3154897d96581d60/pubsub/namespaces/" + process.env.MQTT_NAMESPACE + "/brokers/" + process.env.MQTT_BROKER + "/credentials?number=1&type=TOKEN", { headers: {"Authorization": "Bearer " + process.env.CF_TOKEN} }) : null;
+    var PSKey = process.env.MQTT_TYPE == "cloudflare" ? await axios.get("https://api.cloudflare.com/client/v4/accounts/9d14fe5ef4b07f0c3154897d96581d60/pubsub/namespaces/" + process.env.MQTT_NAMESPACE + "/brokers/" + process.env.MQTT_BROKER + "/credentials?number=1&type=TOKEN", { headers: { "Authorization": "Bearer " + process.env.CF_TOKEN } }) : null;
 
-        const pubsub = process.env.MQTT_TYPE == "cloudflare" ? mqtt.connect("mqtts://" + process.env.MQTT_BROKER + "." + process.env.MQTT_NAMESPACE + ".cloudflarepubsub.com", {
-            protocolVersion: 5,
-            port: process.env.MQTT_CF_PORT,
-            clean: true,
-            connectTimeout: 2000, // 2 seconds
-            clientId: Object.keys(PSKey.data.result)[0],
-            username: Object.keys(PSKey.data.result)[0],
-            password: Object.values(PSKey.data.result)[0],
-        }) : mqtt.connect(process.env.MQTT_URL, {
-            protocolVersion: 5,
-            port: process.env.MQTT_PORT,
-            clean: true,
-            connectTimeout: 2000, // 2 seconds
-            clientId: makeid(20),
-            username: process.env.MQTT_USERNAME,
-            password: process.env.MQTT_PASSWORD,
-        });
-        
-        pubsub.on("error", function (err) {
-            console.error(err);
-        });
+    const pubsub = process.env.MQTT_TYPE == "cloudflare" ? mqtt.connect("mqtts://" + process.env.MQTT_BROKER + "." + process.env.MQTT_NAMESPACE + ".cloudflarepubsub.com", {
+        protocolVersion: 5,
+        port: process.env.MQTT_CF_PORT,
+        clean: true,
+        connectTimeout: 2000, // 2 seconds
+        clientId: Object.keys(PSKey.data.result)[0],
+        username: Object.keys(PSKey.data.result)[0],
+        password: Object.values(PSKey.data.result)[0],
+    }) : mqtt.connect(process.env.MQTT_URL, {
+        protocolVersion: 5,
+        port: process.env.MQTT_PORT,
+        clean: true,
+        connectTimeout: 2000, // 2 seconds
+        clientId: makeid(20),
+        username: process.env.MQTT_USERNAME,
+        password: process.env.MQTT_PASSWORD,
+    });
 
-        pubsub.on("connect", function () {
-            console.log("PubSub Ready");
-        });
-    
+    pubsub.on("error", function (err) {
+        console.error(err);
+    });
+
+    pubsub.on("connect", function () {
+        console.log("PubSub Ready");
+    });
+
 
     const getAllUserData = require("./database/getAllUserData");
 
@@ -82,50 +82,50 @@ const mqtt = require("mqtt");
 
         var game = await client.get("game:" + locals.game)
         if (game == null) {
-            axios.get(process.env.BASE_URL + "/game/" + locals.game, { headers: { "serverauth": process.env.HASH }}).then(async res => {
+            await axios.get(process.env.BASE_URL + "/game/" + locals.game, { headers: { "serverauth": process.env.HASH } }).then(async res => {
                 game = res.data
-                await client.set("game:" + locals.game, JSON.stringify(res.data));
+                client.set("game:" + locals.game, JSON.stringify(res.data));
             });
+        } else game = JSON.parse(game);
+
+        ws.send(JSON.stringify({
+            type: 'init',
+            players: await getAllUserData(locals.game),
+            myid: locals.user,
+            gameState: game
+        }));
+
+        if (await client.sIsMember('playersGlobal', locals.user)) {
+            // If the user is already in a game, remove them from that game first
+            require("./utils/deleteUser")(locals.game, locals.user, currentGames, pubsub, client);
         }
-        game = JSON.parse(game);
 
-            ws.send(JSON.stringify({
-                type: 'init',
-                players: await getAllUserData(locals.game),
-                myid: locals.user,
-                gameState: res.data
+        axios.get(process.env.BASE_URL + "/user/" + locals.user).then(async user => {
+            locals.gameData = game
+            locals.userData = { "username": user.username, "ranks": user.ranks }
+            await client.hSet('player:' + locals.game + ":" + locals.user, [
+                'username', user.data.username,
+                'x', locals.gameData.zones.find(z => z.id == game.worldSettings.defaultZone).spawn.x,
+                'y', locals.gameData.zones.find(z => z.id == game.worldSettings.defaultZone).spawn.y,
+                'admin', user.data.ranks.includes("ADMIN_TAG"),
+                'zone', game.worldSettings.defaultZone
+            ]);
+            locals.zoneData = game.zones.find(z => z.id == game.worldSettings.defaultZone);
+            await client.sAdd('players:' + locals.game, locals.user);
+            await client.sAdd('playersGlobal', locals.user);
+            pubsub.broadcast(locals.game, JSON.stringify({
+                type: 'newplr',
+                id: locals.user,
+                username: user.data.username,
+                admin: user.data.ranks.includes("ADMIN_TAG"),
+                x: locals.zoneData.spawn.x,
+                y: locals.zoneData.spawn.y,
+                zone: game.worldSettings.defaultZone,
+                existed: false
             }));
-            if (await client.sIsMember('playersGlobal', locals.user)) {
-                // If the user is already in a game, remove them from that game first
-                require("./utils/deleteUser")(locals.game, locals.user, currentGames, pubsub, client);
-            }
-
-            axios.get(process.env.BASE_URL + "/user/" + locals.user).then(async user => {
-                locals.gameData = game
-                locals.userData = { "username": user.username, "ranks": user.ranks }
-                await client.hSet('player:' + locals.game + ":" + locals.user, [
-                    'username', user.data.username,
-                    'x', locals.gameData.zones.find(z => z.id == game.worldSettings.defaultZone).spawn.x,
-                    'y', locals.gameData.zones.find(z => z.id == game.worldSettings.defaultZone).spawn.y,
-                    'admin', user.data.ranks.includes("ADMIN_TAG"),
-                    'zone', game.worldSettings.defaultZone
-                ]);
-                locals.zoneData = game.zones.find(z => z.id == game.worldSettings.defaultZone);
-                await client.sAdd('players:' + locals.game, locals.user);
-                await client.sAdd('playersGlobal', locals.user);
-                pubsub.broadcast(locals.game, JSON.stringify({
-                    type: 'newplr',
-                    id: locals.user,
-                    username: user.data.username,
-                    admin: user.data.ranks.includes("ADMIN_TAG"),
-                    x: locals.zoneData.spawn.x,
-                    y: locals.zoneData.spawn.y,
-                    zone: game.worldSettings.defaultZone,
-                    existed: false
-                }));
-            }).catch(e => {
-                console.error(e)
-            });
+        }).catch(e => {
+            console.error(e)
+        });
 
         ws.on("close", async reason => {
             log("Disconnect", locals.user, "Red");
