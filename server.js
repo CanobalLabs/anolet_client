@@ -12,23 +12,45 @@ const mqtt = require("mqtt");
 
 (async () => {
 
+    function makeid(length) {
+    let result = '';
+    const characters = 'ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789';
+    const charactersLength = characters.length;
+    let counter = 0;
+    while (counter < length) {
+      result += characters.charAt(Math.floor(Math.random() * charactersLength));
+      counter += 1;
+    }
+    return result;
+}
 
     const client = require("./database/init");
     await client.connect();
     await client.flushAll();
 
     var currentGames = []
-
-    var PSKey = await axios.get("https://api.cloudflare.com/client/v4/accounts/9d14fe5ef4b07f0c3154897d96581d60/pubsub/namespaces/" + process.env.MQTT_NAMESPACE + "/brokers/" + process.env.MQTT_BROKER + "/credentials?number=1&type=TOKEN", { headers: {"Authorization": "Bearer " + process.env.MQTT_KEY} })
-    const pubsub = mqtt.connect("mqtts://" + process.env.MQTT_BROKER + "." + process.env.MQTT_NAMESPACE + ".cloudflarepubsub.com", {
-        protocolVersion: 5,
-        port: process.env.MQTT_PORT,
-        clean: true,
-        connectTimeout: 2000, // 2 seconds
-        clientId: Object.keys(PSKey.data.result)[0],
-        username: Object.keys(PSKey.data.result)[0],
-        password: Object.values(PSKey.data.result)[0],
-    });
+    if (process.env.MQTT_TYPE == "cloudflare") {
+        var PSKey = await axios.get("https://api.cloudflare.com/client/v4/accounts/9d14fe5ef4b07f0c3154897d96581d60/pubsub/namespaces/" + process.env.MQTT_NAMESPACE + "/brokers/" + process.env.MQTT_BROKER + "/credentials?number=1&type=TOKEN", { headers: {"Authorization": "Bearer " + process.env.CF_TOKEN} })
+        const pubsub = mqtt.connect("mqtts://" + process.env.MQTT_BROKER + "." + process.env.MQTT_NAMESPACE + ".cloudflarepubsub.com", {
+            protocolVersion: 5,
+            port: process.env.MQTT_CF_PORT,
+            clean: true,
+            connectTimeout: 2000, // 2 seconds
+            clientId: Object.keys(PSKey.data.result)[0],
+            username: Object.keys(PSKey.data.result)[0],
+            password: Object.values(PSKey.data.result)[0],
+        });
+    } else {
+        const pubsub = mqtt.connect(process.env.MQTT_URL, {
+            protocolVersion: 5,
+            port: process.env.MQTT_PORT,
+            clean: true,
+            connectTimeout: 2000, // 2 seconds
+            clientId: makeid(20),
+            username: process.env.MQTT_USERNAME,
+            password: process.env.MQTT_PASSWORD,
+        });
+    }
 
     pubsub.on("error", function (err) {
         console.error(err);
