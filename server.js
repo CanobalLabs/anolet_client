@@ -99,7 +99,7 @@ const mqtt = require("mqtt");
 
             axios.get(process.env.BASE_URL + "/user/" + locals.user).then(async user => {
                 locals.gameData = res.data
-                locals.userData = user.data
+                locals.userData = { "username": user.username, "ranks": user.ranks }
                 await client.hSet('player:' + locals.game + ":" + locals.user, [
                     'username', user.data.username,
                     'x', locals.gameData.zones.find(z => z.id == res.data.worldSettings.defaultZone).spawn.x,
