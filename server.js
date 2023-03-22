@@ -40,6 +40,14 @@ const mqtt = require("mqtt");
             username: Object.keys(PSKey.data.result)[0],
             password: Object.values(PSKey.data.result)[0],
         });
+        
+        pubsub.on("error", function (err) {
+            console.error(err);
+        });
+
+        pubsub.on("connect", function () {
+            console.log("PubSub Ready");
+        });
     } else {
         const pubsub = mqtt.connect(process.env.MQTT_URL, {
             protocolVersion: 5,
@@ -50,15 +58,15 @@ const mqtt = require("mqtt");
             username: process.env.MQTT_USERNAME,
             password: process.env.MQTT_PASSWORD,
         });
+        
+        pubsub.on("error", function (err) {
+            console.error(err);
+        });
+
+        pubsub.on("connect", function () {
+            console.log("PubSub Ready");
+        });
     }
-
-    pubsub.on("error", function (err) {
-        console.error(err);
-    });
-
-    pubsub.on("connect", function () {
-        console.log("PubSub Ready");
-    });
 
     const getAllUserData = require("./database/getAllUserData");
 
