@@ -80,12 +80,15 @@ const mqtt = require("mqtt");
             }
         });
 
-        // HASH has to be same on the API
-        axios.get(process.env.BASE_URL + "/game/" + locals.game, {
-            headers: {
-                "serverauth": process.env.HASH
-            }
-        }).then(async res => {
+        var game = await client.get("game:" + locals.game)
+        if (game == null) {
+            axios.get(process.env.BASE_URL + "/game/" + locals.game, { headers: { "serverauth": process.env.HASH }}).then(async res => {
+                game = res.data
+                await client.set("game:" + locals.game, JSON.stringify(res.data));
+            });
+        }
+        game = JSON.parse(game);
+
             ws.send(JSON.stringify({
                 type: 'init',
                 players: await getAllUserData(locals.game),
@@ -98,16 +101,16 @@ const mqtt = require("mqtt");
             }
 
             axios.get(process.env.BASE_URL + "/user/" + locals.user).then(async user => {
-                locals.gameData = res.data
+                locals.gameData = game
                 locals.userData = { "username": user.username, "ranks": user.ranks }
                 await client.hSet('player:' + locals.game + ":" + locals.user, [
                     'username', user.data.username,
-                    'x', locals.gameData.zones.find(z => z.id == res.data.worldSettings.defaultZone).spawn.x,
-                    'y', locals.gameData.zones.find(z => z.id == res.data.worldSettings.defaultZone).spawn.y,
+                    'x', locals.gameData.zones.find(z => z.id == game.worldSettings.defaultZone).spawn.x,
+                    'y', locals.gameData.zones.find(z => z.id == game.worldSettings.defaultZone).spawn.y,
                     'admin', user.data.ranks.includes("ADMIN_TAG"),
-                    'zone', res.data.worldSettings.defaultZone
+                    'zone', game.worldSettings.defaultZone
                 ]);
-                locals.zoneData = res.data.zones.find(z => z.id == res.data.worldSettings.defaultZone);
+                locals.zoneData = game.zones.find(z => z.id == game.worldSettings.defaultZone);
                 await client.sAdd('players:' + locals.game, locals.user);
                 await client.sAdd('playersGlobal', locals.user);
                 pubsub.broadcast(locals.game, JSON.stringify({
@@ -117,13 +120,12 @@ const mqtt = require("mqtt");
                     admin: user.data.ranks.includes("ADMIN_TAG"),
                     x: locals.zoneData.spawn.x,
                     y: locals.zoneData.spawn.y,
-                    zone: res.data.worldSettings.defaultZone,
+                    zone: game.worldSettings.defaultZone,
                     existed: false
                 }));
             }).catch(e => {
                 console.error(e)
             });
-        });
 
         ws.on("close", async reason => {
             log("Disconnect", locals.user, "Red");
