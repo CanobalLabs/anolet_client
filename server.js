@@ -19,15 +19,15 @@ const mqtt = require("mqtt");
 
     var currentGames = []
 
-    // You cannot run multiple instances of MQTT using the same authorization. You have to create seperate tokens for each instance. For now, only run one instance.
-    const pubsub = mqtt.connect(process.env.MQTT_URL, {
+    var PSKey = await axios.get("https://api.cloudflare.com/client/v4/accounts/9d14fe5ef4b07f0c3154897d96581d60/pubsub/namespaces/" + process.env.MQTT_NAMESPACE + "/brokers/" + process.env.MQTT_BROKER + "/credentials?number=1&type=TOKEN", { headers: {"Authorization": "Bearer " + process.env.MQTT_KEY} })
+    const pubsub = mqtt.connect("mqtts://" + process.env.MQTT_BROKER + "." + process.env.MQTT_NAMESPACE + ".cloudflarepubsub.com", {
         protocolVersion: 5,
         port: process.env.MQTT_PORT,
         clean: true,
-        clientId: process.env.MQTT_AUTH_CLIENT_ID,
         connectTimeout: 2000, // 2 seconds
-        username: process.env.MQTT_AUTH_CLIENT_ID,
-        password: process.env.MQTT_AUTH_JWT,
+        clientId: Object.keys(PSKey.data.result)[0],
+        username: Object.keys(PSKey.data.result)[0],
+        password: Object.values(PSKey.data.result)[0],
     });
 
     pubsub.on("error", function (err) {
@@ -74,9 +74,9 @@ const mqtt = require("mqtt");
             }));
             if (await client.sIsMember('playersGlobal', locals.user)) {
                 // If the user is already in a game, remove them from that game first
-                require("./utils/deleteUser")(locals.game, locals.user, currentGames, pubsub, client); 
+                require("./utils/deleteUser")(locals.game, locals.user, currentGames, pubsub, client);
             }
-            
+
             axios.get(process.env.BASE_URL + "/user/" + locals.user).then(async user => {
                 locals.gameData = res.data
                 locals.userData = user.data
