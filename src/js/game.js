@@ -1,7 +1,6 @@
 require("./filter.js");
 import { start } from "./websocket"; // Import our websocket handler
 import "../scss/main.scss"; // Import SCSS
-import "./animation/logo" // Import animation for the logo
 import '@jamescoyle/svg-icon'
 var pointInPolygon = require('point-in-polygon');
 var detail = require("./loadDetail");
@@ -116,12 +115,14 @@ axios.get(window.BASE_URL + "/game/" + gameid).then((res) => {
 
         document.getElementById("chat_toggle").addEventListener("click", function () {
             if (document.getElementById("chat").style.opacity == "0") {
+                document.getElementById("chat").style["display"] = "block";
                 document.getElementById("chat").style["z-index"] = "1";
                 document.getElementById("chat").style.opacity = "1";
                 document.getElementById("chat_toggle").style.filter = "invert(1)";
             } else {
                 setTimeout(function () {
                     document.getElementById("chat").style["z-index"] = "-1";
+                    document.getElementById("chat").style["display"] = "none";
                 }, 200);
                 document.getElementById("chat").style.opacity = "0";
                 document.getElementById("chat_toggle").style.filter = "invert(0)";
@@ -130,12 +131,14 @@ axios.get(window.BASE_URL + "/game/" + gameid).then((res) => {
 
         document.getElementById("list_toggle").addEventListener("click", function () {
             if (document.getElementById("list").style.opacity == "0") {
+                document.getElementById("list").style["display"] = "block";
                 document.getElementById("list").style["z-index"] = "1";
                 document.getElementById("list").style.opacity = "1";
                 document.getElementById("list_toggle").style.filter = "invert(1)";
             } else {
                 setTimeout(function () {
                     document.getElementById("list").style["z-index"] = "-1";
+                    document.getElementById("list").style["display"] = "none";
                 }, 200);
                 document.getElementById("list").style.opacity = "0";
                 document.getElementById("list_toggle").style.filter = "invert(0)";
@@ -159,12 +162,14 @@ axios.get(window.BASE_URL + "/game/" + gameid).then((res) => {
 
         document.getElementById("debug_toggle").addEventListener("click", function () {
             if (document.getElementById("stats").style.opacity == "0") {
+                document.getElementById("stats").style["display"] = "block";
                 document.getElementById("stats").style["z-index"] = "0";
                 document.getElementById("stats").style.opacity = "1";
                 document.getElementById("debug_toggle").style.filter = "invert(1)";
             } else {
                 setTimeout(function () {
                     document.getElementById("stats").style["z-index"] = "-1";
+                    document.getElementById("stats").style["display"] = "none";
                 }, 200);
                 document.getElementById("stats").style.opacity = "0";
                 document.getElementById("debug_toggle").style.filter = "invert(0)";

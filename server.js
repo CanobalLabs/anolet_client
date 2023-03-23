@@ -66,8 +66,9 @@ const mqtt = require("mqtt");
 
     wss.on('connection', async (ws, req, locals) => {
         ws.game = locals.game
-        log("Connection", locals.user, "Green");
-        if (!currentGames.includes(ws.game)) pubsub.subscribe(ws.game);
+        ws.user = locals.user
+        log("Connection", ws.user, "Green");
+        if (!currentGames.includes(ws.game)) pubsub.subscribe(ws.game + "/all");
         currentGames.push(ws.game);
 
 
@@ -80,47 +81,48 @@ const mqtt = require("mqtt");
             }
         });
 
-        var game = await client.get("game:" + locals.game)
+        let game = await client.get("game:" + ws.game)
         if (game == null) {
-            await axios.get(process.env.BASE_URL + "/game/" + locals.game, { headers: { "serverauth": process.env.HASH } }).then(async res => {
+            await axios.get(process.env.BASE_URL + "/game/" + ws.game, { headers: { "serverauth": process.env.HASH } }).then(async res => {
                 game = res.data
-                client.set("game:" + locals.game, JSON.stringify(res.data));
+                client.set("game:" + ws.game, JSON.stringify(res.data));
             });
         } else game = JSON.parse(game);
 
         ws.send(JSON.stringify({
             type: 'init',
-            players: await getAllUserData(locals.game),
-            myid: locals.user,
+            players: await getAllUserData(ws.game),
+            myid: ws.user,
             gameState: game
         }));
 
-        if (await client.sIsMember('playersGlobal', locals.user)) {
+        if (await client.sIsMember('playersGlobal', ws.user)) {
             // If the user is already in a game, remove them from that game first
-            require("./utils/deleteUser")(locals.game, locals.user, currentGames, pubsub, client);
+            require("./utils/deleteUser")(ws.game, ws.user, currentGames, pubsub, client);
         }
 
-        axios.get(process.env.BASE_URL + "/user/" + locals.user).then(async user => {
-            locals.gameData = game
-            locals.userData = { "username": user.username, "ranks": user.ranks }
-            await client.hSet('player:' + locals.game + ":" + locals.user, [
+        axios.get(process.env.BASE_URL + "/user/" + ws.user).then(async user => {
+            ws.gameData = game
+            ws.userData = { "username": user.data.username, "ranks": user.data.ranks }
+            await client.hSet('player:' + ws.game + ":" + ws.user, [
                 'username', user.data.username,
-                'x', locals.gameData.zones.find(z => z.id == game.worldSettings.defaultZone).spawn.x,
-                'y', locals.gameData.zones.find(z => z.id == game.worldSettings.defaultZone).spawn.y,
+                'x', ws.gameData.zones.find(z => z.id == ws.gameData.worldSettings.defaultZone).spawn.x,
+                'y', ws.gameData.zones.find(z => z.id == ws.gameData.worldSettings.defaultZone).spawn.y,
                 'admin', user.data.ranks.includes("ADMIN_TAG"),
-                'zone', game.worldSettings.defaultZone
+                'zone', ws.gameData.worldSettings.defaultZone
             ]);
-            locals.zoneData = game.zones.find(z => z.id == game.worldSettings.defaultZone);
-            await client.sAdd('players:' + locals.game, locals.user);
-            await client.sAdd('playersGlobal', locals.user);
-            pubsub.broadcast(locals.game, JSON.stringify({
+            ws.zone = ws.gameData.worldSettings.defaultZone
+            pubsub.subscribe(ws.game + "/" + ws.zone);
+            await client.sAdd('players:' + ws.game, ws.user);
+            await client.sAdd('playersGlobal', ws.user);
+            pubsub.broadcast(ws.game, JSON.stringify({
                 type: 'newplr',
-                id: locals.user,
+                id: ws.user,
                 username: user.data.username,
                 admin: user.data.ranks.includes("ADMIN_TAG"),
-                x: locals.zoneData.spawn.x,
-                y: locals.zoneData.spawn.y,
-                zone: game.worldSettings.defaultZone,
+                x: game.zones.find(z => z.id == ws.gameData.worldSettings.defaultZone).spawn.x,
+                y: game.zones.find(z => z.id == ws.gameData.worldSettings.defaultZone).spawn.y,
+                zone: ws.gameData.worldSettings.defaultZone,
                 existed: false
             }));
         }).catch(e => {
@@ -128,14 +130,14 @@ const mqtt = require("mqtt");
         });
 
         ws.on("close", async reason => {
-            log("Disconnect", locals.user, "Red");
-            require("./utils/deleteUser")(locals.game, locals.user, currentGames, pubsub, client);
+            log("Disconnect", ws.user, "Red");
+            require("./utils/deleteUser")(ws.game, ws.user, currentGames, pubsub, client);
         });
 
         ws.on("message", async msg => {
             try {
                 var msg = JSON.parse(msg);
-                require("./messages/" + msg.type)(msg, locals, pubsub, ws);
+                require("./messages/" + msg.type)(msg, pubsub, ws);
             } catch (e) {
                 return;
             }
@@ -145,8 +147,8 @@ const mqtt = require("mqtt");
     const interval = setInterval(function ping() {
         wss.clients.forEach(async function each(ws) {
             if (ws.isAlive === false) {
-                log("Hard Disconnect", locals.user, "Red");
-                require("./utils/deleteUser")(locals.game, locals.user, currentGames, pubsub, client);
+                log("Hard Disconnect", ws.user, "Red");
+                require("./utils/deleteUser")(ws.game, ws.user, currentGames, pubsub, client);
                 return ws.terminate();
             }
             ws.isAlive = false;
@@ -168,13 +170,17 @@ const mqtt = require("mqtt");
         });
     }, 2000);
 
-    pubsub.broadcast = function broadcast(gameid, data) {
-        pubsub.publish(gameid, data);
+    pubsub.broadcast = function broadcast(game, data, zone) {
+        if (zone) {
+            pubsub.publish(game + "/" + zone, data)
+        } else {
+            pubsub.publish(game + "/all", data);
+        }
     };
 
     // Start waiting for messages
     pubsub.on("message", async function (topic, message) {
-        wss.broadcast(topic, message.toString());
+        wss.broadcast(topic.split("/"), message.toString());
     });
 
     var port = process.env.PORT || 80;
@@ -184,10 +190,10 @@ const mqtt = require("mqtt");
 
 
 
-wss.broadcast = function broadcast(gameid, data) {
+wss.broadcast = function broadcast(context, data) {
     wss.clients.forEach(function each(client) {
-        if (client.readyState === Websocket.OPEN && client?.game == gameid) {
-            client.send(data);
+        if (client.readyState === Websocket.OPEN && client?.game == context[0]) {
+            if (context[1] == "all" || client?.zone == context[1]) return client.send(data);
         }
     });
 };
