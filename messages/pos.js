@@ -18,7 +18,6 @@ module.exports = async function (msg, pubsub, ws) {
                 }));
                 ws.zone = teleporter.toZone
                 pubsub.subscribe(ws.game + "/" + ws.zone)
-                console.log(ws.zone)
                 ws.send(JSON.stringify({
                     type: "teleport",
                     zone: ws.gameData.zones.find(z => z.id == ws.zone),

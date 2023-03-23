@@ -71,7 +71,6 @@ const mqtt = require("mqtt");
         if (!currentGames.includes(ws.game)) pubsub.subscribe(ws.game + "/all");
         currentGames.push(ws.game);
 
-
         ws.isAlive = true;
         ws.on('pong', heartbeat);
 
@@ -88,21 +87,15 @@ const mqtt = require("mqtt");
                 client.set("game:" + ws.game, JSON.stringify(res.data));
             });
         } else game = JSON.parse(game);
-
-        ws.send(JSON.stringify({
-            type: 'init',
-            players: await getAllUserData(ws.game),
-            myid: ws.user,
-            gameState: game
-        }));
+        ws.gameData = game
 
         if (await client.sIsMember('playersGlobal', ws.user)) {
             // If the user is already in a game, remove them from that game first
             require("./utils/deleteUser")(ws.game, ws.user, currentGames, pubsub, client);
         }
 
+
         axios.get(process.env.BASE_URL + "/user/" + ws.user).then(async user => {
-            ws.gameData = game
             ws.userData = { "username": user.data.username, "ranks": user.data.ranks }
             await client.hSet('player:' + ws.game + ":" + ws.user, [
                 'username', user.data.username,
@@ -112,7 +105,14 @@ const mqtt = require("mqtt");
                 'zone', ws.gameData.worldSettings.defaultZone
             ]);
             ws.zone = ws.gameData.worldSettings.defaultZone
+
             pubsub.subscribe(ws.game + "/" + ws.zone);
+            ws.send(JSON.stringify({
+                type: 'init',
+                players: await getAllUserData(ws.game),
+                myid: ws.user,
+                gameState: game
+            }));
             await client.sAdd('players:' + ws.game, ws.user);
             await client.sAdd('playersGlobal', ws.user);
             pubsub.broadcast(ws.game, JSON.stringify({
@@ -160,16 +160,6 @@ const mqtt = require("mqtt");
         clearInterval(interval);
     });
 
-    if (process.env.ENVIRONMENT != "dev") setInterval(async function () {
-        currentGames.forEach(async function (game) {
-            axios.patch(process.env.BASE_URL + "/ACCService/" + game + "/setPlayerCount/" + await (client.sCard("players:" + game)), null, {
-                headers: {
-                    "serverauth": process.env.HASH
-                }
-            });
-        });
-    }, 2000);
-
     pubsub.broadcast = function broadcast(game, data, zone) {
         if (zone) {
             pubsub.publish(game + "/" + zone, data)
@@ -199,3 +189,42 @@ wss.broadcast = function broadcast(context, data) {
 };
 
 app.use(express.static('public'));
+
+var osu = require('node-os-utils')
+var memUsage = 0
+var cpuUsage = 0
+var netInUsage = 0
+var netOutUsage = 0
+setInterval(async () => {
+    if (!osu.isNotSupported(osu.cpu.average())) {
+        if (osu.cpu.average().totalTick > cpuUsage) cpuUsage = osu.cpu.average().totalTick
+    }
+    if (!osu.isNotSupported(await osu.mem.used())) {
+        if ((await osu.mem.used()).usedMemMb > memUsage) memUsage = (await osu.mem.used()).usedMemMb
+    }
+    if (!osu.isNotSupported(await osu.netstat.inOut())) {
+        if ((await osu.netstat.inOut()).total.inputMb > netInUsage) netInUsage = await osu.netstat.inOut().total.inputMb
+        if ((await osu.netstat.inOut()).total.outputMb > netOutUsage) netOutUsage = await osu.netstat.inOut().total.outputMb
+    }
+}, 1000)
+
+
+process.stdin.resume();//so the program will not close instantly
+
+function exitHandler(options, exitCode) {
+    const formatMemoryUsage = (data) => `${Math.round(data / 1024 / 1024 * 100) / 100} MB`;
+    console.log("Peak RAM", memUsage, "Peak CPU", cpuUsage, "%", "Peak Network In", formatMemoryUsage(netInUsage), "MB", "Peak Network Out", formatMemoryUsage(netOutUsage), "MB");
+    if (options.cleanup) console.log('clean');
+    if (exitCode || exitCode === 0) console.log(exitCode);
+    if (options.exit) process.exit();
+}
+
+//do something when app is closing
+process.on('exit', exitHandler.bind(null, { cleanup: true }));
+
+//catches ctrl+c event
+process.on('SIGINT', exitHandler.bind(null, { exit: true }));
+
+// catches "kill pid" (for example: nodemon restart)
+process.on('SIGUSR1', exitHandler.bind(null, { exit: true }));
+process.on('SIGUSR2', exitHandler.bind(null, { exit: true }));
