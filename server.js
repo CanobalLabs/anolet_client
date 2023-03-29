@@ -173,6 +173,13 @@ const mqtt = require("mqtt");
         wss.broadcast(topic.split("/"), message.toString());
     });
 
+    // Admin Routes
+    app.post('/flushRedis', (req, res) => {
+        if (req.headers["Authorization"] == "Bearer " + process.env.HASH) {
+            await client.flushdb();
+            res.send()
+        } else res.status(403).send();
+    });
     var port = process.env.PORT || 80;
     const server = app.listen(port);
     require('./server/upgrade')(server, wss, client);
