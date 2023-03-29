@@ -18,12 +18,12 @@ module.exports = async function (msg, pubsub, ws) {
                 }));
                 ws.zone = teleporter.toZone
                 pubsub.subscribe(ws.game + "/" + ws.zone)
-                client.hSet("player:" + ws.game + ":" + ws.user, ["zone", teleporter.toZone, "x", ws.gameData.zones.find(z => z.id == ws.zone).spawn.x, "y", ws.gameData.zones.find(z => z.id == ws.zone).spawn.y]);
                 ws.send(JSON.stringify({
                     type: "teleport",
                     zone: ws.gameData.zones.find(z => z.id == ws.zone),
                     players: (await getAllUserData(ws.game)).filter(player => player.zone == teleporter.toZone),
                 }));
+                client.hSet("player:" + ws.game + ":" + ws.user, ["zone", teleporter.toZone, "x", ws.gameData.zones.find(z => z.id == ws.zone).spawn.x, "y", ws.gameData.zones.find(z => z.id == ws.zone).spawn.y]);
                 pubsub.broadcast(ws.game, JSON.stringify({
                     type: 'newplr',
                     id: ws.user,

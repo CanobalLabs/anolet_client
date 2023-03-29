@@ -41,8 +41,8 @@ body {
 
 .item {
   background: #101010;
-  height: 10vh;
-  width: 10vh;
+  height: 8vh;
+  width: 8vh;
   border-radius: 10px;
   cursor: pointer;
   float: left;
@@ -59,6 +59,10 @@ body {
 }
 
 #chat_toggle {
+  transition: 0.2s filter linear;
+}
+
+#menu_toggle {
   transition: 0.2s filter linear;
 }
 
@@ -84,16 +88,16 @@ body {
   overflow-y: scroll;
 }
 
-#list::-webkit-scrollbar {
+::-webkit-scrollbar {
   width: 10px;
   display: revert;
 }
 
-#list::-webkit-scrollbar-track {
+::-webkit-scrollbar-track {
   display: none;
 }
 
-#list::-webkit-scrollbar-thumb {
+::-webkit-scrollbar-thumb {
   border-radius: 8px;
   box-shadow: inset 0 0 6px 6px #363636;
   border: solid 3px transparent;
@@ -109,6 +113,7 @@ body {
   width: 120px !important;
   height: 72px !important;
 }
+
 #menu {
   position: absolute;
   top: 50%;
@@ -116,12 +121,64 @@ body {
   transform: translate(-50%, -50%);
   transition: 0.2s opacity linear;
   opacity: 0;
-  background: #121212;
-  width: 500px;
-  height: 200px;
+  width: 65ch;
   color: white;
-  border-radius: 10px;
   z-index: -1;
+  display: inline-grid;
+  gap: 10px;
+}
+
+.topSection {
+  background: #121212;
+  padding: 30px;
+  border-radius: 10px;
+  height: auto;
+}
+
+.bottomSection {
+  background: #121212;
+  border-radius: 10px;
+  height: 200px;
+  overflow: hidden;
+}
+
+.tabs {
+  width: 20%;
+  height: 100%;
+  position: absolute;
+}
+
+.tab {
+  background: #181818;
+  padding: 15px;
+  display: grid;
+  grid-template-columns: auto auto auto;
+  grid-auto-flow: column;
+  justify-content: space-around;
+  align-content: space-around;
+  &:hover {
+    background: #212121;
+  }
+}
+
+.tabcontent {
+  display: block;
+  overflow: scroll;
+  word-wrap: break-word;
+  height: 100%;
+  margin-left: 20%;
+}
+
+.active {
+  background: #212121 !important;
+}
+
+.tabtext {
+  position: relative;
+  align-self: center;
+}
+.tabicon {
+  writing-mode: vertical-lr;
 }
 
 .menbtn {
@@ -133,6 +190,7 @@ body {
 
 .game-meta {
   padding-right: 30px;
+  overflow: hidden;
 }
 .game-name {
   font-size: 2rem;
@@ -140,21 +198,20 @@ body {
 }
 
 .game-image {
-  margin-left: 30px;
   border-radius: 15px;
-  margin-top: 37.5px;
   width: 125px;
-  position: absolute;
+  float: left;
 }
 
 .game-name,
 .game-author {
-  margin-left: 175px;
-  padding-top: 37.5px;
-}
-
-.game-author {
-  padding: revert;
+  overflow: hidden;
+  overflow-wrap: break-word;
+  text-overflow: ellipsis;
+  -webkit-line-clamp: 2;
+  -webkit-box-orient: vertical;
+  display: -webkit-box;
+  padding-left: 20px;
 }
 
 .close {
@@ -208,14 +265,13 @@ ul {
 
 li {
   width: 25ch;
-  background: rgb(18 18 18 / 85%);
+  background: rgb(38 38 38 / 85%);
   color: white;
   padding: 10px;
   margin-bottom: 5px;
-  border-radius: 10px;
+  border-radius: 5px;
   overflow: hidden;
-  border-style: solid;
-  border-width: 0.5px;
+  text-overflow: ellipsis;
   font-size: small;
 }
 

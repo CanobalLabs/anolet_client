@@ -15,7 +15,7 @@ function closeSelf() {
     window.top.postMessage('disconnect', '*')
 }
 window.closeSelf = closeSelf;
-document.addEventListener('contextmenu', event => event.preventDefault());
+// document.addEventListener('contextmenu', event => event.preventDefault());
 var gameid = new URLSearchParams(window.location.search).get("game");
 
 detail("Getting game information")
@@ -109,6 +109,22 @@ axios.get(window.BASE_URL + "/game/" + gameid).then((res) => {
         }
         window.kick = kick;
 
+
+        function tab(evt, tabName) {
+            var i, tabcontent, tablinks;
+            tabcontent = document.getElementsByClassName("tabcontent");
+            for (i = 0; i < tabcontent.length; i++) {
+                tabcontent[i].style.display = "none";
+            }
+            tablinks = document.getElementsByClassName("tab");
+            for (i = 0; i < tablinks.length; i++) {
+                tablinks[i].className = tablinks[i].className.replace(" active", "");
+            }
+            document.getElementById(tabName).style.display = "block";
+            evt.currentTarget.className += " active";
+        }
+        window.tab = tab;
+
         detail("Adding Event Listeners");
         // Assign the move event to when the mouse is clicked
         document.getElementById("game").addEventListener("click", moved);
@@ -182,6 +198,26 @@ axios.get(window.BASE_URL + "/game/" + gameid).then((res) => {
             }, 200);
             document.getElementById("menu").style.opacity = "0";
             document.getElementById("menu_toggle").style.filter = "invert(0)";
+        });
+
+        // Focus the chatbox when the user presses "/"
+        document.addEventListener("keydown", function (event) {
+            if (event.key == "/") {
+                event.preventDefault();
+                document.getElementById("chatbox").focus();
+            } else if (event.key === "Escape") {
+                if (document.getElementById("menu").style.opacity == "1") {
+                    setTimeout(function () {
+                        document.getElementById("menu").style["z-index"] = "-1";
+                    }, 200);
+                    document.getElementById("menu").style.opacity = "0";
+                    document.getElementById("menu_toggle").style.filter = "invert(0)";
+                } else {
+                    document.getElementById("menu").style["z-index"] = "0";
+                    document.getElementById("menu").style.opacity = "1";
+                    document.getElementById("menu_toggle").style.filter = "invert(1)";
+                }
+            }
         });
 
         detail("Waiting On Assets To Load");

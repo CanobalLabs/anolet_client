@@ -48,15 +48,42 @@
         </div>
     </div>
     <div id="menu" style="opacity: 0;">
-        <div class="close" id="menu_close">X</div>
-        <div class="game-meta">
-            <img src="" class="game-image" id="game-image">
-            <div class="game-name" id="game-name">Loading...</div>
-            <div class="game-author">by <b id="game-author">Loading...</b>
+        <div class="topSection">
+            <div class="close" id="menu_close">X</div>
+            <div class="game-meta">
+                <img src="" class="game-image" id="game-image">
+                <div class="game-name" id="game-name">Loading...</div>
+                <div class="game-author">by <b id="game-author">Loading...</b>
+                </div>
+            </div>
+            <div class="exit" onclick="window.closeSelf()">Leave Game</div>
+        </div>
+        <div class="bottomSection">
+            <div class="tabs">
+                <div class="tab active" onclick="tab(event, 'players')"><svg-icon class="tabicon" type="mdi"
+                        path="M16 17V19H2V17S2 13 9 13 16 17 16 17M12.5 7.5A3.5 3.5 0 1 0 9 11A3.5 3.5 0 0 0 12.5 7.5M15.94 13A5.32 5.32 0 0 1 18 17V19H22V17S22 13.37 15.94 13M15 4A3.39 3.39 0 0 0 13.07 4.59A5 5 0 0 1 13.07 10.41A3.39 3.39 0 0 0 15 11A3.5 3.5 0 0 0 15 4Z"></svg-icon>
+                    <div class="tabtext">Players</div>
+                </div>
+                <div class="tab" onclick="tab(event, 'settings')">Settings</div>
+                <div class="tab" onclick="tab(event, 'other')">other</div>
+            </div>
+
+            <div id="players" class="tabcontent" style="display: block;">
+                WMWMWMWMWMWMWMWMWMWMWMWWMWWMWMWMWMWMWMWMWMWMWMWMWWMWWMWMWMWMWMWMWMWMWMWMWMWWMWWMWMWMWMWMWMWMWMWMWMWMWWMWWMWMWMWMWMWMWMWMWMWMWMWWMWWMWMWMWMWMWMWMWMWMWMWMWWMWWMWMWMWMWMWMWMWMWMWMWMWWMWWMWMWMWMWMWMWMWMWMWMWMWWMWWMWMWMWMWMWMWMWMWMWMWMWWMWWMWMWMWMWMWMWMWMWMWMWMWWMWWMWMWMWMWMWMWMWMWMWMWMWWMWWMWMWMWMWMWMWMWMWMWMWMWWMWWMWMWMWMWMWMWMWMWMWMWMWWMWWMWMWMWMWMWMWMWMWMWMWMWWMWWMWMWMWMWMWMWMWMWMWMWMWWMWWMWMWMWMWMWMWMWMWMWMWMWWMWWMWMWMWMWMWMWMWMWMWMWMWWMWWMWMWMWMWMWMWMWMWMWMWMWWMWWMWMWMWMWMWMWMWMWMWMWMWWMWWMWMWMWMWMWMWMWMWMWMWMWWMWWMWMWMWMWMWMWMWMWMWMWMWWMWWMWMWMWMWMWMWMWMWMWMWMWWMWWMWMWMWMWMWMWMWMWMWMWMWWMWWMWMWMWMWMWMWMWMWMWMWMWWMWWMWMWMWMWMWMWMWMWMWMWMWWMWWMWMWMWMWMWMWMWMWMWMWMWWMW
+            </div>
+
+            <div id="settings" class="tabcontent">
+                <h3>Paris</h3>
+                <p>Paris is the capital of France.</p>
+            </div>
+
+            <div id="other" class="tabcontent">
+                <h3>Tokyo</h3>
+                <p>Tokyo is the capital of Japan.</p>
             </div>
         </div>
-        <div class="exit" onclick="window.closeSelf()">Leave Game</div>
     </div>
+
     <div class="interactive-wrapper" id="interactive-wrapper">
         <div class="chat" id="chat">
             <div class="log" id="log">
@@ -68,7 +95,7 @@
                 </div>
             </div>
             <input type="text" name="Send a chat message" id="chatbox" minlength="2" maxlength="150"
-                placeholder="Send a chat message" class="chatbox" onkeydown="chat(event, this)">
+                placeholder="Send a chat message (/)" class="chatbox" onkeydown="chat(event, this)">
         </div>
         <ul id="list"></ul>
         <div id="game">

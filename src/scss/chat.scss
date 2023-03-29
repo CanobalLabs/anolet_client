@@ -1,26 +1,18 @@
 .chat {
   position: absolute;
-  top: calc(10px + 10vh + 10px);
+  top: calc(10px + 8vh + 10px);
   left: 10px;
-  background: rgba(18, 18, 18, 0.4);
+  background: rgba(18, 18, 18, 0.8);
   color: white;
-  transition: 0.2s opacity linear;
-  opacity: 1;
-  width: 30%;
+  width: calc(((8vh*4) + (10px*3)) * 1.5);
   height: 25%;
   z-index: 2;
   border-radius: 10px;
-  &:hover {
-    background: rgba(18, 18, 18, 0.8);
-    .chatbox {
-      background: rgb(16, 16, 16, 0.8);
-    }
-  }
 }
 
 .chatbox {
   width: 100%;
-  background: rgb(16, 16, 16, 0.4);
+  background: rgba(0, 0, 0, 0.8);
   border: none;
   color: white;
   padding: 10px 0 10px 10px;
