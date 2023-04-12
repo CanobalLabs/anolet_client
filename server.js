@@ -174,7 +174,7 @@ const mqtt = require("mqtt");
     });
 
     // Admin Routes
-    app.post('/flushRedis', (req, res) => {
+    app.post('/flushRedis', async (req, res) => {
         if (req.headers["Authorization"] == "Bearer " + process.env.HASH) {
             await client.flushdb();
             res.send()
