@@ -17,7 +17,7 @@ module.exports = async function (msg, pubsub, ws) {
                     newZone: teleporter.toZone
                 }));
                 ws.zone = teleporter.toZone
-                pubsub.subscribe(ws.game + "/" + ws.zone)
+                await pubsub.subscribe(ws.game + "/" + ws.zone)
                 ws.send(JSON.stringify({
                     type: "teleport",
                     zone: ws.gameData.zones.find(z => z.id == ws.zone),
@@ -33,7 +33,7 @@ module.exports = async function (msg, pubsub, ws) {
                     y: ws.gameData.zones.find(z => z.id == ws.zone).spawn.y,
                     zone: teleporter.toZone,
                     existed: true
-                }));
+                }), ws.zone);
             }, ws.gameData.worldSettings.defaultSpeed * 1000);
             return;
         }
