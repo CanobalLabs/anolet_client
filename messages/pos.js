@@ -15,7 +15,7 @@ module.exports = async function (msg, pubsub, ws) {
                     id: ws.user,
                     oldZone: ws.zone,
                     newZone: teleporter.toZone
-                }));
+                }), ws.zone);
                 ws.zone = teleporter.toZone
                 await pubsub.subscribe(ws.game + "/" + ws.zone)
                 ws.send(JSON.stringify({
