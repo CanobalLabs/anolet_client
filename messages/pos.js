@@ -23,14 +23,14 @@ module.exports = async function (msg, pubsub, ws) {
                     zone: ws.gameData.zones.find(z => z.id == ws.zone),
                     players: (await getAllUserData(ws.game)).filter(player => player.zone == teleporter.toZone),
                 }));
-                client.hSet("player:" + ws.game + ":" + ws.user, ["zone", teleporter.toZone, "x", ws.gameData.zones.find(z => z.id == ws.zone).spawn.x, "y", ws.gameData.zones.find(z => z.id == ws.zone).spawn.y]);
+                client.hSet("player:" + ws.game + ":" + ws.user, ["zone", teleporter.toZone, "x", ws.gameData.zones.find(z => z.id == ws.zone).spawn[0], "y", ws.gameData.zones.find(z => z.id == ws.zone).spawn[1]]);
                 pubsub.broadcast(ws.game, JSON.stringify({
                     type: 'newplr',
                     id: ws.user,
                     username: ws.userData.username,
                     admin: ws.userData.ranks.includes("ADMIN_TAG"),
-                    x: ws.gameData.zones.find(z => z.id == ws.zone).spawn.x,
-                    y: ws.gameData.zones.find(z => z.id == ws.zone).spawn.y,
+                    x: ws.gameData.zones.find(z => z.id == ws.zone).spawn[0],
+                    y: ws.gameData.zones.find(z => z.id == ws.zone).spawn[1],
                     zone: teleporter.toZone,
                     existed: true
                 }), ws.zone);
