@@ -99,8 +99,8 @@ const mqtt = require("mqtt");
             ws.userData = { "username": user.data.username, "ranks": user.data.ranks }
             await client.hSet('player:' + ws.game + ":" + ws.user, [
                 'username', user.data.username,
-                'x', ws.gameData.zones.find(z => z.id == ws.gameData.worldSettings.defaultZone).spawn.x,
-                'y', ws.gameData.zones.find(z => z.id == ws.gameData.worldSettings.defaultZone).spawn.y,
+                'x', ws.gameData.zones.find(z => z.id == ws.gameData.worldSettings.defaultZone).spawn[0],
+                'y', ws.gameData.zones.find(z => z.id == ws.gameData.worldSettings.defaultZone).spawn[1],
                 'admin', user.data.ranks.includes("ADMIN_TAG"),
                 'zone', ws.gameData.worldSettings.defaultZone
             ]);
@@ -120,8 +120,8 @@ const mqtt = require("mqtt");
                 id: ws.user,
                 username: user.data.username,
                 admin: user.data.ranks.includes("ADMIN_TAG"),
-                x: game.zones.find(z => z.id == ws.gameData.worldSettings.defaultZone).spawn.x,
-                y: game.zones.find(z => z.id == ws.gameData.worldSettings.defaultZone).spawn.y,
+                x: game.zones.find(z => z.id == ws.gameData.worldSettings.defaultZone).spawn[0],
+                y: game.zones.find(z => z.id == ws.gameData.worldSettings.defaultZone).spawn[1],
                 zone: ws.gameData.worldSettings.defaultZone,
                 existed: false
             }));
@@ -196,42 +196,3 @@ wss.broadcast = function broadcast(context, data) {
 };
 
 app.use(express.static('public'));
-
-var osu = require('node-os-utils')
-var memUsage = 0
-var cpuUsage = 0
-var netInUsage = 0
-var netOutUsage = 0
-setInterval(async () => {
-    if (!osu.isNotSupported(osu.cpu.average())) {
-        if (osu.cpu.average().totalTick > cpuUsage) cpuUsage = osu.cpu.average().totalTick
-    }
-    if (!osu.isNotSupported(await osu.mem.used())) {
-        if ((await osu.mem.used()).usedMemMb > memUsage) memUsage = (await osu.mem.used()).usedMemMb
-    }
-    if (!osu.isNotSupported(await osu.netstat.inOut())) {
-        if ((await osu.netstat.inOut()).total.inputMb > netInUsage) netInUsage = await osu.netstat.inOut().total.inputMb
-        if ((await osu.netstat.inOut()).total.outputMb > netOutUsage) netOutUsage = await osu.netstat.inOut().total.outputMb
-    }
-}, 1000)
-
-
-process.stdin.resume();//so the program will not close instantly
-
-function exitHandler(options, exitCode) {
-    const formatMemoryUsage = (data) => `${Math.round(data / 1024 / 1024 * 100) / 100} MB`;
-    console.log("Peak RAM", memUsage, "Peak CPU", cpuUsage, "%", "Peak Network In", formatMemoryUsage(netInUsage), "MB", "Peak Network Out", formatMemoryUsage(netOutUsage), "MB");
-    if (options.cleanup) console.log('clean');
-    if (exitCode || exitCode === 0) console.log(exitCode);
-    if (options.exit) process.exit();
-}
-
-//do something when app is closing
-process.on('exit', exitHandler.bind(null, { cleanup: true }));
-
-//catches ctrl+c event
-process.on('SIGINT', exitHandler.bind(null, { exit: true }));
-
-// catches "kill pid" (for example: nodemon restart)
-process.on('SIGUSR1', exitHandler.bind(null, { exit: true }));
-process.on('SIGUSR2', exitHandler.bind(null, { exit: true }));
