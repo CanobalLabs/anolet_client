@@ -18,6 +18,9 @@ window.closeSelf = closeSelf;
 // document.addEventListener('contextmenu', event => event.preventDefault());
 var gameid = new URLSearchParams(window.location.search).get("game");
 
+// This prevents "changes you made may not be saved" popup
+window.onbeforeunload = function () { return null }
+
 detail("Getting game information")
 axios.get(window.BASE_URL + "/game/" + gameid).then((res) => {
     detail("Processing game information")
