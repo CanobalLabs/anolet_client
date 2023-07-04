@@ -43,6 +43,7 @@ module.exports = function (server, wss, client) {
                 // We are directly being provided the ACCService JWT
                 return joinGame(request.url.split("/")[3]);
             }
+            console.log(request.url.split("/")[3] + "/" + request.url.split("/")[4])
             axios.post(process.env.BASE_URL + "/ACCService/" + request.url.split("/")[2] + "/requestGameLaunchAuthorization", null, {
                 headers: {
                     "Authorization": request.url.split("/")[3] + "/" + request.url.split("/")[4]
