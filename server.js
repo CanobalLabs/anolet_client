@@ -95,7 +95,7 @@ const mqtt = require("mqtt");
         }
 
         if (ws.user.startsWith("player_")) {
-            var user = { "username": "Player " + ws.user.split("_")[1], "ranks": [] }
+            var user = { "data": {"username": "Player " + ws.user.split("_")[1], "ranks": [] }}
             ws.userData = { "username": "Player " + ws.user.split("_")[1], "ranks": [] }
         } else {
             var user = await axios.get(process.env.BASE_URL + "/user/" + ws.user);
