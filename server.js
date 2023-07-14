@@ -94,40 +94,41 @@ const mqtt = require("mqtt");
             require("./utils/deleteUser")(ws.game, ws.user, currentGames, pubsub, client);
         }
 
-
-        axios.get(process.env.BASE_URL + "/user/" + ws.user).then(async user => {
+        if (ws.user.startsWith("player_")) {
+            ws.userData = { "username": "Player " + ws.user.split("_")[1], "ranks": [] }
+        } else {
+            var user = await axios.get(process.env.BASE_URL + "/user/" + ws.user);
             ws.userData = { "username": user.data.username, "ranks": user.data.ranks }
-            await client.hSet('player:' + ws.game + ":" + ws.user, [
-                'username', user.data.username,
-                'x', ws.gameData.zones.find(z => z.id == ws.gameData.worldSettings.defaultZone).spawn[0],
-                'y', ws.gameData.zones.find(z => z.id == ws.gameData.worldSettings.defaultZone).spawn[1],
-                'admin', user.data.ranks.includes("ADMIN_TAG"),
-                'zone', ws.gameData.worldSettings.defaultZone
-            ]);
-            ws.zone = ws.gameData.worldSettings.defaultZone
+        }
+        
+        await client.hSet('player:' + ws.game + ":" + ws.user, [
+            'username', user.data.username,
+            'x', ws.gameData.zones.find(z => z.id == ws.gameData.worldSettings.defaultZone).spawn[0],
+            'y', ws.gameData.zones.find(z => z.id == ws.gameData.worldSettings.defaultZone).spawn[1],
+            'admin', user.data.ranks.includes("ADMIN_TAG"),
+            'zone', ws.gameData.worldSettings.defaultZone
+        ]);
+        ws.zone = ws.gameData.worldSettings.defaultZone
 
-            pubsub.subscribe(ws.game + "/" + ws.zone);
-            ws.send(JSON.stringify({
-                type: 'init',
-                players: await getAllUserData(ws.game),
-                myid: ws.user,
-                gameState: game
-            }));
-            await client.sAdd('players:' + ws.game, ws.user);
-            await client.sAdd('playersGlobal', ws.user);
-            pubsub.broadcast(ws.game, JSON.stringify({
-                type: 'newplr',
-                id: ws.user,
-                username: user.data.username,
-                admin: user.data.ranks.includes("ADMIN_TAG"),
-                x: game.zones.find(z => z.id == ws.gameData.worldSettings.defaultZone).spawn[0],
-                y: game.zones.find(z => z.id == ws.gameData.worldSettings.defaultZone).spawn[1],
-                zone: ws.gameData.worldSettings.defaultZone,
-                existed: false
-            }));
-        }).catch(e => {
-            console.error(e)
-        });
+        pubsub.subscribe(ws.game + "/" + ws.zone);
+        ws.send(JSON.stringify({
+            type: 'init',
+            players: await getAllUserData(ws.game),
+            myid: ws.user,
+            gameState: game
+        }));
+        await client.sAdd('players:' + ws.game, ws.user);
+        await client.sAdd('playersGlobal', ws.user);
+        pubsub.broadcast(ws.game, JSON.stringify({
+            type: 'newplr',
+            id: ws.user,
+            username: user.data.username,
+            admin: user.data.ranks.includes("ADMIN_TAG"),
+            x: game.zones.find(z => z.id == ws.gameData.worldSettings.defaultZone).spawn[0],
+            y: game.zones.find(z => z.id == ws.gameData.worldSettings.defaultZone).spawn[1],
+            zone: ws.gameData.worldSettings.defaultZone,
+            existed: false
+        }));
 
         ws.on("close", async reason => {
             log("Disconnect", ws.user, "Red");
