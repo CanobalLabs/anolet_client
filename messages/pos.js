@@ -45,5 +45,6 @@ module.exports = async function (msg, pubsub, ws) {
         id: ws.user,
         x: msg.x,
         y: msg.y,
+        avatarScale: ws.gameData.worldSettings.defaultSpeed
     }), ws.zone);
 }

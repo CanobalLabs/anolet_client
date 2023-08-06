@@ -21,7 +21,8 @@ module.exports = function (msg) {
     `
     document.head.appendChild(styleSheet);
 
-    detail("Calculating Zone Settings")
+    detail("Calculating Zone Settings");
+    window.gameState = msg.gameState;
     document.defaultZone = msg.gameState.zones.find(zone => zone.id == msg.gameState.worldSettings.defaultZone);
     document.currentZone = document.defaultZone;
 
