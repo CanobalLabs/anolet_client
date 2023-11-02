@@ -14,10 +14,19 @@
 #### Signing up for Doppler
 All Anolet services use Doppler to manage environment variables. To get access to Anolet's Doppler workplace, [sign up to Doppler](https://dashboard.doppler.com/register) with your @anolet.com email. You will be prompted to create your own Doppler workplace. Click "Skip" located in the top right. Then, ask Rus to grant you permissions. You will be added as a collaborator and will be able to view secrets for `dev`.
 #### Downloading Doppler CLI
+
+**Install Scoop (if you don't already have it)**
+Run the following commands in PowerShell:
+```powershell
+Set-ExecutionPolicy RemoteSigned -Scope CurrentUser
+irm get.scoop.sh | iex
+```
+
+**Install Doppler with Scoop**
 Run the following commands:
 ```shell
-mkdir -p $HOME/bin
-curl -Ls --tlsv1.2 --proto "=https" --retry 3 https://cli.doppler.com/install.sh | sh -s -- --install-path $HOME/bin
+scoop bucket add doppler https://github.com/DopplerHQ/scoop-doppler.git
+scoop install doppler
 ```
 Now, verify the Doppler CLI was installed by checking its version:
 ```shell
