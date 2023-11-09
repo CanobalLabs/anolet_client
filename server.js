@@ -95,11 +95,22 @@ const mqtt = require("mqtt");
         }
 
         if (ws.user.startsWith("player_")) {
-            var user = { "data": {"username": "Player " + ws.user.split("_")[1], "ranks": [] }}
+            var user = { "data": {"username": "Player " + ws.user.split("_")[1], "ranks": [], "avatar": JSON.stringify({
+                "accessories": [
+                  "a05b72b1-15b2-4d4a-b45e-1d1a9488bd4d"
+                ],
+                "bodies": [
+                  "3d62ac6b-b48f-43ac-a8bf-f43040e75111"
+                ],
+                "faces": [
+                  "0aff884e-112b-45dd-afd3-afa1ff3ec3c2"
+                ],
+                "shoes": []
+              }), }}
             ws.userData = { "username": "Player " + ws.user.split("_")[1], "ranks": [] }
         } else {
             var user = await axios.get(process.env.BASE_URL + "/user/" + ws.user);
-            ws.userData = { "username": user.data.username, "ranks": user.data.ranks }
+            ws.userData = { "username": user.data.username, "ranks": user.data.ranks, "avatar": user.data.avatar }
         }
         
         await client.hSet('player:' + ws.game + ":" + ws.user, [
@@ -107,7 +118,8 @@ const mqtt = require("mqtt");
             'x', ws.gameData.zones.find(z => z.id == ws.gameData.worldSettings.defaultZone).spawn[0],
             'y', ws.gameData.zones.find(z => z.id == ws.gameData.worldSettings.defaultZone).spawn[1],
             'admin', user.data.ranks.includes("ADMIN_TAG"),
-            'zone', ws.gameData.worldSettings.defaultZone
+            'zone', ws.gameData.worldSettings.defaultZone,
+            'avatar', JSON.stringify(user.data.avatar),
         ]);
         ws.zone = ws.gameData.worldSettings.defaultZone
 
@@ -127,6 +139,7 @@ const mqtt = require("mqtt");
             admin: user.data.ranks.includes("ADMIN_TAG"),
             x: game.zones.find(z => z.id == ws.gameData.worldSettings.defaultZone).spawn[0],
             y: game.zones.find(z => z.id == ws.gameData.worldSettings.defaultZone).spawn[1],
+            avatar: user.data.avatar,
             zone: ws.gameData.worldSettings.defaultZone,
             existed: false
         }));

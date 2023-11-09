@@ -14,7 +14,7 @@ async function main() {
     console.log("Rus didn't trip over server wires");
     console.warn("Rus almost tripped over server wires");
     console.error("Rus tripped over server wires");
-    console.log(btoa(function(){ return a}));
+    console.log(btoa(function(){ return a }));
      setInterval(function() {
       console.log("a");
     }, 2000);

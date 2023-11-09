@@ -31,6 +31,7 @@ module.exports = async function (msg, pubsub, ws) {
                     admin: ws.userData.ranks.includes("ADMIN_TAG"),
                     x: ws.gameData.zones.find(z => z.id == ws.zone).spawn[0],
                     y: ws.gameData.zones.find(z => z.id == ws.zone).spawn[1],
+                    avatar: ws.userData.avatar,
                     zone: teleporter.toZone,
                     existed: true
                 }), ws.zone);
