@@ -27,7 +27,7 @@
     "@jamescoyle/svg-icon": "^0.1.1",
     "@mdi/js": "^6.6.96",
     "@mdi/svg": "^6.6.96",
-    "axios": "^0.26.1",
+    "axios": "^1.6.0",
     "buffer": "^6.0.3",
     "chalk": "4.1.2",
     "crypto-browserify": "^3.12.0",
